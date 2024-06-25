@@ -5,6 +5,7 @@ defmodule TDLib do
   @default_config %Object.TdlibParameters{
     :use_test_dc              => false,
     :database_directory       => "/tmp/tdlib",
+    :database_encryption_key  => "",
     :files_directory          => "", # When empty database_directory will be used
     :use_file_database        => true,
     :use_chat_info_database   => true,
