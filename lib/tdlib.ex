@@ -2,7 +2,7 @@ defmodule TDLib do
   alias TDLib.{Session, Object}
   alias TDLib.SessionRegistry, as: Registry
 
-  @default_config %Object.TdlibParameters{
+  @default_config %{
     :use_test_dc              => false,
     :database_directory       => "/tmp/tdlib",
     :files_directory          => "", # When empty database_directory will be used

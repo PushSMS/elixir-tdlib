@@ -67,13 +67,7 @@ defmodule TDLib.Handler do
             case struct.authorization_state do
               %Object.AuthorizationStateWaitTdlibParameters{} ->
                 config = Registry.get(session) |> Map.get(:config)
-                transmit session, %Method.SetTdlibParameters{
-                  :parameters  => config
-                }
-              %Object.AuthorizationStateWaitEncryptionKey{} ->
-                transmit session, %Method.CheckDatabaseEncryptionKey{
-                  encryption_key: Registry.get(session, :encryption_key)
-                }
+                transmit session, struct(Method.SetTdlibParameters, config)
               _ -> :ignore
             end
           _ -> :ignore
