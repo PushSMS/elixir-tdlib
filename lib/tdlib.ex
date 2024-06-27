@@ -1,5 +1,5 @@
 defmodule TDLib do
-  alias TDLib.{Session, Object}
+  alias TDLib.Session
   alias TDLib.SessionRegistry, as: Registry
 
   @default_config %{
