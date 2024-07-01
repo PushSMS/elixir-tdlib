@@ -56,7 +56,7 @@ defmodule TDLib.Backend do
           # Forward msg to the client
           Kernel.send handler_pid, {:tdlib, msg}
         else
-          Logger.warn "#{state.name}: incoming message but no handler registered."
+          Logger.warning "#{state.name}: incoming message but no handler registered."
         end
 
         {:noreply, new_state}

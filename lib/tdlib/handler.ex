@@ -7,7 +7,7 @@ defmodule TDLib.Handler do
   # Must be a multiple of 4
   @moduledoc false
   @backend_verbosity_level 2
-  @disable_handling Application.get_env(:telegram_tdlib, :disable_handling)
+  @disable_handling Application.compile_env(:telegram_tdlib, :disable_handling)
 
   def start_link(session_name) do
     GenServer.start_link(__MODULE__, session_name, [])
@@ -28,7 +28,7 @@ defmodule TDLib.Handler do
     cond do
       "@cli" in keys -> json |> handle_cli(session)
       "@type" in keys -> json |> handle_object(session)
-      true -> Logger.warn "#{session}: unknown structure received"
+      true -> Logger.warning "#{session}: unknown structure received"
     end
 
     {:noreply, session}
@@ -67,13 +67,7 @@ defmodule TDLib.Handler do
             case struct.authorization_state do
               %Object.AuthorizationStateWaitTdlibParameters{} ->
                 config = Registry.get(session) |> Map.get(:config)
-                transmit session, %Method.SetTdlibParameters{
-                  :parameters  => config
-                }
-              %Object.AuthorizationStateWaitEncryptionKey{} ->
-                transmit session, %Method.CheckDatabaseEncryptionKey{
-                  encryption_key: Registry.get(session, :encryption_key)
-                }
+                transmit session, struct(Method.SetTdlibParameters, config)
               _ -> :ignore
             end
           _ -> :ignore

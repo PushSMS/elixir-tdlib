@@ -1,8 +1,28 @@
 defmodule TDLib.Method do
   @moduledoc """
   This module was generated using Telegram's TDLib documentation. It contains
-  513 submodules (= structs).
+  762 submodules (= structs).
   """
+defmodule GetWebAppLinkUrl do
+  @moduledoc  """
+  Returns an HTTPS URL of a Web App to open after a link of the type internalLinkTypeWebApp is clicked.
+  Returns object_ptr<HttpUrl>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat in which the link was clicked; pass 0 if none. |
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | web_app_short_name | string | Short name of the Web App. |
+  | start_parameter | string | Start parameter from <a class="el" href="classtd_1_1td__api_1_1internal_link_type_web_app.html">internalLinkTypeWebApp</a>. |
+  | theme | themeParameters | Preferred Web App theme; pass null to use the default theme. |
+  | application_name | string | Short name of the application; 0-64 English letters, digits, and underscores. |
+  | allow_write_access | bool | Pass true if the current user allowed the bot to send them messages. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_web_app_link_url.html).
+  """
+
+  defstruct "@type": "getWebAppLinkUrl", "@extra": nil, chat_id: nil, bot_user_id: nil, web_app_short_name: nil, start_parameter: nil, theme: nil, application_name: nil, allow_write_access: nil
+end
 defmodule GetTrendingStickerSets do
   @moduledoc  """
   Returns a list of trending sticker sets. For optimal performance, the number of returned sticker sets is chosen by TDLib.
@@ -10,13 +30,14 @@ defmodule GetTrendingStickerSets do
 
   | Name | Type | Description |
   |------|------| ------------|
+  | sticker_type | StickerType | Type of the sticker sets to return. |
   | offset | int32 | The offset from which to return the sticker sets; must be non-negative. |
   | limit | int32 | The maximum number of sticker sets to be returned; up to 100. For optimal performance, the number of returned sticker sets is chosen by TDLib and can be smaller than the specified limit, even if the end of the list has not been reached. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_trending_sticker_sets.html).
   """
 
-  defstruct "@type": "getTrendingStickerSets", "@extra": nil, offset: nil, limit: nil
+  defstruct "@type": "getTrendingStickerSets", "@extra": nil, sticker_type: nil, offset: nil, limit: nil
 end
 defmodule EndGroupCallScreenSharing do
   @moduledoc  """
@@ -61,9 +82,27 @@ defmodule GetMessageFileType do
 
   defstruct "@type": "getMessageFileType", "@extra": nil, message_file_head: nil
 end
+defmodule EditBusinessMessageText do
+  @moduledoc  """
+  Edits the text of a text or game message sent on behalf of a business account; for bots only.
+  Returns object_ptr<BusinessMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | business_connection_id | string | Unique identifier of business connection on behalf of which the message was sent. |
+  | chat_id | int53 | The chat the message belongs to. |
+  | message_id | int53 | Identifier of the message. |
+  | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
+  | input_message_content | InputMessageContent | New text content of the message. Must be of type <a class="el" href="classtd_1_1td__api_1_1input_message_text.html">inputMessageText</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_business_message_text.html).
+  """
+
+  defstruct "@type": "editBusinessMessageText", "@extra": nil, business_connection_id: nil, chat_id: nil, message_id: nil, reply_markup: nil, input_message_content: nil
+end
 defmodule EditMessageCaption do
   @moduledoc  """
-  Edits the message content caption. Returns the edited message after the edit is completed on the server side.
+  Edits the message content caption. Returns the edited message after the edit is completed on the server side. Can be used only if message.can_be_edited == true.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
@@ -71,12 +110,29 @@ defmodule EditMessageCaption do
   | chat_id | int53 | The chat the message belongs to. |
   | message_id | int53 | Identifier of the message. |
   | reply_markup | ReplyMarkup | The new message reply markup; pass null if none; for bots only. |
-  | caption | formattedText | New message content caption; 0-GetOption("message_caption_length_max") characters; pass null to remove caption. |
+  | caption | formattedText | New message content caption; 0-<a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("message_caption_length_max") characters; pass null to remove caption. |
+  | show_caption_above_media | bool | Pass true to show the caption above the media; otherwise, caption will be shown below the media. Can be true only for animation, photo, and video messages. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_message_caption.html).
   """
 
-  defstruct "@type": "editMessageCaption", "@extra": nil, chat_id: nil, message_id: nil, reply_markup: nil, caption: nil
+  defstruct "@type": "editMessageCaption", "@extra": nil, chat_id: nil, message_id: nil, reply_markup: nil, caption: nil, show_caption_above_media: nil
+end
+defmodule SetChatProfileAccentColor do
+  @moduledoc  """
+  Changes accent color and background custom emoji for profile of a supergroup or channel chat. Requires can_change_info administrator right.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | profile_accent_color_id | int32 | Identifier of the accent color to use for profile; pass -1 if none. The chat must have at least profileAccentColor.min_supergroup_chat_boost_level for supergroups or profileAccentColor.min_channel_chat_boost_level for channels boost level to pass the corresponding color. |
+  | profile_background_custom_emoji_id | int64 | Identifier of a custom emoji to be shown on the chat's profile photo background; 0 if none. Use chatBoostLevelFeatures.can_set_profile_background_custom_emoji to check whether a custom emoji can be set. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_profile_accent_color.html).
+  """
+
+  defstruct "@type": "setChatProfileAccentColor", "@extra": nil, chat_id: nil, profile_accent_color_id: nil, profile_background_custom_emoji_id: nil
 end
 defmodule GetStickerSet do
   @moduledoc  """
@@ -106,6 +162,17 @@ defmodule GetDeepLinkInfo do
 
   defstruct "@type": "getDeepLinkInfo", "@extra": nil, link: nil
 end
+defmodule GetPremiumStickerExamples do
+  @moduledoc  """
+  Returns examples of premium stickers for demonstration purposes.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_premium_sticker_examples.html).
+  """
+
+  defstruct "@type": "getPremiumStickerExamples", "@extra": nil
+end
 defmodule SetTdlibParameters do
   @moduledoc  """
   Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters.
@@ -113,12 +180,69 @@ defmodule SetTdlibParameters do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | parameters | tdlibParameters | Parameters for TDLib initialization. |
+  | use_test_dc | bool | Pass true to use Telegram test environment instead of the production environment. |
+  | database_directory | string | The path to the directory for the persistent database; if empty, the current working directory will be used. |
+  | files_directory | string | The path to the directory for storing files; if empty, database_directory will be used. |
+  | database_encryption_key | bytes | Encryption key for the database. If the encryption key is invalid, then an error with code 401 will be returned. |
+  | use_file_database | bool | Pass true to keep information about downloaded and uploaded files between application restarts. |
+  | use_chat_info_database | bool | Pass true to keep cache of users, basic groups, supergroups, channels and secret chats between restarts. Implies use_file_database. |
+  | use_message_database | bool | Pass true to keep cache of chats and messages between restarts. Implies use_chat_info_database. |
+  | use_secret_chats | bool | Pass true to enable support for secret chats. |
+  | api_id | int32 | Application identifier for Telegram API access, which can be obtained at <a href="https://my.telegram.org">https://my.telegram.org</a>. |
+  | api_hash | string | Application identifier hash for Telegram API access, which can be obtained at <a href="https://my.telegram.org">https://my.telegram.org</a>. |
+  | system_language_code | string | IETF language tag of the user's operating system language; must be non-empty. |
+  | device_model | string | Model of the device the application is being run on; must be non-empty. |
+  | system_version | string | Version of the operating system the application is being run on. If empty, the version is automatically detected by TDLib. |
+  | application_version | string | Application version; must be non-empty. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_tdlib_parameters.html).
   """
 
-  defstruct "@type": "setTdlibParameters", "@extra": nil, parameters: nil
+  defstruct "@type": "setTdlibParameters", "@extra": nil, use_test_dc: nil, database_directory: nil, files_directory: nil, database_encryption_key: nil, use_file_database: nil, use_chat_info_database: nil, use_message_database: nil, use_secret_chats: nil, api_id: nil, api_hash: nil, system_language_code: nil, device_model: nil, system_version: nil, application_version: nil
+end
+defmodule OpenChatSimilarChat do
+  @moduledoc  """
+  Informs TDLib that a chat was opened from the list of similar chats. The method is independent of openChat and closeChat methods.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the original chat, which similar chats were requested. |
+  | opened_chat_id | int53 | Identifier of the opened chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1open_chat_similar_chat.html).
+  """
+
+  defstruct "@type": "openChatSimilarChat", "@extra": nil, chat_id: nil, opened_chat_id: nil
+end
+defmodule UnpinAllMessageThreadMessages do
+  @moduledoc  """
+  Removes all pinned messages from a forum topic; requires can_pin_messages member right in the supergroup.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | message_thread_id | int53 | Message thread identifier in which messages will be unpinned. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1unpin_all_message_thread_messages.html).
+  """
+
+  defstruct "@type": "unpinAllMessageThreadMessages", "@extra": nil, chat_id: nil, message_thread_id: nil
+end
+defmodule ToggleHasSponsoredMessagesEnabled do
+  @moduledoc  """
+  Toggles whether the current user has sponsored messages enabled. The setting has no effect for users without Telegram Premium for which sponsored messages are always enabled.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | has_sponsored_messages_enabled | bool | Pass true to enable sponsored messages for the current user; false to disable them. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_has_sponsored_messages_enabled.html).
+  """
+
+  defstruct "@type": "toggleHasSponsoredMessagesEnabled", "@extra": nil, has_sponsored_messages_enabled: nil
 end
 defmodule CreateTemporaryPassword do
   @moduledoc  """
@@ -127,7 +251,7 @@ defmodule CreateTemporaryPassword do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | password | string | Persistent user password. |
+  | password | string | The 2-step verification password of the current user. |
   | valid_for | int32 | Time during which the temporary password will be valid, in seconds; must be between 60 and 86400. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_temporary_password.html).
@@ -146,22 +270,6 @@ defmodule ClearRecentlyFoundChats do
 
   defstruct "@type": "clearRecentlyFoundChats", "@extra": nil
 end
-defmodule SendPhoneNumberConfirmationCode do
-  @moduledoc  """
-  Sends phone number confirmation code to handle links of the type internalLinkTypePhoneNumberConfirmation.
-  Returns object_ptr<AuthenticationCodeInfo>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | hash | string | Hash value from the link. |
-  | phone_number | string | Phone number value from the link. |
-  | settings | phoneNumberAuthenticationSettings | Settings for the authentication of the user's phone number; pass null to use default settings. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_phone_number_confirmation_code.html).
-  """
-
-  defstruct "@type": "sendPhoneNumberConfirmationCode", "@extra": nil, hash: nil, phone_number: nil, settings: nil
-end
 defmodule ToggleSupergroupJoinByRequest do
   @moduledoc  """
   Toggles whether all users directly joining the supergroup need to be approved by supergroup administrators; requires can_restrict_members administrator right.
@@ -169,7 +277,7 @@ defmodule ToggleSupergroupJoinByRequest do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | supergroup_id | int53 | Identifier of the channel. |
+  | supergroup_id | int53 | Identifier of the supergroup that isn't a broadcast group. |
   | join_by_request | bool | New value of join_by_request. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_join_by_request.html).
@@ -278,6 +386,23 @@ defmodule SearchFileDownloads do
 
   defstruct "@type": "searchFileDownloads", "@extra": nil, query: nil, only_active: nil, only_completed: nil, offset: nil, limit: nil
 end
+defmodule ReplaceStickerInSet do
+  @moduledoc  """
+  Replaces existing sticker in a set. The function is equivalent to removeStickerFromSet, then addStickerToSet, then setStickerPositionInSet.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | Sticker set owner; ignored for regular users. |
+  | name | string | Sticker set name. The sticker set must be owned by the current user. |
+  | old_sticker | InputFile | Sticker to remove from the set. |
+  | new_sticker | inputSticker | Sticker to add to the set. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1replace_sticker_in_set.html).
+  """
+
+  defstruct "@type": "replaceStickerInSet", "@extra": nil, user_id: nil, name: nil, old_sticker: nil, new_sticker: nil
+end
 defmodule TerminateAllOtherSessions do
   @moduledoc  """
   Terminates all other sessions of the current user.
@@ -288,6 +413,17 @@ defmodule TerminateAllOtherSessions do
   """
 
   defstruct "@type": "terminateAllOtherSessions", "@extra": nil
+end
+defmodule GetAutosaveSettings do
+  @moduledoc  """
+  Returns autosave settings for the current user.
+  Returns object_ptr<AutosaveSettings>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_autosave_settings.html).
+  """
+
+  defstruct "@type": "getAutosaveSettings", "@extra": nil
 end
 defmodule SetChatLocation do
   @moduledoc  """
@@ -326,11 +462,11 @@ defmodule GetInlineQueryResults do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | bot_user_id | int53 | The identifier of the target bot. |
+  | bot_user_id | int53 | Identifier of the target bot. |
   | chat_id | int53 | Identifier of the chat where the query was sent. |
   | user_location | location | Location of the user; pass null if unknown or the bot doesn't need user's location. |
   | query | string | Text of the query. |
-  | offset | string | Offset of the first entry to return. |
+  | offset | string | Offset of the first entry to return; use empty string to get the first chunk of results. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_inline_query_results.html).
   """
@@ -355,23 +491,38 @@ defmodule GetGroupCallStreamSegment do
 
   defstruct "@type": "getGroupCallStreamSegment", "@extra": nil, group_call_id: nil, time_offset: nil, scale: nil, channel_id: nil, video_quality: nil
 end
-defmodule GetChatSponsoredMessage do
+defmodule SetLoginEmailAddress do
   @moduledoc  """
-  Returns sponsored message to be shown in a chat; for channel chats only. Returns a 404 error if there is no sponsored message in the chat.
-  Returns object_ptr<SponsoredMessage>.
+  Changes the login email address of the user. The email address can be changed only if the current user already has login email and passwordState.login_email_address_pattern is non-empty. The change will not be applied until the new login email address is confirmed with checkLoginEmailAddressCode. To use Apple ID/Google ID instead of an email address, call checkLoginEmailAddressCode directly.
+  Returns object_ptr<EmailAddressAuthenticationCodeInfo>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Identifier of the chat. |
+  | new_login_email_address | string | New login email address. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_sponsored_message.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_login_email_address.html).
   """
 
-  defstruct "@type": "getChatSponsoredMessage", "@extra": nil, chat_id: nil
+  defstruct "@type": "setLoginEmailAddress", "@extra": nil, new_login_email_address: nil
+end
+defmodule SetSupergroupCustomEmojiStickerSet do
+  @moduledoc  """
+  Changes the custom emoji sticker set of a supergroup; requires can_change_info administrator right. The chat must have at least chatBoostFeatures.min_custom_emoji_sticker_set_boost_level boost level to pass the corresponding color.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup. |
+  | custom_emoji_sticker_set_id | int64 | New value of the custom emoji sticker set identifier for the supergroup. Use 0 to remove the custom emoji sticker set in the supergroup. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_supergroup_custom_emoji_sticker_set.html).
+  """
+
+  defstruct "@type": "setSupergroupCustomEmojiStickerSet", "@extra": nil, supergroup_id: nil, custom_emoji_sticker_set_id: nil
 end
 defmodule SetChatMemberStatus do
   @moduledoc  """
-  Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for transferring chat ownership; use transferChatOwnership instead. Use addChatMember or banChatMember if some additional parameters needs to be passed.
+  Changes the status of a chat member; requires can_invite_users member right to add a chat member, can_promote_members administrator right to change administrator rights of the member, and can_restrict_members administrator right to change restrictions of a user. This function is currently not suitable for transferring chat ownership; use transferChatOwnership instead. Use addChatMember or banChatMember if some additional parameters needs to be passed.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -385,9 +536,37 @@ defmodule SetChatMemberStatus do
 
   defstruct "@type": "setChatMemberStatus", "@extra": nil, chat_id: nil, member_id: nil, status: nil
 end
+defmodule ClearSearchedForTags do
+  @moduledoc  """
+  Clears the list of recently searched for hashtags or cashtags.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | clear_cashtags | bool | Pass true to clear the list of recently searched for cashtags; otherwise, the list of recently searched for hashtags will be cleared. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1clear_searched_for_tags.html).
+  """
+
+  defstruct "@type": "clearSearchedForTags", "@extra": nil, clear_cashtags: nil
+end
+defmodule GetCustomEmojiStickers do
+  @moduledoc  """
+  Returns the list of custom emoji stickers by their identifiers. Stickers are returned in arbitrary order. Only found stickers are returned.
+  Returns object_ptr<Stickers>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | custom_emoji_ids | int64 | Identifiers of custom emoji stickers. At most 200 custom emoji stickers can be received simultaneously. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_custom_emoji_stickers.html).
+  """
+
+  defstruct "@type": "getCustomEmojiStickers", "@extra": nil, custom_emoji_ids: nil
+end
 defmodule AddFileToDownloads do
   @moduledoc  """
-  Adds a file from a message to the list of file downloads. Download progress and completion of the download will be notified through updateFile updates. If message database is used, the list of file downloads is persistent across application restarts. The downloading is independent from download using downloadFile, i.e. it continues if downloadFile is canceled or is used to download a part of the file.
+  Adds a file from a message to the list of file downloads. Download progress and completion of the download will be notified through updateFile updates. If message database is used, the list of file downloads is persistent across application restarts. The downloading is independent of download using downloadFile, i.e. it continues if downloadFile is canceled or is used to download a part of the file.
   Returns object_ptr<File>.
 
   | Name | Type | Description |
@@ -401,6 +580,20 @@ defmodule AddFileToDownloads do
   """
 
   defstruct "@type": "addFileToDownloads", "@extra": nil, file_id: nil, chat_id: nil, message_id: nil, priority: nil
+end
+defmodule DeleteDefaultBackground do
+  @moduledoc  """
+  Deletes default background for chats.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | for_dark_theme | bool | Pass true if the background is deleted for a dark theme. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_default_background.html).
+  """
+
+  defstruct "@type": "deleteDefaultBackground", "@extra": nil, for_dark_theme: nil
 end
 defmodule CleanFileName do
   @moduledoc  """
@@ -416,6 +609,62 @@ defmodule CleanFileName do
 
   defstruct "@type": "cleanFileName", "@extra": nil, file_name: nil
 end
+defmodule GetMessageEffect do
+  @moduledoc  """
+  Returns information about a message effect. Returns a 404 error if the effect is not found.
+  Returns object_ptr<MessageEffect>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | effect_id | int64 | Unique identifier of the effect. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_effect.html).
+  """
+
+  defstruct "@type": "getMessageEffect", "@extra": nil, effect_id: nil
+end
+defmodule ReportPhoneNumberCodeMissing do
+  @moduledoc  """
+  Reports that authentication code wasn't delivered via SMS to the specified phone number; for official mobile applications only.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | mobile_network_code | string | Current mobile network code. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_phone_number_code_missing.html).
+  """
+
+  defstruct "@type": "reportPhoneNumberCodeMissing", "@extra": nil, mobile_network_code: nil
+end
+defmodule SendAuthenticationFirebaseSms do
+  @moduledoc  """
+  Sends Firebase Authentication SMS to the phone number of the user. Works only when the current authorization state is authorizationStateWaitCode and the server returned code of the type authenticationCodeTypeFirebaseAndroid or authenticationCodeTypeFirebaseIos.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | token | string | Play Integrity API or SafetyNet Attestation API token for the Android application, or secret from push notification for the iOS application. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_authentication_firebase_sms.html).
+  """
+
+  defstruct "@type": "sendAuthenticationFirebaseSms", "@extra": nil, token: nil
+end
+defmodule SetDefaultMessageAutoDeleteTime do
+  @moduledoc  """
+  Changes the default message auto-delete time for new chats.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | message_auto_delete_time | messageAutoDeleteTime | New default message auto-delete time; must be from 0 up to 365 * 86400 and be divisible by 86400. If 0, then messages aren't deleted automatically. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_default_message_auto_delete_time.html).
+  """
+
+  defstruct "@type": "setDefaultMessageAutoDeleteTime", "@extra": nil, message_auto_delete_time: nil
+end
 defmodule AddChatToList do
   @moduledoc  """
   Adds a chat to a chat list. A chat can't be simultaneously in Main and Archive chat lists, so it is automatically removed from another one if needed.
@@ -430,6 +679,24 @@ defmodule AddChatToList do
   """
 
   defstruct "@type": "addChatToList", "@extra": nil, chat_id: nil, chat_list: nil
+end
+defmodule AddQuickReplyShortcutInlineQueryResultMessage do
+  @moduledoc  """
+  Adds a message to a quick reply shortcut via inline bot. If shortcut doesn't exist and there are less than getOption("quick_reply_shortcut_count_max") shortcuts, then a new shortcut is created. The shortcut must not contain more than getOption("quick_reply_shortcut_message_count_max") messages after adding the new message. Returns the added message.
+  Returns object_ptr<QuickReplyMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_name | string | Name of the target shortcut. |
+  | reply_to_message_id | int53 | Identifier of a quick reply message in the same shortcut to be replied; pass 0 if none. |
+  | query_id | int64 | Identifier of the inline query. |
+  | result_id | string | Identifier of the inline query result. |
+  | hide_via_bot | bool | Pass true to hide the bot, via which the message is sent. Can be used only for bots <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("animation_search_bot_username"), <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("photo_search_bot_username"), and <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("venue_search_bot_username"). |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_quick_reply_shortcut_inline_query_result_message.html).
+  """
+
+  defstruct "@type": "addQuickReplyShortcutInlineQueryResultMessage", "@extra": nil, shortcut_name: nil, reply_to_message_id: nil, query_id: nil, result_id: nil, hide_via_bot: nil
 end
 defmodule DeleteRevokedChatInviteLink do
   @moduledoc  """
@@ -448,7 +715,7 @@ defmodule DeleteRevokedChatInviteLink do
 end
 defmodule ResendEmailAddressVerificationCode do
   @moduledoc  """
-  Re-sends the code to verify an email address to be added to a user's Telegram Passport.
+  Resends the code to verify an email address to be added to a user's Telegram Passport.
   Returns object_ptr<EmailAddressAuthenticationCodeInfo>.
 
 
@@ -456,6 +723,20 @@ defmodule ResendEmailAddressVerificationCode do
   """
 
   defstruct "@type": "resendEmailAddressVerificationCode", "@extra": nil
+end
+defmodule ReadChatList do
+  @moduledoc  """
+  Traverse all chats in a chat list and marks all messages in the chats as read.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_list | ChatList | Chat list in which to mark all chats as read. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1read_chat_list.html).
+  """
+
+  defstruct "@type": "readChatList", "@extra": nil, chat_list: nil
 end
 defmodule GetMe do
   @moduledoc  """
@@ -467,6 +748,36 @@ defmodule GetMe do
   """
 
   defstruct "@type": "getMe", "@extra": nil
+end
+defmodule GetChatArchivedStories do
+  @moduledoc  """
+  Returns the list of all stories posted by the given chat; requires can_edit_stories right in the chat. The stories are returned in a reverse chronological order (i.e., in order of decreasing story_id). For optimal performance, the number of returned stories is chosen by TDLib.
+  Returns object_ptr<Stories>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | from_story_id | int32 | Identifier of the story starting from which stories must be returned; use 0 to get results from the last story. |
+  | limit | int32 | The maximum number of stories to be returned For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_archived_stories.html).
+  """
+
+  defstruct "@type": "getChatArchivedStories", "@extra": nil, chat_id: nil, from_story_id: nil, limit: nil
+end
+defmodule GetChatBoostLink do
+  @moduledoc  """
+  Returns an HTTPS link to boost the specified supergroup or channel chat.
+  Returns object_ptr<ChatBoostLink>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_boost_link.html).
+  """
+
+  defstruct "@type": "getChatBoostLink", "@extra": nil, chat_id: nil
 end
 defmodule RemoveNotificationGroup do
   @moduledoc  """
@@ -483,9 +794,24 @@ defmodule RemoveNotificationGroup do
 
   defstruct "@type": "removeNotificationGroup", "@extra": nil, notification_group_id: nil, max_notification_id: nil
 end
+defmodule GetSearchedForTags do
+  @moduledoc  """
+  Returns recently searched for hashtags or cashtags by their prefix.
+  Returns object_ptr<Hashtags>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | tag_prefix | string | Prefix of hashtags or cashtags to return. |
+  | limit | int32 | The maximum number of items to be returned. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_searched_for_tags.html).
+  """
+
+  defstruct "@type": "getSearchedForTags", "@extra": nil, tag_prefix: nil, limit: nil
+end
 defmodule GetAttachmentMenuBot do
   @moduledoc  """
-  Returns information about a bot that can be added to attachment menu.
+  Returns information about a bot that can be added to attachment or side menu.
   Returns object_ptr<AttachmentMenuBot>.
 
   | Name | Type | Description |
@@ -516,6 +842,21 @@ defmodule SetGameScore do
 
   defstruct "@type": "setGameScore", "@extra": nil, chat_id: nil, message_id: nil, edit_message: nil, user_id: nil, score: nil, force: nil
 end
+defmodule ClickChatSponsoredMessage do
+  @moduledoc  """
+  Informs TDLib that the user opened the sponsored chat via the button, the name, the photo, or a mention in the sponsored message.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier of the sponsored message. |
+  | message_id | int53 | Identifier of the sponsored message. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1click_chat_sponsored_message.html).
+  """
+
+  defstruct "@type": "clickChatSponsoredMessage", "@extra": nil, chat_id: nil, message_id: nil
+end
 defmodule SearchBackground do
   @moduledoc  """
   Searches for a background by its name.
@@ -544,19 +885,19 @@ defmodule AddNetworkStatistics do
 
   defstruct "@type": "addNetworkStatistics", "@extra": nil, entry: nil
 end
-defmodule GetChatFilterDefaultIconName do
+defmodule CheckLoginEmailAddressCode do
   @moduledoc  """
-  Returns default icon name for a filter. Can be called synchronously.
-  Returns object_ptr<Text>.
+  Checks the login email address authentication.
+  Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | filter | chatFilter | Chat filter. |
+  | code | EmailAddressAuthentication | Email address authentication to check. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_filter_default_icon_name.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_login_email_address_code.html).
   """
 
-  defstruct "@type": "getChatFilterDefaultIconName", "@extra": nil, filter: nil
+  defstruct "@type": "checkLoginEmailAddressCode", "@extra": nil, code: nil
 end
 defmodule ToggleGroupCallMuteNewParticipants do
   @moduledoc  """
@@ -587,9 +928,57 @@ defmodule EditCustomLanguagePackInfo do
 
   defstruct "@type": "editCustomLanguagePackInfo", "@extra": nil, info: nil
 end
+defmodule EditChatFolder do
+  @moduledoc  """
+  Edits existing chat folder. Returns information about the edited chat folder.
+  Returns object_ptr<ChatFolderInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+  | folder | chatFolder | The edited chat folder. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_chat_folder.html).
+  """
+
+  defstruct "@type": "editChatFolder", "@extra": nil, chat_folder_id: nil, folder: nil
+end
+defmodule EditBusinessChatLink do
+  @moduledoc  """
+  Edits a business chat link of the current account. Requires Telegram Business subscription. Returns the edited link.
+  Returns object_ptr<BusinessChatLink>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | link | string | The link to edit. |
+  | link_info | inputBusinessChatLink | New description of the link. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_business_chat_link.html).
+  """
+
+  defstruct "@type": "editBusinessChatLink", "@extra": nil, link: nil, link_info: nil
+end
+defmodule AddMessageReaction do
+  @moduledoc  """
+  Adds a reaction or a tag to a message. Use getMessageAvailableReactions to receive the list of available reactions for the message.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat to which the message belongs. |
+  | message_id | int53 | Identifier of the message. |
+  | reaction_type | ReactionType | Type of the reaction to add. |
+  | is_big | bool | Pass true if the reaction is added with a big animation. |
+  | update_recent_reactions | bool | Pass true if the reaction needs to be added to recent reactions; tags are never added to the list of recent reactions. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_message_reaction.html).
+  """
+
+  defstruct "@type": "addMessageReaction", "@extra": nil, chat_id: nil, message_id: nil, reaction_type: nil, is_big: nil, update_recent_reactions: nil
+end
 defmodule SetStickerPositionInSet do
   @moduledoc  """
-  Changes the position of a sticker in the set to which it belongs; for bots only. The sticker set must have been created by the bot.
+  Changes the position of a sticker in the set to which it belongs. The sticker set must be owned by the current user.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -633,7 +1022,7 @@ defmodule CancelDownloadFile do
 end
 defmodule EditMessageReplyMarkup do
   @moduledoc  """
-  Edits the message reply markup; for bots only. Returns the edited message after the edit is completed on the server side.
+  Edits the message reply markup; for bots only. Returns the edited message after the edit is completed on the server side. Can be used only if message.can_be_edited == true.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
@@ -689,9 +1078,20 @@ defmodule GetInactiveSupergroupChats do
 
   defstruct "@type": "getInactiveSupergroupChats", "@extra": nil
 end
+defmodule ResendLoginEmailAddressCode do
+  @moduledoc  """
+  Resends the login email address verification code.
+  Returns object_ptr<EmailAddressAuthenticationCodeInfo>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_login_email_address_code.html).
+  """
+
+  defstruct "@type": "resendLoginEmailAddressCode", "@extra": nil
+end
 defmodule SetChatPhoto do
   @moduledoc  """
-  Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info administrator right.
+  Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info member right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -703,6 +1103,20 @@ defmodule SetChatPhoto do
   """
 
   defstruct "@type": "setChatPhoto", "@extra": nil, chat_id: nil, photo: nil
+end
+defmodule GetSavedMessagesTags do
+  @moduledoc  """
+  Returns tags used in Saved Messages or a Saved Messages topic.
+  Returns object_ptr<SavedMessagesTags>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_id | int53 | Identifier of Saved Messages topic which tags will be returned; pass 0 to get all Saved Messages tags. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_saved_messages_tags.html).
+  """
+
+  defstruct "@type": "getSavedMessagesTags", "@extra": nil, saved_messages_topic_id: nil
 end
 defmodule TestGetDifference do
   @moduledoc  """
@@ -717,7 +1131,7 @@ defmodule TestGetDifference do
 end
 defmodule UnpinChatMessage do
   @moduledoc  """
-  Removes a pinned message from a chat; requires can_pin_messages rights in the group or can_edit_messages rights in the channel.
+  Removes a pinned message from a chat; requires can_pin_messages member right if the chat is a basic group or supergroup, or can_edit_messages administrator right if the chat is a channel.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -739,14 +1153,14 @@ defmodule GetMessageLink do
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat to which the message belongs. |
   | message_id | int53 | Identifier of the message. |
-  | media_timestamp | int32 | If not 0, timestamp from which the video/audio/video note/voice note playing must start, in seconds. The media can be in the message content or in its web page preview. |
+  | media_timestamp | int32 | If not 0, timestamp from which the video/audio/video note/voice note/story playing must start, in seconds. The media can be in the message content or in its web page preview. |
   | for_album | bool | Pass true to create a link for the whole media album. |
-  | for_comment | bool | Pass true to create a link to the message as a channel post comment, or from a message thread. |
+  | in_message_thread | bool | Pass true to create a link to the message as a channel post comment, in a message thread, or a forum topic. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_link.html).
   """
 
-  defstruct "@type": "getMessageLink", "@extra": nil, chat_id: nil, message_id: nil, media_timestamp: nil, for_album: nil, for_comment: nil
+  defstruct "@type": "getMessageLink", "@extra": nil, chat_id: nil, message_id: nil, media_timestamp: nil, for_album: nil, in_message_thread: nil
 end
 defmodule RemoveRecentlyFoundChat do
   @moduledoc  """
@@ -762,20 +1176,53 @@ defmodule RemoveRecentlyFoundChat do
 
   defstruct "@type": "removeRecentlyFoundChat", "@extra": nil, chat_id: nil
 end
-defmodule ToggleMessageSenderIsBlocked do
+defmodule RemoveBusinessConnectedBotFromChat do
   @moduledoc  """
-  Changes the block state of a message sender. Currently, only users and supergroup chats can be blocked.
+  Removes the connected business bot from a specific chat by adding the chat to businessRecipients.excluded_chat_ids.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | sender_id | MessageSender | Identifier of a message sender to block/unblock. |
-  | is_blocked | bool | New value of is_blocked. |
+  | chat_id | int53 | Chat identifier. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_message_sender_is_blocked.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1remove_business_connected_bot_from_chat.html).
   """
 
-  defstruct "@type": "toggleMessageSenderIsBlocked", "@extra": nil, sender_id: nil, is_blocked: nil
+  defstruct "@type": "removeBusinessConnectedBotFromChat", "@extra": nil, chat_id: nil
+end
+defmodule EditStory do
+  @moduledoc  """
+  Changes content and caption of a story. Can be called only if story.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | Identifier of the chat that posted the story. |
+  | story_id | int32 | Identifier of the story to edit. |
+  | content | InputStoryContent | New content of the story; pass null to keep the current content. |
+  | areas | inputStoryAreas | New clickable rectangle areas to be shown on the story media; pass null to keep the current areas. Areas can't be edited if story content isn't changed. |
+  | caption | formattedText | New story caption; pass null to keep the current caption. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_story.html).
+  """
+
+  defstruct "@type": "editStory", "@extra": nil, story_sender_chat_id: nil, story_id: nil, content: nil, areas: nil, caption: nil
+end
+defmodule AddQuickReplyShortcutMessageAlbum do
+  @moduledoc  """
+  Adds 2-10 messages grouped together into an album to a quick reply shortcut. Currently, only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages.
+  Returns object_ptr<QuickReplyMessages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_name | string | Name of the target shortcut. |
+  | reply_to_message_id | int53 | Identifier of a quick reply message in the same shortcut to be replied; pass 0 if none. |
+  | input_message_contents | InputMessageContent | Contents of messages to be sent. At most 10 messages can be added to an album. All messages must have the same value of show_caption_above_media. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_quick_reply_shortcut_message_album.html).
+  """
+
+  defstruct "@type": "addQuickReplyShortcutMessageAlbum", "@extra": nil, shortcut_name: nil, reply_to_message_id: nil, input_message_contents: nil
 end
 defmodule OpenChat do
   @moduledoc  """
@@ -791,9 +1238,49 @@ defmodule OpenChat do
 
   defstruct "@type": "openChat", "@extra": nil, chat_id: nil
 end
+defmodule SetBusinessAwayMessageSettings do
+  @moduledoc  """
+  Changes the business away message settings of the current user. Requires Telegram Business subscription.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | away_message_settings | businessAwayMessageSettings | The new settings for the away message of the business; pass null to disable the away message. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_business_away_message_settings.html).
+  """
+
+  defstruct "@type": "setBusinessAwayMessageSettings", "@extra": nil, away_message_settings: nil
+end
+defmodule GetDefaultBackgroundCustomEmojiStickers do
+  @moduledoc  """
+  Returns default list of custom emoji stickers for reply background.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_default_background_custom_emoji_stickers.html).
+  """
+
+  defstruct "@type": "getDefaultBackgroundCustomEmojiStickers", "@extra": nil
+end
+defmodule SetProfileAccentColor do
+  @moduledoc  """
+  Changes accent color and background custom emoji for profile of the current user; for Telegram Premium users only.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | profile_accent_color_id | int32 | Identifier of the accent color to use for profile; pass -1 if none. |
+  | profile_background_custom_emoji_id | int64 | Identifier of a custom emoji to be shown on the user's profile photo background; 0 if none. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_profile_accent_color.html).
+  """
+
+  defstruct "@type": "setProfileAccentColor", "@extra": nil, profile_accent_color_id: nil, profile_background_custom_emoji_id: nil
+end
 defmodule UpgradeBasicGroupChatToSupergroupChat do
   @moduledoc  """
-  Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom; requires creator privileges. Deactivates the original basic group.
+  Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom; requires owner privileges. Deactivates the original basic group.
   Returns object_ptr<Chat>.
 
   | Name | Type | Description |
@@ -850,6 +1337,31 @@ defmodule CheckStickerSetName do
 
   defstruct "@type": "checkStickerSetName", "@extra": nil, name: nil
 end
+defmodule GetRecentEmojiStatuses do
+  @moduledoc  """
+  Returns recent emoji statuses for self status.
+  Returns object_ptr<EmojiStatuses>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_recent_emoji_statuses.html).
+  """
+
+  defstruct "@type": "getRecentEmojiStatuses", "@extra": nil
+end
+defmodule ApplyPremiumGiftCode do
+  @moduledoc  """
+  Applies a Telegram Premium gift code.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | code | string | The code to apply. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1apply_premium_gift_code.html).
+  """
+
+  defstruct "@type": "applyPremiumGiftCode", "@extra": nil, code: nil
+end
 defmodule SetMenuButton do
   @moduledoc  """
   Sets menu button for the given user or for all users; for bots only.
@@ -894,6 +1406,34 @@ defmodule CreateBasicGroupChat do
 
   defstruct "@type": "createBasicGroupChat", "@extra": nil, basic_group_id: nil, force: nil
 end
+defmodule CheckChatFolderInviteLink do
+  @moduledoc  """
+  Checks the validity of an invite link for a chat folder and returns information about the corresponding chat folder.
+  Returns object_ptr<ChatFolderInviteLinkInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | invite_link | string | Invite link to be checked. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_chat_folder_invite_link.html).
+  """
+
+  defstruct "@type": "checkChatFolderInviteLink", "@extra": nil, invite_link: nil
+end
+defmodule GetChatFolderChatCount do
+  @moduledoc  """
+  Returns approximate number of chats in a being created chat folder. Main and archive chat lists must be fully preloaded for this function to work correctly.
+  Returns object_ptr<Count>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | folder | chatFolder | The new chat folder. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_folder_chat_count.html).
+  """
+
+  defstruct "@type": "getChatFolderChatCount", "@extra": nil, folder: nil
+end
 defmodule ToggleChatHasProtectedContent do
   @moduledoc  """
   Changes the ability of users to save, forward, or copy chat content. Supported only for basic groups, supergroups and channels. Requires owner privileges.
@@ -911,7 +1451,7 @@ defmodule ToggleChatHasProtectedContent do
 end
 defmodule SearchChats do
   @moduledoc  """
-  Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the main chat list.
+  Searches for the specified query in the title and username of already known chats; this is an offline request. Returns chats in the order seen in the main chat list.
   Returns object_ptr<Chats>.
 
   | Name | Type | Description |
@@ -975,6 +1515,22 @@ defmodule WriteGeneratedFilePart do
   """
 
   defstruct "@type": "writeGeneratedFilePart", "@extra": nil, generation_id: nil, offset: nil, data: nil
+end
+defmodule SendPhoneNumberCode do
+  @moduledoc  """
+  Sends a code to the specified phone number. Aborts previous phone number verification if there was one. On success, returns information about the sent code.
+  Returns object_ptr<AuthenticationCodeInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | phone_number | string | The phone number, in international format. |
+  | settings | phoneNumberAuthenticationSettings | Settings for the authentication of the user's phone number; pass null to use default settings. |
+  | type | PhoneNumberCodeType | Type of the request for which the code is sent. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_phone_number_code.html).
+  """
+
+  defstruct "@type": "sendPhoneNumberCode", "@extra": nil, phone_number: nil, settings: nil, type: nil
 end
 defmodule TestUseUpdate do
   @moduledoc  """
@@ -1040,14 +1596,29 @@ defmodule GetArchivedStickerSets do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | is_masks | bool | Pass true to return mask stickers sets; pass false to return ordinary sticker sets. |
-  | offset_sticker_set_id | int64 | Identifier of the sticker set from which to return the result. |
+  | sticker_type | StickerType | Type of the sticker sets to return. |
+  | offset_sticker_set_id | int64 | Identifier of the sticker set from which to return the result; use 0 to get results from the beginning. |
   | limit | int32 | The maximum number of sticker sets to return; up to 100. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_archived_sticker_sets.html).
   """
 
-  defstruct "@type": "getArchivedStickerSets", "@extra": nil, is_masks: nil, offset_sticker_set_id: nil, limit: nil
+  defstruct "@type": "getArchivedStickerSets", "@extra": nil, sticker_type: nil, offset_sticker_set_id: nil, limit: nil
+end
+defmodule GetPremiumGiveawayInfo do
+  @moduledoc  """
+  Returns information about a Telegram Premium giveaway.
+  Returns object_ptr<PremiumGiveawayInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the channel chat which started the giveaway. |
+  | message_id | int53 | Identifier of the giveaway or a giveaway winners message in the chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_premium_giveaway_info.html).
+  """
+
+  defstruct "@type": "getPremiumGiveawayInfo", "@extra": nil, chat_id: nil, message_id: nil
 end
 defmodule TerminateSession do
   @moduledoc  """
@@ -1088,6 +1659,68 @@ defmodule JoinChatByInviteLink do
 
   defstruct "@type": "joinChatByInviteLink", "@extra": nil, invite_link: nil
 end
+defmodule GetChatFolderChatsToLeave do
+  @moduledoc  """
+  Returns identifiers of pinned or always included chats from a chat folder, which are suggested to be left when the chat folder is deleted.
+  Returns object_ptr<Chats>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_folder_chats_to_leave.html).
+  """
+
+  defstruct "@type": "getChatFolderChatsToLeave", "@extra": nil, chat_folder_id: nil
+end
+defmodule GetSavedMessagesTopicMessageByDate do
+  @moduledoc  """
+  Returns the last message sent in a Saved Messages topic no later than the specified date.
+  Returns object_ptr<Message>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_id | int53 | Identifier of Saved Messages topic which message will be returned. |
+  | date | int32 | Point in time (Unix timestamp) relative to which to search for messages. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_saved_messages_topic_message_by_date.html).
+  """
+
+  defstruct "@type": "getSavedMessagesTopicMessageByDate", "@extra": nil, saved_messages_topic_id: nil, date: nil
+end
+defmodule GetInternalLink do
+  @moduledoc  """
+  Returns an HTTPS or a tg: link with the given type. Can be called before authorization.
+  Returns object_ptr<HttpUrl>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | type | InternalLinkType | Expected type of the link. |
+  | is_http | bool | Pass true to create an HTTPS link (only available for some link types); pass false to create a tg: link. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_internal_link.html).
+  """
+
+  defstruct "@type": "getInternalLink", "@extra": nil, type: nil, is_http: nil
+end
+defmodule ShareUsersWithBot do
+  @moduledoc  """
+  Shares users after pressing a keyboardButtonTypeRequestUsers button with the bot.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat with the bot. |
+  | message_id | int53 | Identifier of the message with the button. |
+  | button_id | int32 | Identifier of the button. |
+  | shared_user_ids | int53 | Identifiers of the shared users. |
+  | only_check | bool | Pass true to check that the users can be shared by the button instead of actually sharing them. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1share_users_with_bot.html).
+  """
+
+  defstruct "@type": "shareUsersWithBot", "@extra": nil, chat_id: nil, message_id: nil, button_id: nil, shared_user_ids: nil, only_check: nil
+end
 defmodule GetLocalizationTargetInfo do
   @moduledoc  """
   Returns information about the current localization target. This is an offline request if only_local is true. Can be called before authorization.
@@ -1117,6 +1750,21 @@ defmodule RevokeChatInviteLink do
 
   defstruct "@type": "revokeChatInviteLink", "@extra": nil, chat_id: nil, invite_link: nil
 end
+defmodule SetStickerSetTitle do
+  @moduledoc  """
+  Sets a sticker set title.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | name | string | Sticker set name. The sticker set must be owned by the current user. |
+  | title | string | New sticker set title. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_sticker_set_title.html).
+  """
+
+  defstruct "@type": "setStickerSetTitle", "@extra": nil, name: nil, title: nil
+end
 defmodule GetFile do
   @moduledoc  """
   Returns information about a file; this is an offline request.
@@ -1145,35 +1793,54 @@ defmodule RemoveRecentHashtag do
 
   defstruct "@type": "removeRecentHashtag", "@extra": nil, hashtag: nil
 end
-defmodule SetBackground do
+defmodule SendBusinessMessage do
   @moduledoc  """
-  Changes the background selected by the user; adds background to the list of installed backgrounds.
-  Returns object_ptr<Background>.
+  Sends a message on behalf of a business account; for bots only. Returns the message after it was sent.
+  Returns object_ptr<BusinessMessage>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | background | InputBackground | The input background to use; pass null to create a new filled backgrounds or to remove the current background. |
-  | type | BackgroundType | Background type; pass null to use the default type of the remote background or to remove the current background. |
-  | for_dark_theme | bool | Pass true if the background is changed for a dark theme. |
+  | business_connection_id | string | Unique identifier of business connection on behalf of which to send the request. |
+  | chat_id | int53 | Target chat. |
+  | reply_to | InputMessageReplyTo | Information about the message to be replied; pass null if none. |
+  | disable_notification | bool | Pass true to disable notification for the message. |
+  | protect_content | bool | Pass true if the content of the message must be protected from forwarding and saving. |
+  | effect_id | int64 | Identifier of the effect to apply to the message. |
+  | reply_markup | ReplyMarkup | Markup for replying to the message; pass null if none. |
+  | input_message_content | InputMessageContent | The content of the message to be sent. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_background.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_business_message.html).
   """
 
-  defstruct "@type": "setBackground", "@extra": nil, background: nil, type: nil, for_dark_theme: nil
+  defstruct "@type": "sendBusinessMessage", "@extra": nil, business_connection_id: nil, chat_id: nil, reply_to: nil, disable_notification: nil, protect_content: nil, effect_id: nil, reply_markup: nil, input_message_content: nil
 end
-defmodule CheckPhoneNumberVerificationCode do
+defmodule GetChatActiveStories do
   @moduledoc  """
-  Checks the phone number verification code for Telegram Passport.
-  Returns object_ptr<Ok>.
+  Returns the list of active stories posted by the given chat.
+  Returns object_ptr<ChatActiveStories>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | code | string | Verification code to check. |
+  | chat_id | int53 | Chat identifier. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_phone_number_verification_code.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_active_stories.html).
   """
 
-  defstruct "@type": "checkPhoneNumberVerificationCode", "@extra": nil, code: nil
+  defstruct "@type": "getChatActiveStories", "@extra": nil, chat_id: nil
+end
+defmodule CreateChatFolder do
+  @moduledoc  """
+  Creates new chat folder. Returns information about the created chat folder. There can be up to getOption("chat_folder_count_max") chat folders, but the limit can be increased with Telegram Premium.
+  Returns object_ptr<ChatFolderInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | folder | chatFolder | The new chat folder. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_chat_folder.html).
+  """
+
+  defstruct "@type": "createChatFolder", "@extra": nil, folder: nil
 end
 defmodule GetStatisticalGraph do
   @moduledoc  """
@@ -1200,11 +1867,12 @@ defmodule ResendMessages do
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat to send messages. |
   | message_ids | int53 | Identifiers of the messages to resend. Message identifiers must be in a strictly increasing order. |
+  | quote | inputTextQuote | New manually chosen quote from the message to be replied; pass null if none. Ignored if more than one message is re-sent, or if messageSendingStateFailed.need_another_reply_quote == false. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_messages.html).
   """
 
-  defstruct "@type": "resendMessages", "@extra": nil, chat_id: nil, message_ids: nil
+  defstruct "@type": "resendMessages", "@extra": nil, chat_id: nil, message_ids: nil, quote: nil
 end
 defmodule GetCountryCode do
   @moduledoc  """
@@ -1226,16 +1894,32 @@ defmodule SendWebAppData do
   |------|------| ------------|
   | bot_user_id | int53 | Identifier of the target bot. |
   | button_text | string | Text of the <a class="el" href="classtd_1_1td__api_1_1keyboard_button_type_web_app.html">keyboardButtonTypeWebApp</a> button, which opened the Web App. |
-  | data | string | Received data. |
+  | data | string | The data. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_web_app_data.html).
   """
 
   defstruct "@type": "sendWebAppData", "@extra": nil, bot_user_id: nil, button_text: nil, data: nil
 end
+defmodule GetChatPostedToChatPageStories do
+  @moduledoc  """
+  Returns the list of stories that posted by the given chat to its chat page. If from_story_id == 0, then pinned stories are returned first. Then, stories are returned in a reverse chronological order (i.e., in order of decreasing story_id). For optimal performance, the number of returned stories is chosen by TDLib.
+  Returns object_ptr<Stories>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | from_story_id | int32 | Identifier of the story starting from which stories must be returned; use 0 to get results from pinned and the newest story. |
+  | limit | int32 | The maximum number of stories to be returned For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_posted_to_chat_page_stories.html).
+  """
+
+  defstruct "@type": "getChatPostedToChatPageStories", "@extra": nil, chat_id: nil, from_story_id: nil, limit: nil
+end
 defmodule GetRecentlyOpenedChats do
   @moduledoc  """
-  Returns recently opened chats, this is an offline request. Returns chats in the order of last opening.
+  Returns recently opened chats; this is an offline request. Returns chats in the order of last opening.
   Returns object_ptr<Chats>.
 
   | Name | Type | Description |
@@ -1261,6 +1945,22 @@ defmodule GetStorageStatistics do
 
   defstruct "@type": "getStorageStatistics", "@extra": nil, chat_limit: nil
 end
+defmodule GetChatRevenueTransactions do
+  @moduledoc  """
+  Returns the list of revenue transactions for a chat. Currently, this method can be used only for channels if supergroupFullInfo.can_get_revenue_statistics == true.
+  Returns object_ptr<ChatRevenueTransactions>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | offset | int32 | Number of transactions to skip. |
+  | limit | int32 | The maximum number of transactions to be returned; up to 200. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_revenue_transactions.html).
+  """
+
+  defstruct "@type": "getChatRevenueTransactions", "@extra": nil, chat_id: nil, offset: nil, limit: nil
+end
 defmodule OptimizeStorage do
   @moduledoc  """
   Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted.
@@ -1283,6 +1983,17 @@ defmodule OptimizeStorage do
 
   defstruct "@type": "optimizeStorage", "@extra": nil, size: nil, ttl: nil, count: nil, immunity_delay: nil, file_types: nil, chat_ids: nil, exclude_chat_ids: nil, return_deleted_file_statistics: nil, chat_limit: nil
 end
+defmodule GetSupportName do
+  @moduledoc  """
+  Returns localized name of the Telegram support user; for Telegram support only.
+  Returns object_ptr<Text>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_support_name.html).
+  """
+
+  defstruct "@type": "getSupportName", "@extra": nil
+end
 defmodule GetBackgroundUrl do
   @moduledoc  """
   Constructs a persistent HTTP URL for a background.
@@ -1291,7 +2002,7 @@ defmodule GetBackgroundUrl do
   | Name | Type | Description |
   |------|------| ------------|
   | name | string | Background name. |
-  | type | BackgroundType | Background type. |
+  | type | BackgroundType | Background type; <a class="el" href="classtd_1_1td__api_1_1background_type_chat_theme.html">backgroundTypeChatTheme</a> isn't supported. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_background_url.html).
   """
@@ -1321,7 +2032,7 @@ defmodule SetChatNotificationSettings do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
-  | notification_settings | chatNotificationSettings | New notification settings for the chat. If the chat is muted for more than 1 week, it is considered to be muted forever. |
+  | notification_settings | chatNotificationSettings | New notification settings for the chat. If the chat is muted for more than 366 days, it is considered to be muted forever. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_notification_settings.html).
   """
@@ -1357,32 +2068,17 @@ defmodule DeleteCommands do
 
   defstruct "@type": "deleteCommands", "@extra": nil, scope: nil, language_code: nil
 end
-defmodule DeleteChatFilter do
-  @moduledoc  """
-  Deletes existing chat filter.
-  Returns object_ptr<Ok>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | chat_filter_id | int32 | Chat filter identifier. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_chat_filter.html).
-  """
-
-  defstruct "@type": "deleteChatFilter", "@extra": nil, chat_filter_id: nil
-end
 defmodule SearchMessages do
   @moduledoc  """
   Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit.
-  Returns object_ptr<Messages>.
+  Returns object_ptr<FoundMessages>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | chat_list | ChatList | Chat list in which to search messages; pass null to search in all chats regardless of their chat list. Only Main and Archive chat lists are supported. |
+  | only_in_channels | bool | Pass true to search only for messages in channels. |
   | query | string | Query to search for. |
-  | offset_date | int32 | The date of the message starting from which the results need to be fetched. Use 0 or any date in the future to get results from the last message. |
-  | offset_chat_id | int53 | The chat identifier of the last found message, or 0 for the first request. |
-  | offset_message_id | int53 | The message identifier of the last found message, or 0 for the first request. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
   | limit | int32 | The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
   | filter | SearchMessagesFilter | Additional filter for messages to search; pass null to search for all messages. Filters <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_mention.html">searchMessagesFilterMention</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_mention.html">searchMessagesFilterUnreadMention</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_reaction.html">searchMessagesFilterUnreadReaction</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_failed_to_send.html">searchMessagesFilterFailedToSend</a>, and <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_pinned.html">searchMessagesFilterPinned</a> are unsupported in this function. |
   | min_date | int32 | If not 0, the minimum date of the messages to return. |
@@ -1391,7 +2087,22 @@ defmodule SearchMessages do
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_messages.html).
   """
 
-  defstruct "@type": "searchMessages", "@extra": nil, chat_list: nil, query: nil, offset_date: nil, offset_chat_id: nil, offset_message_id: nil, limit: nil, filter: nil, min_date: nil, max_date: nil
+  defstruct "@type": "searchMessages", "@extra": nil, chat_list: nil, only_in_channels: nil, query: nil, offset: nil, limit: nil, filter: nil, min_date: nil, max_date: nil
+end
+defmodule CloseStory do
+  @moduledoc  """
+  Informs TDLib that a story is closed by the user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | The identifier of the sender of the story to close. |
+  | story_id | int32 | The identifier of the story. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1close_story.html).
+  """
+
+  defstruct "@type": "closeStory", "@extra": nil, story_sender_chat_id: nil, story_id: nil
 end
 defmodule GetLogStream do
   @moduledoc  """
@@ -1425,7 +2136,7 @@ defmodule GetPaymentReceipt do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Chat identifier of the PaymentSuccessful message. |
+  | chat_id | int53 | Chat identifier of the <a class="el" href="classtd_1_1td__api_1_1message_payment_successful.html">messagePaymentSuccessful</a> message. |
   | message_id | int53 | Message identifier. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_payment_receipt.html).
@@ -1441,28 +2152,14 @@ defmodule ViewMessages do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
-  | message_thread_id | int53 | If not 0, a message thread identifier in which the messages are being viewed. |
   | message_ids | int53 | The identifiers of the messages being viewed. |
+  | source | MessageSource | Source of the message view; pass null to guess the source based on chat open state. |
   | force_read | bool | Pass true to mark as read the specified messages even the chat is closed. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1view_messages.html).
   """
 
-  defstruct "@type": "viewMessages", "@extra": nil, chat_id: nil, message_thread_id: nil, message_ids: nil, force_read: nil
-end
-defmodule GetChatFilter do
-  @moduledoc  """
-  Returns information about a chat filter by its identifier.
-  Returns object_ptr<ChatFilter>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | chat_filter_id | int32 | Chat filter identifier. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_filter.html).
-  """
-
-  defstruct "@type": "getChatFilter", "@extra": nil, chat_filter_id: nil
+  defstruct "@type": "viewMessages", "@extra": nil, chat_id: nil, message_ids: nil, source: nil, force_read: nil
 end
 defmodule DisableProxy do
   @moduledoc  """
@@ -1491,7 +2188,7 @@ defmodule GetSecretChat do
 end
 defmodule EditMessageLiveLocation do
   @moduledoc  """
-  Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed on the server side.
+  Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed on the server side. Can be used only if message.can_be_edited == true.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
@@ -1500,13 +2197,14 @@ defmodule EditMessageLiveLocation do
   | message_id | int53 | Identifier of the message. |
   | reply_markup | ReplyMarkup | The new message reply markup; pass null if none; for bots only. |
   | location | location | New location content of the message; pass null to stop sharing the live location. |
+  | live_period | int32 | New time relative to the message send date, for which the location can be updated, in seconds. If 0x7FFFFFFF specified, then the location can be updated forever. Otherwise, must not exceed the current live_period by more than a day, and the live location expiration date must remain in the next 90 days. Pass 0 to keep the current live_period. |
   | heading | int32 | The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown. |
   | proximity_alert_radius | int32 | The new maximum distance for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_message_live_location.html).
   """
 
-  defstruct "@type": "editMessageLiveLocation", "@extra": nil, chat_id: nil, message_id: nil, reply_markup: nil, location: nil, heading: nil, proximity_alert_radius: nil
+  defstruct "@type": "editMessageLiveLocation", "@extra": nil, chat_id: nil, message_id: nil, reply_markup: nil, location: nil, live_period: nil, heading: nil, proximity_alert_radius: nil
 end
 defmodule SharePhoneNumber do
   @moduledoc  """
@@ -1565,6 +2263,21 @@ defmodule AddSavedNotificationSound do
 
   defstruct "@type": "addSavedNotificationSound", "@extra": nil, sound: nil
 end
+defmodule SetAccentColor do
+  @moduledoc  """
+  Changes accent color and background custom emoji for the current user; for Telegram Premium users only.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | accent_color_id | int32 | Identifier of the accent color to use. |
+  | background_custom_emoji_id | int64 | Identifier of a custom emoji to be shown on the reply header and link preview background; 0 if none. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_accent_color.html).
+  """
+
+  defstruct "@type": "setAccentColor", "@extra": nil, accent_color_id: nil, background_custom_emoji_id: nil
+end
 defmodule RecoverPassword do
   @moduledoc  """
   Recovers the 2-step verification password using a recovery code sent to an email address that was previously set up.
@@ -1573,13 +2286,42 @@ defmodule RecoverPassword do
   | Name | Type | Description |
   |------|------| ------------|
   | recovery_code | string | Recovery code to check. |
-  | new_password | string | New password of the user; may be empty to remove the password. |
+  | new_password | string | New 2-step verification password of the user; may be empty to remove the password. |
   | new_hint | string | New password hint; may be empty. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1recover_password.html).
   """
 
   defstruct "@type": "recoverPassword", "@extra": nil, recovery_code: nil, new_password: nil, new_hint: nil
+end
+defmodule ToggleChatViewAsTopics do
+  @moduledoc  """
+  Changes the view_as_topics setting of a forum chat or Saved Messages.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | view_as_topics | bool | New value of view_as_topics. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_chat_view_as_topics.html).
+  """
+
+  defstruct "@type": "toggleChatViewAsTopics", "@extra": nil, chat_id: nil, view_as_topics: nil
+end
+defmodule GetChatBoostLinkInfo do
+  @moduledoc  """
+  Returns information about a link to boost a chat. Can be called for any internal link of the type internalLinkTypeChatBoost.
+  Returns object_ptr<ChatBoostLinkInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | url | string | The link to boost a chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_boost_link_info.html).
+  """
+
+  defstruct "@type": "getChatBoostLinkInfo", "@extra": nil, url: nil
 end
 defmodule ToggleGroupCallParticipantIsHandRaised do
   @moduledoc  """
@@ -1599,7 +2341,7 @@ defmodule ToggleGroupCallParticipantIsHandRaised do
 end
 defmodule DeleteChat do
   @moduledoc  """
-  Deletes a chat along with all messages in the corresponding chat for all chat members. For group chats this will release the username and remove all members. Use the field chat.can_be_deleted_for_all_users to find whether the method can be applied to the chat.
+  Deletes a chat along with all messages in the corresponding chat for all chat members. For group chats this will release the usernames and remove all members. Use the field chat.can_be_deleted_for_all_users to find whether the method can be applied to the chat.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -1628,17 +2370,18 @@ defmodule ClickAnimatedEmojiMessage do
 end
 defmodule SearchStickerSets do
   @moduledoc  """
-  Searches for ordinary sticker sets by looking for specified query in their title and name. Excludes installed sticker sets from the results.
+  Searches for sticker sets by looking for specified query in their title and name. Excludes installed sticker sets from the results.
   Returns object_ptr<StickerSets>.
 
   | Name | Type | Description |
   |------|------| ------------|
+  | sticker_type | StickerType | Type of the sticker sets to return. |
   | query | string | Query to search for. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_sticker_sets.html).
   """
 
-  defstruct "@type": "searchStickerSets", "@extra": nil, query: nil
+  defstruct "@type": "searchStickerSets", "@extra": nil, sticker_type: nil, query: nil
 end
 defmodule RemoveTopChat do
   @moduledoc  """
@@ -1666,9 +2409,39 @@ defmodule GetAuthorizationState do
 
   defstruct "@type": "getAuthorizationState", "@extra": nil
 end
+defmodule ToggleBotUsernameIsActive do
+  @moduledoc  """
+  Changes active state for a username of a bot. The editable username can't be disabled. May return an error with a message "USERNAMES_ACTIVE_TOO_MUCH" if the maximum number of active usernames has been reached. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | username | string | The username to change. |
+  | is_active | bool | Pass true to activate the username; pass false to disable it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_bot_username_is_active.html).
+  """
+
+  defstruct "@type": "toggleBotUsernameIsActive", "@extra": nil, bot_user_id: nil, username: nil, is_active: nil
+end
+defmodule GetChatFolderNewChats do
+  @moduledoc  """
+  Returns new chats added to a shareable chat folder by its owner. The method must be called at most once in getOption("chat_folder_new_chats_update_period") for the given chat folder.
+  Returns object_ptr<Chats>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_folder_new_chats.html).
+  """
+
+  defstruct "@type": "getChatFolderNewChats", "@extra": nil, chat_folder_id: nil
+end
 defmodule StopPoll do
   @moduledoc  """
-  Stops a poll. A poll in a message can be stopped when the message has can_be_edited flag set.
+  Stops a poll. A poll in a message can be stopped when the message has can_be_edited flag is set.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -1682,6 +2455,41 @@ defmodule StopPoll do
 
   defstruct "@type": "stopPoll", "@extra": nil, chat_id: nil, message_id: nil, reply_markup: nil
 end
+defmodule SendBusinessMessageAlbum do
+  @moduledoc  """
+  Sends 2-10 messages grouped together into an album on behalf of a business account; for bots only. Currently, only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages.
+  Returns object_ptr<BusinessMessages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | business_connection_id | string | Unique identifier of business connection on behalf of which to send the request. |
+  | chat_id | int53 | Target chat. |
+  | reply_to | InputMessageReplyTo | Information about the message to be replied; pass null if none. |
+  | disable_notification | bool | Pass true to disable notification for the message. |
+  | protect_content | bool | Pass true if the content of the message must be protected from forwarding and saving. |
+  | effect_id | int64 | Identifier of the effect to apply to the message. |
+  | input_message_contents | InputMessageContent | Contents of messages to be sent. At most 10 messages can be added to an album. All messages must have the same value of show_caption_above_media. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_business_message_album.html).
+  """
+
+  defstruct "@type": "sendBusinessMessageAlbum", "@extra": nil, business_connection_id: nil, chat_id: nil, reply_to: nil, disable_notification: nil, protect_content: nil, effect_id: nil, input_message_contents: nil
+end
+defmodule GetBotName do
+  @moduledoc  """
+  Returns the name of a bot in the given language. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Text>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | language_code | string | A two-letter ISO 639-1 language code or an empty string. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_bot_name.html).
+  """
+
+  defstruct "@type": "getBotName", "@extra": nil, bot_user_id: nil, language_code: nil
+end
 defmodule GetMessageAddedReactions do
   @moduledoc  """
   Returns reactions added for a message, along with their sender.
@@ -1691,25 +2499,14 @@ defmodule GetMessageAddedReactions do
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat to which the message belongs. |
   | message_id | int53 | Identifier of the message. |
-  | reaction | string | If non-empty, only added reactions with the specified text representation will be returned. |
+  | reaction_type | ReactionType | Type of the reactions to return; pass null to return all added reactions. |
   | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
   | limit | int32 | The maximum number of reactions to be returned; must be positive and can't be greater than 100. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_added_reactions.html).
   """
 
-  defstruct "@type": "getMessageAddedReactions", "@extra": nil, chat_id: nil, message_id: nil, reaction: nil, offset: nil, limit: nil
-end
-defmodule CanPurchasePremium do
-  @moduledoc  """
-  Checks whether Telegram Premium purchase is possible. Must be called before in-store Premium purchase.
-  Returns object_ptr<Ok>.
-
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1can_purchase_premium.html).
-  """
-
-  defstruct "@type": "canPurchasePremium", "@extra": nil
+  defstruct "@type": "getMessageAddedReactions", "@extra": nil, chat_id: nil, message_id: nil, reaction_type: nil, offset: nil, limit: nil
 end
 defmodule RemoveRecentSticker do
   @moduledoc  """
@@ -1745,21 +2542,6 @@ defmodule EditChatInviteLink do
 
   defstruct "@type": "editChatInviteLink", "@extra": nil, chat_id: nil, invite_link: nil, name: nil, expiration_date: nil, member_limit: nil, creates_join_request: nil
 end
-defmodule ReorderChatFilters do
-  @moduledoc  """
-  Changes the order of chat filters.
-  Returns object_ptr<Ok>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | chat_filter_ids | int32 | Identifiers of chat filters in the new correct order. |
-  | main_chat_list_position | int32 | Position of the main chat list among chat filters, 0-based. Can be non-zero only for Premium users. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_chat_filters.html).
-  """
-
-  defstruct "@type": "reorderChatFilters", "@extra": nil, chat_filter_ids: nil, main_chat_list_position: nil
-end
 defmodule GetPassportElement do
   @moduledoc  """
   Returns one of the available Telegram Passport elements.
@@ -1768,7 +2550,7 @@ defmodule GetPassportElement do
   | Name | Type | Description |
   |------|------| ------------|
   | type | PassportElementType | Telegram Passport element type. |
-  | password | string | Password of the current user. |
+  | password | string | The 2-step verification password of the current user. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_passport_element.html).
   """
@@ -1777,7 +2559,7 @@ defmodule GetPassportElement do
 end
 defmodule AddRecentSticker do
   @moduledoc  """
-  Manually adds a new sticker to the list of recently used stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list.
+  Manually adds a new sticker to the list of recently used stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set or in WEBP or WEBM format can be added to this list. Emoji stickers can't be added to recent stickers.
   Returns object_ptr<Stickers>.
 
   | Name | Type | Description |
@@ -1789,6 +2571,21 @@ defmodule AddRecentSticker do
   """
 
   defstruct "@type": "addRecentSticker", "@extra": nil, is_attached: nil, sticker: nil
+end
+defmodule SetChatEmojiStatus do
+  @moduledoc  """
+  Changes the emoji status of a chat. Use chatBoostLevelFeatures.can_set_emoji_status to check whether an emoji status can be set. Requires can_change_info administrator right.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | emoji_status | emojiStatus | New emoji status; pass null to remove emoji status. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_emoji_status.html).
+  """
+
+  defstruct "@type": "setChatEmojiStatus", "@extra": nil, chat_id: nil, emoji_status: nil
 end
 defmodule GetRecentStickers do
   @moduledoc  """
@@ -1835,7 +2632,7 @@ defmodule GetPhoneNumberInfoSync do
 end
 defmodule GetLogTags do
   @moduledoc  """
-  Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. Can be called synchronously.
+  Returns the list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. Can be called synchronously.
   Returns object_ptr<LogTags>.
 
 
@@ -1843,6 +2640,20 @@ defmodule GetLogTags do
   """
 
   defstruct "@type": "getLogTags", "@extra": nil
+end
+defmodule ReorderActiveUsernames do
+  @moduledoc  """
+  Changes order of active usernames of the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | usernames | string | The new order of active usernames. All currently active usernames must be specified. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_active_usernames.html).
+  """
+
+  defstruct "@type": "reorderActiveUsernames", "@extra": nil, usernames: nil
 end
 defmodule ClearAllDraftMessages do
   @moduledoc  """
@@ -1857,6 +2668,21 @@ defmodule ClearAllDraftMessages do
   """
 
   defstruct "@type": "clearAllDraftMessages", "@extra": nil, exclude_secret_chats: nil
+end
+defmodule SearchWebApp do
+  @moduledoc  """
+  Returns information about a Web App by its short name. Returns a 404 error if the Web App is not found.
+  Returns object_ptr<FoundWebApp>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | web_app_short_name | string | Short name of the Web App. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_web_app.html).
+  """
+
+  defstruct "@type": "searchWebApp", "@extra": nil, bot_user_id: nil, web_app_short_name: nil
 end
 defmodule RemoveAllFilesFromDownloads do
   @moduledoc  """
@@ -1885,6 +2711,35 @@ defmodule DeleteSavedOrderInfo do
 
   defstruct "@type": "deleteSavedOrderInfo", "@extra": nil
 end
+defmodule ToggleSupergroupCanHaveSponsoredMessages do
+  @moduledoc  """
+  Toggles whether sponsored messages are shown in the channel chat; requires owner privileges in the channel. The chat must have at least chatBoostFeatures.min_sponsored_message_disable_boost_level boost level to disable sponsored messages.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | The identifier of the channel. |
+  | can_have_sponsored_messages | bool | The new value of can_have_sponsored_messages. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_can_have_sponsored_messages.html).
+  """
+
+  defstruct "@type": "toggleSupergroupCanHaveSponsoredMessages", "@extra": nil, supergroup_id: nil, can_have_sponsored_messages: nil
+end
+defmodule SetBirthdate do
+  @moduledoc  """
+  Changes the birthdate of the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | birthdate | birthdate | The new value of the current user's birthdate; pass null to remove the birthdate. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_birthdate.html).
+  """
+
+  defstruct "@type": "setBirthdate", "@extra": nil, birthdate: nil
+end
 defmodule SetChatClientData do
   @moduledoc  """
   Changes application-specific data associated with a chat.
@@ -1900,6 +2755,24 @@ defmodule SetChatClientData do
 
   defstruct "@type": "setChatClientData", "@extra": nil, chat_id: nil, client_data: nil
 end
+defmodule SetChatBackground do
+  @moduledoc  """
+  Sets the background in a specific chat. Supported only in private and secret chats with non-deleted users, and in chats with sufficient boost level and can_change_info administrator right.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | background | InputBackground | The input background to use; pass null to create a new filled or chat theme background. |
+  | type | BackgroundType | Background type; pass null to use default background type for the chosen background; <a class="el" href="classtd_1_1td__api_1_1background_type_chat_theme.html">backgroundTypeChatTheme</a> isn't supported for private and secret chats. Use chatBoostLevelFeatures.chat_theme_background_count and chatBoostLevelFeatures.can_set_custom_background to check whether the background type can be set in the boosted chat. |
+  | dark_theme_dimming | int32 | Dimming of the background in dark themes, as a percentage; 0-100. Applied only to Wallpaper and Fill types of background. |
+  | only_for_self | bool | Pass true to set background only for self; pass false to set background for all chat users. Always false for backgrounds set in boosted chats. Background can be set for both users only by Telegram Premium users and if set background isn't of the type <a class="el" href="classtd_1_1td__api_1_1input_background_previous.html">inputBackgroundPrevious</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_background.html).
+  """
+
+  defstruct "@type": "setChatBackground", "@extra": nil, chat_id: nil, background: nil, type: nil, dark_theme_dimming: nil, only_for_self: nil
+end
 defmodule SendMessage do
   @moduledoc  """
   Sends a message. Returns the sent message.
@@ -1908,8 +2781,8 @@ defmodule SendMessage do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Target chat. |
-  | message_thread_id | int53 | If not 0, a message thread identifier in which the message will be sent. |
-  | reply_to_message_id | int53 | Identifier of the replied message; 0 if none. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the message will be sent. |
+  | reply_to | InputMessageReplyTo | Information about the message or story to be replied; pass null if none. |
   | options | messageSendOptions | Options to be used to send the message; pass null to use default options. |
   | reply_markup | ReplyMarkup | Markup for replying to the message; pass null if none; for bots only. |
   | input_message_content | InputMessageContent | The content of the message to be sent. |
@@ -1917,7 +2790,7 @@ defmodule SendMessage do
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_message.html).
   """
 
-  defstruct "@type": "sendMessage", "@extra": nil, chat_id: nil, message_thread_id: nil, reply_to_message_id: nil, options: nil, reply_markup: nil, input_message_content: nil
+  defstruct "@type": "sendMessage", "@extra": nil, chat_id: nil, message_thread_id: nil, reply_to: nil, options: nil, reply_markup: nil, input_message_content: nil
 end
 defmodule GetSavedNotificationSound do
   @moduledoc  """
@@ -1933,6 +2806,21 @@ defmodule GetSavedNotificationSound do
 
   defstruct "@type": "getSavedNotificationSound", "@extra": nil, notification_sound_id: nil
 end
+defmodule GetChatSimilarChatCount do
+  @moduledoc  """
+  Returns approximate number of chats similar to the given chat.
+  Returns object_ptr<Count>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the target chat; must be an identifier of a channel chat. |
+  | return_local | bool | Pass true to get the number of chats without sending network requests, or -1 if the number of chats is unknown locally. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_similar_chat_count.html).
+  """
+
+  defstruct "@type": "getChatSimilarChatCount", "@extra": nil, chat_id: nil, return_local: nil
+end
 defmodule SearchInstalledStickerSets do
   @moduledoc  """
   Searches for installed sticker sets by looking for specified query in their title and name.
@@ -1940,28 +2828,49 @@ defmodule SearchInstalledStickerSets do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | is_masks | bool | Pass true to return mask sticker sets; pass false to return ordinary sticker sets. |
+  | sticker_type | StickerType | Type of the sticker sets to search for. |
   | query | string | Query to search for. |
   | limit | int32 | The maximum number of sticker sets to return. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_installed_sticker_sets.html).
   """
 
-  defstruct "@type": "searchInstalledStickerSets", "@extra": nil, is_masks: nil, query: nil, limit: nil
+  defstruct "@type": "searchInstalledStickerSets", "@extra": nil, sticker_type: nil, query: nil, limit: nil
 end
-defmodule CheckPhoneNumberConfirmationCode do
+defmodule SearchSavedMessages do
   @moduledoc  """
-  Checks phone number confirmation code.
-  Returns object_ptr<Ok>.
+  Searches for messages tagged by the given reaction and with the given words in the Saved Messages chat; for Telegram Premium users only. Returns the results in reverse chronological order, i.e. in order of decreasing message_id For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit.
+  Returns object_ptr<FoundChatMessages>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | code | string | Confirmation code to check. |
+  | saved_messages_topic_id | int53 | If not 0, only messages in the specified Saved Messages topic will be considered; pass 0 to consider all messages. |
+  | tag | ReactionType | Tag to search for; pass null to return all suitable messages. |
+  | query | string | Query to search for. |
+  | from_message_id | int53 | Identifier of the message starting from which messages must be fetched; use 0 to get results from the last message. |
+  | offset | int32 | Specify 0 to get results from exactly the message from_message_id or a negative offset to get the specified message and some newer messages. |
+  | limit | int32 | The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_phone_number_confirmation_code.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_saved_messages.html).
   """
 
-  defstruct "@type": "checkPhoneNumberConfirmationCode", "@extra": nil, code: nil
+  defstruct "@type": "searchSavedMessages", "@extra": nil, saved_messages_topic_id: nil, tag: nil, query: nil, from_message_id: nil, offset: nil, limit: nil
+end
+defmodule GetStoryStatistics do
+  @moduledoc  """
+  Returns detailed statistics about a story. Can be used only if story.can_get_statistics == true.
+  Returns object_ptr<StoryStatistics>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | story_id | int32 | Story identifier. |
+  | is_dark | bool | Pass true if a dark theme is used by the application. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_story_statistics.html).
+  """
+
+  defstruct "@type": "getStoryStatistics", "@extra": nil, chat_id: nil, story_id: nil, is_dark: nil
 end
 defmodule GetChatMessageCount do
   @moduledoc  """
@@ -1972,12 +2881,52 @@ defmodule GetChatMessageCount do
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat in which to count messages. |
   | filter | SearchMessagesFilter | Filter for message content; <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_empty.html">searchMessagesFilterEmpty</a> is unsupported in this function. |
+  | saved_messages_topic_id | int53 | If not 0, only messages in the specified Saved Messages topic will be counted; pass 0 to count all messages, or for chats other than Saved Messages. |
   | return_local | bool | Pass true to get the number of messages without sending network requests, or -1 if the number of messages is unknown locally. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_message_count.html).
   """
 
-  defstruct "@type": "getChatMessageCount", "@extra": nil, chat_id: nil, filter: nil, return_local: nil
+  defstruct "@type": "getChatMessageCount", "@extra": nil, chat_id: nil, filter: nil, saved_messages_topic_id: nil, return_local: nil
+end
+defmodule GetBusinessChatLinkInfo do
+  @moduledoc  """
+  Returns information about a business chat link.
+  Returns object_ptr<BusinessChatLinkInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | link_name | string | Name of the link. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_business_chat_link_info.html).
+  """
+
+  defstruct "@type": "getBusinessChatLinkInfo", "@extra": nil, link_name: nil
+end
+defmodule GetStarPaymentOptions do
+  @moduledoc  """
+  Returns available options for Telegram stars purchase.
+  Returns object_ptr<StarPaymentOptions>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_star_payment_options.html).
+  """
+
+  defstruct "@type": "getStarPaymentOptions", "@extra": nil
+end
+defmodule GetChatBoostFeatures do
+  @moduledoc  """
+  Returns the list of features available for different chat boost levels; this is an offline request.
+  Returns object_ptr<ChatBoostFeatures>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | is_channel | bool | Pass true to get the list of features for channels; pass false to get the list of features for supergroups. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_boost_features.html).
+  """
+
+  defstruct "@type": "getChatBoostFeatures", "@extra": nil, is_channel: nil
 end
 defmodule SendCustomRequest do
   @moduledoc  """
@@ -1996,7 +2945,7 @@ defmodule SendCustomRequest do
 end
 defmodule AddFavoriteSticker do
   @moduledoc  """
-  Adds a new sticker to the list of favorite stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list.
+  Adds a new sticker to the list of favorite stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set or in WEBP or WEBM format can be added to this list. Emoji stickers can't be added to favorite stickers.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -2007,6 +2956,23 @@ defmodule AddFavoriteSticker do
   """
 
   defstruct "@type": "addFavoriteSticker", "@extra": nil, sticker: nil
+end
+defmodule EditBusinessMessageReplyMarkup do
+  @moduledoc  """
+  Edits the reply markup of a message sent on behalf of a business account; for bots only.
+  Returns object_ptr<BusinessMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | business_connection_id | string | Unique identifier of business connection on behalf of which the message was sent. |
+  | chat_id | int53 | The chat the message belongs to. |
+  | message_id | int53 | Identifier of the message. |
+  | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_business_message_reply_markup.html).
+  """
+
+  defstruct "@type": "editBusinessMessageReplyMarkup", "@extra": nil, business_connection_id: nil, chat_id: nil, message_id: nil, reply_markup: nil
 end
 defmodule SetScopeNotificationSettings do
   @moduledoc  """
@@ -2054,6 +3020,52 @@ defmodule ToggleChatDefaultDisableNotification do
 
   defstruct "@type": "toggleChatDefaultDisableNotification", "@extra": nil, chat_id: nil, default_disable_notification: nil
 end
+defmodule TranslateMessageText do
+  @moduledoc  """
+  Extracts text or caption of the given message and translates it to the given language. If the current user is a Telegram Premium user, then text formatting is preserved.
+  Returns object_ptr<FormattedText>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat to which the message belongs. |
+  | message_id | int53 | Identifier of the message. |
+  | to_language_code | string | Language code of the language to which the message is translated. Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh", "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn", "kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mn", "my", "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr", "st", "sn", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh", "yi", "ji", "yo", "zu". |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1translate_message_text.html).
+  """
+
+  defstruct "@type": "translateMessageText", "@extra": nil, chat_id: nil, message_id: nil, to_language_code: nil
+end
+defmodule GetChatSimilarChats do
+  @moduledoc  """
+  Returns a list of chats similar to the given chat.
+  Returns object_ptr<Chats>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the target chat; must be an identifier of a channel chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_similar_chats.html).
+  """
+
+  defstruct "@type": "getChatSimilarChats", "@extra": nil, chat_id: nil
+end
+defmodule PreliminaryUploadFile do
+  @moduledoc  """
+  Preliminary uploads a file to the cloud before sending it in a message, which can be useful for uploading of being recorded voice and video notes. In all other cases there is no need to preliminary upload a file. Updates updateFile will be used to notify about upload progress. The upload will not be completed until the file is sent in a message.
+  Returns object_ptr<File>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | file | InputFile | File to upload. |
+  | file_type | FileType | File type; pass null if unknown. |
+  | priority | int32 | Priority of the upload (1-32). The higher the priority, the earlier the file will be uploaded. If the priorities of two files are equal, then the first one for which <a class="el" href="classtd_1_1td__api_1_1preliminary_upload_file.html">preliminaryUploadFile</a> was called will be uploaded first. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1preliminary_upload_file.html).
+  """
+
+  defstruct "@type": "preliminaryUploadFile", "@extra": nil, file: nil, file_type: nil, priority: nil
+end
 defmodule SearchContacts do
   @moduledoc  """
   Searches for the specified query in the first names, last names and usernames of the known user contacts.
@@ -2069,6 +3081,21 @@ defmodule SearchContacts do
 
   defstruct "@type": "searchContacts", "@extra": nil, query: nil, limit: nil
 end
+defmodule ToggleUsernameIsActive do
+  @moduledoc  """
+  Changes active state for a username of the current user. The editable username can't be disabled. May return an error with a message "USERNAMES_ACTIVE_TOO_MUCH" if the maximum number of active usernames has been reached.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | username | string | The username to change. |
+  | is_active | bool | Pass true to activate the username; pass false to disable it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_username_is_active.html).
+  """
+
+  defstruct "@type": "toggleUsernameIsActive", "@extra": nil, username: nil, is_active: nil
+end
 defmodule GetInstalledStickerSets do
   @moduledoc  """
   Returns a list of installed sticker sets.
@@ -2076,12 +3103,12 @@ defmodule GetInstalledStickerSets do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | is_masks | bool | Pass true to return mask sticker sets; pass false to return ordinary sticker sets. |
+  | sticker_type | StickerType | Type of the sticker sets to return. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_installed_sticker_sets.html).
   """
 
-  defstruct "@type": "getInstalledStickerSets", "@extra": nil, is_masks: nil
+  defstruct "@type": "getInstalledStickerSets", "@extra": nil, sticker_type: nil
 end
 defmodule SendEmailAddressVerificationCode do
   @moduledoc  """
@@ -2097,6 +3124,92 @@ defmodule SendEmailAddressVerificationCode do
 
   defstruct "@type": "sendEmailAddressVerificationCode", "@extra": nil, email_address: nil
 end
+defmodule LoadSavedMessagesTopics do
+  @moduledoc  """
+  Loads more Saved Messages topics. The loaded topics will be sent through updateSavedMessagesTopic. Topics are sorted by their topic.order in descending order. Returns a 404 error if all topics have been loaded.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | limit | int32 | The maximum number of topics to be loaded. For optimal performance, the number of loaded topics is chosen by TDLib and can be smaller than the specified limit, even if the end of the list is not reached. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1load_saved_messages_topics.html).
+  """
+
+  defstruct "@type": "loadSavedMessagesTopics", "@extra": nil, limit: nil
+end
+defmodule LoadQuickReplyShortcutMessages do
+  @moduledoc  """
+  Loads quick reply messages that can be sent by a given quick reply shortcut. The loaded messages will be sent through updateQuickReplyShortcutMessages.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_id | int32 | Unique identifier of the quick reply shortcut. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1load_quick_reply_shortcut_messages.html).
+  """
+
+  defstruct "@type": "loadQuickReplyShortcutMessages", "@extra": nil, shortcut_id: nil
+end
+defmodule GetStarTransactions do
+  @moduledoc  """
+  Returns the list of Telegram star transactions for the specified owner.
+  Returns object_ptr<StarTransactions>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | owner_id | MessageSender | Identifier of the owner of the Telegram stars; can be the identifier of the current user, identifier of an owned bot, or identifier of a channel chat with supergroupFullInfo.can_get_revenue_statistics == true. |
+  | direction | StarTransactionDirection | Direction of the transactions to receive; pass null to get all transactions. |
+  | offset | string | Offset of the first transaction to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of transactions to return. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_star_transactions.html).
+  """
+
+  defstruct "@type": "getStarTransactions", "@extra": nil, owner_id: nil, direction: nil, offset: nil, limit: nil
+end
+defmodule SetChatMessageAutoDeleteTime do
+  @moduledoc  """
+  Changes the message auto-delete or self-destruct (for secret chats) time in a chat. Requires change_info administrator right in basic groups, supergroups and channels Message auto-delete time can't be changed in a chat with the current user (Saved Messages) and the chat 777000 (Telegram).
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | message_auto_delete_time | int32 | New time value, in seconds; unless the chat is secret, it must be from 0 up to 365 * 86400 and be divisible by 86400. If 0, then messages aren't deleted automatically. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_message_auto_delete_time.html).
+  """
+
+  defstruct "@type": "setChatMessageAutoDeleteTime", "@extra": nil, chat_id: nil, message_auto_delete_time: nil
+end
+defmodule ProcessChatFolderNewChats do
+  @moduledoc  """
+  Process new chats added to a shareable chat folder by its owner.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+  | added_chat_ids | int53 | Identifiers of the new chats, which are added to the chat folder. The chats are automatically joined if they aren't joined yet. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1process_chat_folder_new_chats.html).
+  """
+
+  defstruct "@type": "processChatFolderNewChats", "@extra": nil, chat_folder_id: nil, added_chat_ids: nil
+end
+defmodule GetDefaultEmojiStatuses do
+  @moduledoc  """
+  Returns default emoji statuses for self status.
+  Returns object_ptr<EmojiStatuses>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_default_emoji_statuses.html).
+  """
+
+  defstruct "@type": "getDefaultEmojiStatuses", "@extra": nil
+end
 defmodule GetSuggestedStickerSetName do
   @moduledoc  """
   Returns a suggested name for a new sticker set with a given title.
@@ -2111,6 +3224,50 @@ defmodule GetSuggestedStickerSetName do
 
   defstruct "@type": "getSuggestedStickerSetName", "@extra": nil, title: nil
 end
+defmodule GetForumTopicLink do
+  @moduledoc  """
+  Returns an HTTPS link to a topic in a forum chat. This is an offline request.
+  Returns object_ptr<MessageLink>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_forum_topic_link.html).
+  """
+
+  defstruct "@type": "getForumTopicLink", "@extra": nil, chat_id: nil, message_thread_id: nil
+end
+defmodule ReadAllMessageThreadMentions do
+  @moduledoc  """
+  Marks all mentions in a forum topic as read.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | message_thread_id | int53 | Message thread identifier in which mentions are marked as read. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1read_all_message_thread_mentions.html).
+  """
+
+  defstruct "@type": "readAllMessageThreadMentions", "@extra": nil, chat_id: nil, message_thread_id: nil
+end
+defmodule ConfirmSession do
+  @moduledoc  """
+  Confirms an unconfirmed session of the current user from another device.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | session_id | int64 | Session identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1confirm_session.html).
+  """
+
+  defstruct "@type": "confirmSession", "@extra": nil, session_id: nil
+end
 defmodule ToggleGroupCallParticipantIsMuted do
   @moduledoc  """
   Toggles whether a participant of an active group call is muted, unmuted, or allowed to unmute themselves.
@@ -2120,7 +3277,7 @@ defmodule ToggleGroupCallParticipantIsMuted do
   |------|------| ------------|
   | group_call_id | int32 | Group call identifier. |
   | participant_id | MessageSender | Participant identifier. |
-  | is_muted | bool | Pass true to mute the user; pass false to unmute the them. |
+  | is_muted | bool | Pass true to mute the user; pass false to unmute them. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_group_call_participant_is_muted.html).
   """
@@ -2145,7 +3302,7 @@ defmodule ProcessChatJoinRequests do
 end
 defmodule RequestQrCodeAuthentication do
   @moduledoc  """
-  Requests QR code authentication by scanning a QR code on another logged in device. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword.
+  Requests QR code authentication by scanning a QR code on another logged in device. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitEmailAddress, authorizationStateWaitEmailCode, authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -2156,6 +3313,21 @@ defmodule RequestQrCodeAuthentication do
   """
 
   defstruct "@type": "requestQrCodeAuthentication", "@extra": nil, other_user_ids: nil
+end
+defmodule AddChatFolderByInviteLink do
+  @moduledoc  """
+  Adds a chat folder by an invite link.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | invite_link | string | Invite link for the chat folder. |
+  | chat_ids | int53 | Identifiers of the chats added to the chat folder. The chats are automatically joined if they aren't joined yet. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_chat_folder_by_invite_link.html).
+  """
+
+  defstruct "@type": "addChatFolderByInviteLink", "@extra": nil, invite_link: nil, chat_ids: nil
 end
 defmodule GetProxyLink do
   @moduledoc  """
@@ -2197,6 +3369,17 @@ defmodule GetLogVerbosityLevel do
 
   defstruct "@type": "getLogVerbosityLevel", "@extra": nil
 end
+defmodule HideContactCloseBirthdays do
+  @moduledoc  """
+  Hides the list of contacts that have close birthdays for 24 hours.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1hide_contact_close_birthdays.html).
+  """
+
+  defstruct "@type": "hideContactCloseBirthdays", "@extra": nil
+end
 defmodule LoadGroupCallParticipants do
   @moduledoc  """
   Loads more participants of a group call. The loaded participants will be received through updates. Use the field groupCall.loaded_all_participants to check whether all participants have already been loaded.
@@ -2227,9 +3410,23 @@ defmodule SetPassportElementErrors do
 
   defstruct "@type": "setPassportElementErrors", "@extra": nil, user_id: nil, errors: nil
 end
+defmodule GetChatFolderInviteLinks do
+  @moduledoc  """
+  Returns invite links created by the current user for a shareable chat folder.
+  Returns object_ptr<ChatFolderInviteLinks>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_folder_invite_links.html).
+  """
+
+  defstruct "@type": "getChatFolderInviteLinks", "@extra": nil, chat_folder_id: nil
+end
 defmodule EditMessageText do
   @moduledoc  """
-  Edits the text of a message (or a text of a game message). Returns the edited message after the edit is completed on the server side.
+  Edits the text of a message (or a text of a game message). Returns the edited message after the edit is completed on the server side. Can be used only if message.can_be_edited == true.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
@@ -2251,7 +3448,7 @@ defmodule ImportMessages do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right. |
+  | chat_id | int53 | Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info member right. |
   | message_file | InputFile | File with messages to import. Only <a class="el" href="classtd_1_1td__api_1_1input_file_local.html">inputFileLocal</a> and <a class="el" href="classtd_1_1td__api_1_1input_file_generated.html">inputFileGenerated</a> are supported. The file must not be previously uploaded. |
   | attached_files | InputFile | Files used in the imported messages. Only <a class="el" href="classtd_1_1td__api_1_1input_file_local.html">inputFileLocal</a> and <a class="el" href="classtd_1_1td__api_1_1input_file_generated.html">inputFileGenerated</a> are supported. The files must not be previously uploaded. |
 
@@ -2260,16 +3457,19 @@ defmodule ImportMessages do
 
   defstruct "@type": "importMessages", "@extra": nil, chat_id: nil, message_file: nil, attached_files: nil
 end
-defmodule ResendChangePhoneNumberCode do
+defmodule CanBotSendMessages do
   @moduledoc  """
-  Re-sends the authentication code sent to confirm a new phone number for the current user. Works only if the previously received authenticationCodeInfo next_code_type was not null and the server-specified timeout has passed.
-  Returns object_ptr<AuthenticationCodeInfo>.
+  Checks whether the specified bot can send messages to the user. Returns a 404 error if can't and the access can be granted by call to allowBotToSendMessages.
+  Returns object_ptr<Ok>.
 
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_change_phone_number_code.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1can_bot_send_messages.html).
   """
 
-  defstruct "@type": "resendChangePhoneNumberCode", "@extra": nil
+  defstruct "@type": "canBotSendMessages", "@extra": nil, bot_user_id: nil
 end
 defmodule GetMessageImportConfirmationText do
   @moduledoc  """
@@ -2278,7 +3478,7 @@ defmodule GetMessageImportConfirmationText do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right. |
+  | chat_id | int53 | Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info member right. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_import_confirmation_text.html).
   """
@@ -2287,12 +3487,12 @@ defmodule GetMessageImportConfirmationText do
 end
 defmodule RemoveStickerFromSet do
   @moduledoc  """
-  Removes a sticker from the set to which it belongs; for bots only. The sticker set must have been created by the bot.
+  Removes a sticker from the set to which it belongs. The sticker set must be owned by the current user.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | sticker | InputFile | Sticker. |
+  | sticker | InputFile | Sticker to remove from the set. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1remove_sticker_from_set.html).
   """
@@ -2301,7 +3501,7 @@ defmodule RemoveStickerFromSet do
 end
 defmodule GetUserProfilePhotos do
   @moduledoc  """
-  Returns the profile photos of a user. The result of this query may be outdated: some photos might have been deleted already.
+  Returns the profile photos of a user. Personal and public photo aren't returned.
   Returns object_ptr<ChatPhotos>.
 
   | Name | Type | Description |
@@ -2314,6 +3514,67 @@ defmodule GetUserProfilePhotos do
   """
 
   defstruct "@type": "getUserProfilePhotos", "@extra": nil, user_id: nil, offset: nil, limit: nil
+end
+defmodule GetKeywordEmojis do
+  @moduledoc  """
+  Return emojis matching the keyword. Supported only if the file database is enabled. Order of results is unspecified.
+  Returns object_ptr<Emojis>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | text | string | Text to search for. |
+  | input_language_codes | string | List of possible IETF language tags of the user's input language; may be empty if unknown. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_keyword_emojis.html).
+  """
+
+  defstruct "@type": "getKeywordEmojis", "@extra": nil, text: nil, input_language_codes: nil
+end
+defmodule GetPremiumGiftCodePaymentOptions do
+  @moduledoc  """
+  Returns available options for Telegram Premium gift code or giveaway creation.
+  Returns object_ptr<PremiumGiftCodePaymentOptions>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | boosted_chat_id | int53 | Identifier of the supergroup or channel chat, which will be automatically boosted by receivers of the gift codes and which is administered by the user; 0 if none. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_premium_gift_code_payment_options.html).
+  """
+
+  defstruct "@type": "getPremiumGiftCodePaymentOptions", "@extra": nil, boosted_chat_id: nil
+end
+defmodule GetAllStickerEmojis do
+  @moduledoc  """
+  Returns unique emoji that correspond to stickers to be found by the getStickers(sticker_type, query, 1000000, chat_id).
+  Returns object_ptr<Emojis>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | sticker_type | StickerType | Type of the stickers to search for. |
+  | query | string | Search query. |
+  | chat_id | int53 | Chat identifier for which to find stickers. |
+  | return_only_main_emoji | bool | Pass true if only main emoji for each found sticker must be included in the result. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_all_sticker_emojis.html).
+  """
+
+  defstruct "@type": "getAllStickerEmojis", "@extra": nil, sticker_type: nil, query: nil, chat_id: nil, return_only_main_emoji: nil
+end
+defmodule ToggleChatIsTranslatable do
+  @moduledoc  """
+  Changes the translatable state of a chat.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | is_translatable | bool | New value of is_translatable. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_chat_is_translatable.html).
+  """
+
+  defstruct "@type": "toggleChatIsTranslatable", "@extra": nil, chat_id: nil, is_translatable: nil
 end
 defmodule PingProxy do
   @moduledoc  """
@@ -2328,6 +3589,32 @@ defmodule PingProxy do
   """
 
   defstruct "@type": "pingProxy", "@extra": nil, proxy_id: nil
+end
+defmodule ResetAuthenticationEmailAddress do
+  @moduledoc  """
+  Resets the login email address. May return an error with a message "TASK_ALREADY_EXISTS" if reset is still pending. Works only when the current authorization state is authorizationStateWaitEmailCode and authorization_state.can_reset_email_address == true.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reset_authentication_email_address.html).
+  """
+
+  defstruct "@type": "resetAuthenticationEmailAddress", "@extra": nil
+end
+defmodule SetQuickReplyShortcutName do
+  @moduledoc  """
+  Changes name of a quick reply shortcut.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_id | int32 | Unique identifier of the quick reply shortcut. |
+  | name | string | New name for the shortcut. Use <a class="el" href="classtd_1_1td__api_1_1check_quick_reply_shortcut_name.html">checkQuickReplyShortcutName</a> to check its validness. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_quick_reply_shortcut_name.html).
+  """
+
+  defstruct "@type": "setQuickReplyShortcutName", "@extra": nil, shortcut_id: nil, name: nil
 end
 defmodule GetLanguagePackInfo do
   @moduledoc  """
@@ -2356,6 +3643,24 @@ defmodule SearchStickerSet do
   """
 
   defstruct "@type": "searchStickerSet", "@extra": nil, name: nil
+end
+defmodule EditBusinessMessageMedia do
+  @moduledoc  """
+  Edits the content of a message with an animation, an audio, a document, a photo or a video in a message sent on behalf of a business account; for bots only.
+  Returns object_ptr<BusinessMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | business_connection_id | string | Unique identifier of business connection on behalf of which the message was sent. |
+  | chat_id | int53 | The chat the message belongs to. |
+  | message_id | int53 | Identifier of the message. |
+  | reply_markup | ReplyMarkup | The new message reply markup; pass null if none; for bots only. |
+  | input_message_content | InputMessageContent | New content of the message. Must be one of the following types: <a class="el" href="classtd_1_1td__api_1_1input_message_animation.html">inputMessageAnimation</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_audio.html">inputMessageAudio</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_document.html">inputMessageDocument</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_photo.html">inputMessagePhoto</a> or <a class="el" href="classtd_1_1td__api_1_1input_message_video.html">inputMessageVideo</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_business_message_media.html).
+  """
+
+  defstruct "@type": "editBusinessMessageMedia", "@extra": nil, business_connection_id: nil, chat_id: nil, message_id: nil, reply_markup: nil, input_message_content: nil
 end
 defmodule GetPhoneNumberInfo do
   @moduledoc  """
@@ -2400,9 +3705,23 @@ defmodule GetJsonString do
 
   defstruct "@type": "getJsonString", "@extra": nil, json_value: nil
 end
+defmodule SetAuthenticationEmailAddress do
+  @moduledoc  """
+  Sets the email address of the user and sends an authentication code to the email address. Works only when the current authorization state is authorizationStateWaitEmailAddress.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | email_address | string | The email address of the user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_authentication_email_address.html).
+  """
+
+  defstruct "@type": "setAuthenticationEmailAddress", "@extra": nil, email_address: nil
+end
 defmodule ReplaceVideoChatRtmpUrl do
   @moduledoc  """
-  Replaces the current RTMP URL for streaming to the chat; requires creator privileges.
+  Replaces the current RTMP URL for streaming to the chat; requires owner privileges.
   Returns object_ptr<RtmpUrl>.
 
   | Name | Type | Description |
@@ -2413,6 +3732,52 @@ defmodule ReplaceVideoChatRtmpUrl do
   """
 
   defstruct "@type": "replaceVideoChatRtmpUrl", "@extra": nil, chat_id: nil
+end
+defmodule ReportStory do
+  @moduledoc  """
+  Reports a story to the Telegram moderators.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | The identifier of the sender of the story to report. |
+  | story_id | int32 | The identifier of the story to report. |
+  | reason | ReportReason | The reason for reporting the story. |
+  | text | string | Additional report details; 0-1024 characters. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_story.html).
+  """
+
+  defstruct "@type": "reportStory", "@extra": nil, story_sender_chat_id: nil, story_id: nil, reason: nil, text: nil
+end
+defmodule DisableAllSupergroupUsernames do
+  @moduledoc  """
+  Disables all active non-editable usernames of a supergroup or channel, requires owner privileges in the supergroup or channel.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup or channel. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1disable_all_supergroup_usernames.html).
+  """
+
+  defstruct "@type": "disableAllSupergroupUsernames", "@extra": nil, supergroup_id: nil
+end
+defmodule SetUserPersonalProfilePhoto do
+  @moduledoc  """
+  Changes a personal profile photo of a contact user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | User identifier. |
+  | photo | InputChatPhoto | Profile photo to set; pass null to delete the photo; <a class="el" href="classtd_1_1td__api_1_1input_chat_photo_previous.html">inputChatPhotoPrevious</a> isn't supported in this function. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_user_personal_profile_photo.html).
+  """
+
+  defstruct "@type": "setUserPersonalProfilePhoto", "@extra": nil, user_id: nil, photo: nil
 end
 defmodule AddLogMessage do
   @moduledoc  """
@@ -2443,6 +3808,21 @@ defmodule DeleteProfilePhoto do
 
   defstruct "@type": "deleteProfilePhoto", "@extra": nil, profile_photo_id: nil
 end
+defmodule SetUserSupportInfo do
+  @moduledoc  """
+  Sets support information for the given user; for Telegram support only.
+  Returns object_ptr<UserSupportInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | User identifier. |
+  | message | formattedText | New information message. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_user_support_info.html).
+  """
+
+  defstruct "@type": "setUserSupportInfo", "@extra": nil, user_id: nil, message: nil
+end
 defmodule GetPassportAuthorizationForm do
   @moduledoc  """
   Returns a Telegram Passport authorization form for sharing data with a service.
@@ -2462,7 +3842,7 @@ defmodule GetPassportAuthorizationForm do
 end
 defmodule GetSavedNotificationSounds do
   @moduledoc  """
-  Returns list of saved notification sounds. If a sound isn't in the list, then default sound needs to be used.
+  Returns the list of saved notification sounds. If a sound isn't in the list, then default sound needs to be used.
   Returns object_ptr<NotificationSounds>.
 
 
@@ -2496,6 +3876,20 @@ defmodule RequestPasswordRecovery do
 
   defstruct "@type": "requestPasswordRecovery", "@extra": nil
 end
+defmodule SetBusinessStartPage do
+  @moduledoc  """
+  Changes the business start page of the current user. Requires Telegram Business subscription.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | start_page | inputBusinessStartPage | The new start page of the business; pass null to remove custom start page. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_business_start_page.html).
+  """
+
+  defstruct "@type": "setBusinessStartPage", "@extra": nil, start_page: nil
+end
 defmodule AnswerCallbackQuery do
   @moduledoc  """
   Sets the result of a callback query; for bots only.
@@ -2514,6 +3908,21 @@ defmodule AnswerCallbackQuery do
 
   defstruct "@type": "answerCallbackQuery", "@extra": nil, callback_query_id: nil, text: nil, show_alert: nil, url: nil, cache_time: nil
 end
+defmodule GetBotInfoDescription do
+  @moduledoc  """
+  Returns the text shown in the chat with a bot if the chat is empty in the given language. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Text>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | language_code | string | A two-letter ISO 639-1 language code or an empty string. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_bot_info_description.html).
+  """
+
+  defstruct "@type": "getBotInfoDescription", "@extra": nil, bot_user_id: nil, language_code: nil
+end
 defmodule GetLoginUrl do
   @moduledoc  """
   Returns an HTTP URL which can be used to automatically authorize the user on a website after clicking an inline button of type inlineKeyboardButtonTypeLoginUrl. Use the method getLoginUrlInfo to find whether a prior user confirmation is needed. If an error is returned, then the button must be handled as an ordinary URL button.
@@ -2531,6 +3940,46 @@ defmodule GetLoginUrl do
 
   defstruct "@type": "getLoginUrl", "@extra": nil, chat_id: nil, message_id: nil, button_id: nil, allow_write_access: nil
 end
+defmodule DeleteChatFolder do
+  @moduledoc  """
+  Deletes existing chat folder.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+  | leave_chat_ids | int53 | Identifiers of the chats to leave. The chats must be pinned or always included in the folder. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_chat_folder.html).
+  """
+
+  defstruct "@type": "deleteChatFolder", "@extra": nil, chat_folder_id: nil, leave_chat_ids: nil
+end
+defmodule ResendPhoneNumberCode do
+  @moduledoc  """
+  Resends the authentication code sent to a phone number. Works only if the previously received authenticationCodeInfo next_code_type was not null and the server-specified timeout has passed.
+  Returns object_ptr<AuthenticationCodeInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | reason | ResendCodeReason | Reason of code resending; pass null if unknown. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_phone_number_code.html).
+  """
+
+  defstruct "@type": "resendPhoneNumberCode", "@extra": nil, reason: nil
+end
+defmodule ActivateStoryStealthMode do
+  @moduledoc  """
+  Activates stealth mode for stories, which hides all views of stories from the current user in the last "story_stealth_mode_past_period" seconds and for the next "story_stealth_mode_future_period" seconds; for Telegram Premium users only.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1activate_story_stealth_mode.html).
+  """
+
+  defstruct "@type": "activateStoryStealthMode", "@extra": nil
+end
 defmodule CreateNewSupergroupChat do
   @moduledoc  """
   Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate. Returns the newly created chat.
@@ -2539,15 +3988,17 @@ defmodule CreateNewSupergroupChat do
   | Name | Type | Description |
   |------|------| ------------|
   | title | string | Title of the new chat; 1-128 characters. |
-  | is_channel | bool | Pass true to create a channel chat. |
+  | is_forum | bool | Pass true to create a forum supergroup chat. |
+  | is_channel | bool | Pass true to create a channel chat; ignored if a forum is created. |
   | description | string | Chat description; 0-255 characters. |
   | location | chatLocation | Chat location if a location-based supergroup is being created; pass null to create an ordinary supergroup chat. |
-  | for_import | bool | Pass true to create a supergroup for importing messages using importMessage. |
+  | message_auto_delete_time | int32 | Message auto-delete time value, in seconds; must be from 0 up to 365 * 86400 and be divisible by 86400. If 0, then messages aren't deleted automatically. |
+  | for_import | bool | Pass true to create a supergroup for importing messages using <a class="el" href="classtd_1_1td__api_1_1import_messages.html">importMessages</a>. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_new_supergroup_chat.html).
   """
 
-  defstruct "@type": "createNewSupergroupChat", "@extra": nil, title: nil, is_channel: nil, description: nil, location: nil, for_import: nil
+  defstruct "@type": "createNewSupergroupChat", "@extra": nil, title: nil, is_forum: nil, is_channel: nil, description: nil, location: nil, message_auto_delete_time: nil, for_import: nil
 end
 defmodule GetPreferredCountryLanguage do
   @moduledoc  """
@@ -2562,6 +4013,31 @@ defmodule GetPreferredCountryLanguage do
   """
 
   defstruct "@type": "getPreferredCountryLanguage", "@extra": nil, country_code: nil
+end
+defmodule GetBusinessChatLinks do
+  @moduledoc  """
+  Returns business chat links created for the current account.
+  Returns object_ptr<BusinessChatLinks>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_business_chat_links.html).
+  """
+
+  defstruct "@type": "getBusinessChatLinks", "@extra": nil
+end
+defmodule SetEmojiStatus do
+  @moduledoc  """
+  Changes the emoji status of the current user; for Telegram Premium users only.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | emoji_status | emojiStatus | New emoji status; pass null to switch to the default badge. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_emoji_status.html).
+  """
+
+  defstruct "@type": "setEmojiStatus", "@extra": nil, emoji_status: nil
 end
 defmodule GetActiveSessions do
   @moduledoc  """
@@ -2596,6 +4072,24 @@ defmodule ResetPassword do
 
   defstruct "@type": "resetPassword", "@extra": nil
 end
+defmodule ShareChatWithBot do
+  @moduledoc  """
+  Shares a chat after pressing a keyboardButtonTypeRequestChat button with the bot.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat with the bot. |
+  | message_id | int53 | Identifier of the message with the button. |
+  | button_id | int32 | Identifier of the button. |
+  | shared_chat_id | int53 | Identifier of the shared chat. |
+  | only_check | bool | Pass true to check that the chat can be shared by the button instead of actually sharing it. Doesn't check bot_is_member and bot_administrator_rights restrictions. If the bot must be a member, then all chats from <a class="el" href="classtd_1_1td__api_1_1get_groups_in_common.html">getGroupsInCommon</a> and all chats, where the user can add the bot, are suitable. In the latter case the bot will be automatically added to the chat. If the bot must be an administrator, then all chats, where the bot already has requested rights or can be added to administrators by the user, are suitable. In the latter case the bot will be automatically granted requested rights. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1share_chat_with_bot.html).
+  """
+
+  defstruct "@type": "shareChatWithBot", "@extra": nil, chat_id: nil, message_id: nil, button_id: nil, shared_chat_id: nil, only_check: nil
+end
 defmodule GetChatSparseMessagePositions do
   @moduledoc  """
   Returns sparse positions of messages of the specified type in the chat to be used for shared media scroll implementation. Returns the results in reverse chronological order (i.e., in order of decreasing message_id). Cannot be used in secret chats or with searchMessagesFilterFailedToSend filter without an enabled message database.
@@ -2607,11 +4101,42 @@ defmodule GetChatSparseMessagePositions do
   | filter | SearchMessagesFilter | Filter for message content. Filters <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_empty.html">searchMessagesFilterEmpty</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_mention.html">searchMessagesFilterMention</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_mention.html">searchMessagesFilterUnreadMention</a>, and <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_reaction.html">searchMessagesFilterUnreadReaction</a> are unsupported in this function. |
   | from_message_id | int53 | The message identifier from which to return information about message positions. |
   | limit | int32 | The expected number of message positions to be returned; 50-2000. A smaller number of positions can be returned, if there are not enough appropriate messages. |
+  | saved_messages_topic_id | int53 | If not 0, only messages in the specified Saved Messages topic will be considered; pass 0 to consider all messages, or for chats other than Saved Messages. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_sparse_message_positions.html).
   """
 
-  defstruct "@type": "getChatSparseMessagePositions", "@extra": nil, chat_id: nil, filter: nil, from_message_id: nil, limit: nil
+  defstruct "@type": "getChatSparseMessagePositions", "@extra": nil, chat_id: nil, filter: nil, from_message_id: nil, limit: nil, saved_messages_topic_id: nil
+end
+defmodule SetBusinessLocation do
+  @moduledoc  """
+  Changes the business location of the current user. Requires Telegram Business subscription.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | location | businessLocation | The new location of the business; pass null to remove the location. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_business_location.html).
+  """
+
+  defstruct "@type": "setBusinessLocation", "@extra": nil, location: nil
+end
+defmodule ToggleForumTopicIsPinned do
+  @moduledoc  """
+  Changes the pinned state of a forum topic; requires can_manage_topics right in the supergroup. There can be up to getOption("pinned_forum_topic_count_max") pinned forum topics.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+  | is_pinned | bool | Pass true to pin the topic; pass false to unpin it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_forum_topic_is_pinned.html).
+  """
+
+  defstruct "@type": "toggleForumTopicIsPinned", "@extra": nil, chat_id: nil, message_thread_id: nil, is_pinned: nil
 end
 defmodule GetPasswordState do
   @moduledoc  """
@@ -2624,21 +4149,52 @@ defmodule GetPasswordState do
 
   defstruct "@type": "getPasswordState", "@extra": nil
 end
-defmodule SetStickerSetThumbnail do
+defmodule SearchPublicStoriesByLocation do
   @moduledoc  """
-  Sets a sticker set thumbnail; for bots only. Returns the sticker set.
-  Returns object_ptr<StickerSet>.
+  Searches for public stories by the given address location. For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit.
+  Returns object_ptr<FoundStories>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | user_id | int53 | Sticker set owner. |
-  | name | string | Sticker set name. |
-  | thumbnail | InputFile | Thumbnail to set in PNG, TGS, or WEBM format; pass null to remove the sticker set thumbnail. Thumbnail format must match the format of stickers in the set. |
+  | address | locationAddress | Address of the location. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of stories to be returned; up to 100. For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_public_stories_by_location.html).
+  """
+
+  defstruct "@type": "searchPublicStoriesByLocation", "@extra": nil, address: nil, offset: nil, limit: nil
+end
+defmodule SetStickerSetThumbnail do
+  @moduledoc  """
+  Sets a sticker set thumbnail.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | Sticker set owner; ignored for regular users. |
+  | name | string | Sticker set name. The sticker set must be owned by the current user. |
+  | thumbnail | InputFile | Thumbnail to set; pass null to remove the sticker set thumbnail. |
+  | format | StickerFormat | Format of the thumbnail; pass null if thumbnail is removed. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_sticker_set_thumbnail.html).
   """
 
-  defstruct "@type": "setStickerSetThumbnail", "@extra": nil, user_id: nil, name: nil, thumbnail: nil
+  defstruct "@type": "setStickerSetThumbnail", "@extra": nil, user_id: nil, name: nil, thumbnail: nil, format: nil
+end
+defmodule GetEmojiReaction do
+  @moduledoc  """
+  Returns information about an emoji reaction. Returns a 404 error if the reaction is not found.
+  Returns object_ptr<EmojiReaction>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | emoji | string | Text representation of the reaction. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_emoji_reaction.html).
+  """
+
+  defstruct "@type": "getEmojiReaction", "@extra": nil, emoji: nil
 end
 defmodule SendCallRating do
   @moduledoc  """
@@ -2684,7 +4240,7 @@ defmodule CancelPasswordReset do
 end
 defmodule GetCurrentState do
   @moduledoc  """
-  Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially useful if TDLib is run in a separate process. Can be called before initialization.
+  Returns all updates needed to restore current TDLib state, i.e. all actual updateAuthorizationState/updateUser/updateNewChat and others. This is especially useful if TDLib is run in a separate process. Can be called before initialization.
   Returns object_ptr<Updates>.
 
 
@@ -2701,7 +4257,7 @@ defmodule ToggleGroupCallScreenSharingIsPaused do
   | Name | Type | Description |
   |------|------| ------------|
   | group_call_id | int32 | Group call identifier. |
-  | is_paused | bool | True if screen sharing is paused. |
+  | is_paused | bool | Pass true to pause screen sharing; pass false to unpause it. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_group_call_screen_sharing_is_paused.html).
   """
@@ -2710,13 +4266,13 @@ defmodule ToggleGroupCallScreenSharingIsPaused do
 end
 defmodule RecoverAuthenticationPassword do
   @moduledoc  """
-  Recovers the password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword.
+  Recovers the 2-step verification password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | recovery_code | string | Recovery code to check. |
-  | new_password | string | New password of the user; may be empty to remove the password. |
+  | new_password | string | New 2-step verification password of the user; may be empty to remove the password. |
   | new_hint | string | New password hint; may be empty. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1recover_authentication_password.html).
@@ -2738,6 +4294,24 @@ defmodule DeleteLanguagePack do
 
   defstruct "@type": "deleteLanguagePack", "@extra": nil, language_pack_id: nil
 end
+defmodule EditForumTopic do
+  @moduledoc  """
+  Edits title and icon of a topic in a forum supergroup chat; requires can_manage_topics right in the supergroup unless the user is creator of the topic.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+  | name | string | New name of the topic; 0-128 characters. If empty, the previous topic name is kept. |
+  | edit_icon_custom_emoji | bool | Pass true to edit the icon of the topic. Icon of the General topic can't be edited. |
+  | icon_custom_emoji_id | int64 | Identifier of the new custom emoji for topic icon; pass 0 to remove the custom emoji. Ignored if edit_icon_custom_emoji is false. Telegram Premium users can use any custom emoji, other users can use only a custom emoji returned by <a class="el" href="classtd_1_1td__api_1_1get_forum_topic_default_icons.html">getForumTopicDefaultIcons</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_forum_topic.html).
+  """
+
+  defstruct "@type": "editForumTopic", "@extra": nil, chat_id: nil, message_thread_id: nil, name: nil, edit_icon_custom_emoji: nil, icon_custom_emoji_id: nil
+end
 defmodule SetRecoveryEmailAddress do
   @moduledoc  """
   Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed. If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation.
@@ -2745,7 +4319,7 @@ defmodule SetRecoveryEmailAddress do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | password | string | Password of the current user. |
+  | password | string | The 2-step verification password of the current user. |
   | new_recovery_email_address | string | New recovery email address. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_recovery_email_address.html).
@@ -2785,8 +4359,8 @@ defmodule CreatePrivateChat do
 end
 defmodule AddChatMembers do
   @moduledoc  """
-  Adds multiple new members to a chat. Currently, this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members.
-  Returns object_ptr<Ok>.
+  Adds multiple new members to a chat; requires can_invite_users member right. Currently, this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members. Returns information about members that weren't added.
+  Returns object_ptr<FailedToAddMembers>.
 
   | Name | Type | Description |
   |------|------| ------------|
@@ -2800,12 +4374,12 @@ defmodule AddChatMembers do
 end
 defmodule GetTextEntities do
   @moduledoc  """
-  Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) contained in the text. Can be called synchronously.
+  Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) found in the text. Can be called synchronously.
   Returns object_ptr<TextEntities>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | text | string | The text in which to look for entites. |
+  | text | string | The text in which to look for entities. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_text_entities.html).
   """
@@ -2855,18 +4429,19 @@ defmodule DeleteChatMessagesBySender do
 end
 defmodule ToggleBotIsAddedToAttachmentMenu do
   @moduledoc  """
-  Adds or removes a bot to attachment menu. Bot can be added to attachment menu, only if userTypeBot.can_be_added_to_attachment_menu == true.
+  Adds or removes a bot to attachment and side menu. Bot can be added to the menu, only if userTypeBot.can_be_added_to_attachment_menu == true.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | bot_user_id | int53 | Bot's user identifier. |
   | is_added | bool | Pass true to add the bot to attachment menu; pass false to remove the bot from attachment menu. |
+  | allow_write_access | bool | Pass true if the current user allowed the bot to send them messages. Ignored if is_added is false. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_bot_is_added_to_attachment_menu.html).
   """
 
-  defstruct "@type": "toggleBotIsAddedToAttachmentMenu", "@extra": nil, bot_user_id: nil, is_added: nil
+  defstruct "@type": "toggleBotIsAddedToAttachmentMenu", "@extra": nil, bot_user_id: nil, is_added: nil, allow_write_access: nil
 end
 defmodule TestCallVectorInt do
   @moduledoc  """
@@ -2882,10 +4457,88 @@ defmodule TestCallVectorInt do
 
   defstruct "@type": "testCallVectorInt", "@extra": nil, x: nil
 end
+defmodule ReorderBotActiveUsernames do
+  @moduledoc  """
+  Changes order of active usernames of a bot. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | usernames | string | The new order of active usernames. All currently active usernames must be specified. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_bot_active_usernames.html).
+  """
+
+  defstruct "@type": "reorderBotActiveUsernames", "@extra": nil, bot_user_id: nil, usernames: nil
+end
+defmodule GetUserSupportInfo do
+  @moduledoc  """
+  Returns support information for the given user; for Telegram support only.
+  Returns object_ptr<UserSupportInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | User identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_user_support_info.html).
+  """
+
+  defstruct "@type": "getUserSupportInfo", "@extra": nil, user_id: nil
+end
+defmodule SetDefaultBackground do
+  @moduledoc  """
+  Sets default background for chats; adds the background to the list of installed backgrounds.
+  Returns object_ptr<Background>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | background | InputBackground | The input background to use; pass null to create a new filled background. |
+  | type | BackgroundType | Background type; pass null to use the default type of the remote background; <a class="el" href="classtd_1_1td__api_1_1background_type_chat_theme.html">backgroundTypeChatTheme</a> isn't supported. |
+  | for_dark_theme | bool | Pass true if the background is set for a dark theme. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_default_background.html).
+  """
+
+  defstruct "@type": "setDefaultBackground", "@extra": nil, background: nil, type: nil, for_dark_theme: nil
+end
+defmodule SendStory do
+  @moduledoc  """
+  Sends a new story to a chat; requires can_post_stories right for supergroup and channel chats. Returns a temporary story.
+  Returns object_ptr<Story>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat that will post the story. |
+  | content | InputStoryContent | Content of the story. |
+  | areas | inputStoryAreas | Clickable rectangle areas to be shown on the story media; pass null if none. |
+  | caption | formattedText | Story caption; pass null to use an empty caption; 0-<a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("story_caption_length_max") characters; can have entities only if <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("can_use_text_entities_in_story_caption"). |
+  | privacy_settings | StoryPrivacySettings | The privacy settings for the story; ignored for stories sent to supergroup and channel chats. |
+  | active_period | int32 | Period after which the story is moved to archive, in seconds; must be one of 6 * 3600, 12 * 3600, 86400, or 2 * 86400 for Telegram Premium users, and 86400 otherwise. |
+  | from_story_full_id | storyFullId | Full identifier of the original story, which content was used to create the story. |
+  | is_posted_to_chat_page | bool | Pass true to keep the story accessible after expiration. |
+  | protect_content | bool | Pass true if the content of the story must be protected from forwarding and screenshotting. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_story.html).
+  """
+
+  defstruct "@type": "sendStory", "@extra": nil, chat_id: nil, content: nil, areas: nil, caption: nil, privacy_settings: nil, active_period: nil, from_story_full_id: nil, is_posted_to_chat_page: nil, protect_content: nil
+end
+defmodule GetChatsToSendStories do
+  @moduledoc  """
+  Returns supergroup and channel chats in which the current user has the right to post stories. The chats must be rechecked with canSendStory before actually trying to post a story there.
+  Returns object_ptr<Chats>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chats_to_send_stories.html).
+  """
+
+  defstruct "@type": "getChatsToSendStories", "@extra": nil
+end
 defmodule SearchChatMessages do
   @moduledoc  """
-  Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query (searchSecretMessages must be used instead), or without an enabled message database. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit.
-  Returns object_ptr<Messages>.
+  Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query (searchSecretMessages must be used instead), or without an enabled message database. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. A combination of query, sender_id, filter and message_thread_id search criteria is expected to be supported, only if it is required for Telegram official application implementation.
+  Returns object_ptr<FoundChatMessages>.
 
   | Name | Type | Description |
   |------|------| ------------|
@@ -2893,15 +4546,16 @@ defmodule SearchChatMessages do
   | query | string | Query to search for. |
   | sender_id | MessageSender | Identifier of the sender of messages to search for; pass null to search for messages from any sender. Not supported in secret chats. |
   | from_message_id | int53 | Identifier of the message starting from which history must be fetched; use 0 to get results from the last message. |
-  | offset | int32 | Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages. |
+  | offset | int32 | Specify 0 to get results from exactly the message from_message_id or a negative offset to get the specified message and some newer messages. |
   | limit | int32 | The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
   | filter | SearchMessagesFilter | Additional filter for messages to search; pass null to search for all messages. |
   | message_thread_id | int53 | If not 0, only messages in the specified thread will be returned; supergroups only. |
+  | saved_messages_topic_id | int53 | If not 0, only messages in the specified Saved Messages topic will be returned; pass 0 to return all messages, or for chats other than Saved Messages. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_chat_messages.html).
   """
 
-  defstruct "@type": "searchChatMessages", "@extra": nil, chat_id: nil, query: nil, sender_id: nil, from_message_id: nil, offset: nil, limit: nil, filter: nil, message_thread_id: nil
+  defstruct "@type": "searchChatMessages", "@extra": nil, chat_id: nil, query: nil, sender_id: nil, from_message_id: nil, offset: nil, limit: nil, filter: nil, message_thread_id: nil, saved_messages_topic_id: nil
 end
 defmodule ToggleSessionCanAcceptSecretChats do
   @moduledoc  """
@@ -2911,29 +4565,12 @@ defmodule ToggleSessionCanAcceptSecretChats do
   | Name | Type | Description |
   |------|------| ------------|
   | session_id | int64 | Session identifier. |
-  | can_accept_secret_chats | bool | Pass true to allow accepring secret chats by the session; pass false otherwise. |
+  | can_accept_secret_chats | bool | Pass true to allow accepting secret chats by the session; pass false otherwise. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_session_can_accept_secret_chats.html).
   """
 
   defstruct "@type": "toggleSessionCanAcceptSecretChats", "@extra": nil, session_id: nil, can_accept_secret_chats: nil
-end
-defmodule SetMessageReaction do
-  @moduledoc  """
-  Changes chosen reaction for a message.
-  Returns object_ptr<Ok>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | chat_id | int53 | Identifier of the chat to which the message belongs. |
-  | message_id | int53 | Identifier of the message. |
-  | reaction | string | Text representation of the new chosen reaction. Can be an empty string or the currently chosen non-big reaction to remove the reaction. |
-  | is_big | bool | Pass true if the reaction is added with a big animation. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_message_reaction.html).
-  """
-
-  defstruct "@type": "setMessageReaction", "@extra": nil, chat_id: nil, message_id: nil, reaction: nil, is_big: nil
 end
 defmodule GetOption do
   @moduledoc  """
@@ -2949,6 +4586,21 @@ defmodule GetOption do
 
   defstruct "@type": "getOption", "@extra": nil, name: nil
 end
+defmodule ReorderChatFolders do
+  @moduledoc  """
+  Changes the order of chat folders.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_ids | int32 | Identifiers of chat folders in the new correct order. |
+  | main_chat_list_position | int32 | Position of the main chat list among chat folders, 0-based. Can be non-zero only for Premium users. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_chat_folders.html).
+  """
+
+  defstruct "@type": "reorderChatFolders", "@extra": nil, chat_folder_ids: nil, main_chat_list_position: nil
+end
 defmodule GetBasicGroup do
   @moduledoc  """
   Returns information about a basic group by its identifier. This is an offline request if the current user is not a bot.
@@ -2963,9 +4615,23 @@ defmodule GetBasicGroup do
 
   defstruct "@type": "getBasicGroup", "@extra": nil, basic_group_id: nil
 end
+defmodule CanSendStory do
+  @moduledoc  """
+  Checks whether the current user can send a story on behalf of a chat; requires can_post_stories right for supergroup and channel chats.
+  Returns object_ptr<CanSendStoryResult>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1can_send_story.html).
+  """
+
+  defstruct "@type": "canSendStory", "@extra": nil, chat_id: nil
+end
 defmodule UnpinAllChatMessages do
   @moduledoc  """
-  Removes all pinned messages from a chat; requires can_pin_messages rights in the group or can_edit_messages rights in the channel.
+  Removes all pinned messages from a chat; requires can_pin_messages member right if the chat is a basic group or supergroup, or can_edit_messages administrator right if the chat is a channel.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -2986,18 +4652,18 @@ defmodule AddLocalMessage do
   |------|------| ------------|
   | chat_id | int53 | Target chat. |
   | sender_id | MessageSender | Identifier of the sender of the message. |
-  | reply_to_message_id | int53 | Identifier of the replied message; 0 if none. |
+  | reply_to | InputMessageReplyTo | Information about the message or story to be replied; pass null if none. |
   | disable_notification | bool | Pass true to disable notification for the message. |
   | input_message_content | InputMessageContent | The content of the message to be added. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_local_message.html).
   """
 
-  defstruct "@type": "addLocalMessage", "@extra": nil, chat_id: nil, sender_id: nil, reply_to_message_id: nil, disable_notification: nil, input_message_content: nil
+  defstruct "@type": "addLocalMessage", "@extra": nil, chat_id: nil, sender_id: nil, reply_to: nil, disable_notification: nil, input_message_content: nil
 end
 defmodule EditMessageMedia do
   @moduledoc  """
-  Edits the content of a message with an animation, an audio, a document, a photo or a video, including message caption. If only the caption needs to be edited, use editMessageCaption instead. The media can't be edited if the message was set to self-destruct or to a self-destructing media. The type of message content in an album can't be changed with exception of replacing a photo with a video or vice versa. Returns the edited message after the edit is completed on the server side.
+  Edits the content of a message with an animation, an audio, a document, a photo or a video, including message caption. If only the caption needs to be edited, use editMessageCaption instead. The media can't be edited if the message was set to self-destruct or to a self-destructing media. The type of message content in an album can't be changed with exception of replacing a photo with a video or vice versa. Returns the edited message after the edit is completed on the server side. Can be used only if message.can_be_edited == true.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
@@ -3014,18 +4680,30 @@ defmodule EditMessageMedia do
 end
 defmodule CreateNewBasicGroupChat do
   @moduledoc  """
-  Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns the newly created chat.
-  Returns object_ptr<Chat>.
+  Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns information about the newly created chat.
+  Returns object_ptr<CreatedBasicGroupChat>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | user_ids | int53 | Identifiers of users to be added to the basic group. |
+  | user_ids | int53 | Identifiers of users to be added to the basic group; may be empty to create a basic group without other members. |
   | title | string | Title of the new basic group; 1-128 characters. |
+  | message_auto_delete_time | int32 | Message auto-delete time value, in seconds; must be from 0 up to 365 * 86400 and be divisible by 86400. If 0, then messages aren't deleted automatically. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_new_basic_group_chat.html).
   """
 
-  defstruct "@type": "createNewBasicGroupChat", "@extra": nil, user_ids: nil, title: nil
+  defstruct "@type": "createNewBasicGroupChat", "@extra": nil, user_ids: nil, title: nil, message_auto_delete_time: nil
+end
+defmodule GetUserLink do
+  @moduledoc  """
+  Returns an HTTPS link, which can be used to get information about the current user.
+  Returns object_ptr<UserLink>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_user_link.html).
+  """
+
+  defstruct "@type": "getUserLink", "@extra": nil
 end
 defmodule ReportChatPhoto do
   @moduledoc  """
@@ -3036,13 +4714,30 @@ defmodule ReportChatPhoto do
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
   | file_id | int32 | Identifier of the photo to report. Only full photos from <a class="el" href="classtd_1_1td__api_1_1chat_photo.html">chatPhoto</a> can be reported. |
-  | reason | ChatReportReason | The reason for reporting the chat photo. |
+  | reason | ReportReason | The reason for reporting the chat photo. |
   | text | string | Additional report details; 0-1024 characters. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_chat_photo.html).
   """
 
   defstruct "@type": "reportChatPhoto", "@extra": nil, chat_id: nil, file_id: nil, reason: nil, text: nil
+end
+defmodule GetSavedMessagesTopicHistory do
+  @moduledoc  """
+  Returns messages in a Saved Messages topic. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id).
+  Returns object_ptr<Messages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_id | int53 | Identifier of Saved Messages topic which messages will be fetched. |
+  | from_message_id | int53 | Identifier of the message starting from which messages must be fetched; use 0 to get results from the last message. |
+  | offset | int32 | Specify 0 to get results from exactly the message from_message_id or a negative offset up to 99 to get additionally some newer messages. |
+  | limit | int32 | The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_saved_messages_topic_history.html).
+  """
+
+  defstruct "@type": "getSavedMessagesTopicHistory", "@extra": nil, saved_messages_topic_id: nil, from_message_id: nil, offset: nil, limit: nil
 end
 defmodule GetImportedContactCount do
   @moduledoc  """
@@ -3071,6 +4766,21 @@ defmodule ChangeStickerSet do
 
   defstruct "@type": "changeStickerSet", "@extra": nil, set_id: nil, is_installed: nil, is_archived: nil
 end
+defmodule DeleteChatFolderInviteLink do
+  @moduledoc  """
+  Deletes an invite link for a chat folder.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+  | invite_link | string | Invite link to be deleted. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_chat_folder_invite_link.html).
+  """
+
+  defstruct "@type": "deleteChatFolderInviteLink", "@extra": nil, chat_folder_id: nil, invite_link: nil
+end
 defmodule OpenMessageContent do
   @moduledoc  """
   Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed.
@@ -3093,7 +4803,7 @@ defmodule GetAllPassportElements do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | password | string | Password of the current user. |
+  | password | string | The 2-step verification password of the current user. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_all_passport_elements.html).
   """
@@ -3116,18 +4826,33 @@ defmodule AddRecentlyFoundChat do
 end
 defmodule AssignAppStoreTransaction do
   @moduledoc  """
-  Informs server about a Telegram Premium purchase through App Store. For official applications only.
+  Informs server about a purchase through App Store. For official applications only.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | receipt | bytes | App Store receipt. |
-  | is_restore | bool | Pass true if this is a restore of a Telegram Premium purchase. |
+  | purpose | StorePaymentPurpose | Transaction purpose. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1assign_app_store_transaction.html).
   """
 
-  defstruct "@type": "assignAppStoreTransaction", "@extra": nil, receipt: nil, is_restore: nil
+  defstruct "@type": "assignAppStoreTransaction", "@extra": nil, receipt: nil, purpose: nil
+end
+defmodule ToggleSupergroupHasAggressiveAntiSpamEnabled do
+  @moduledoc  """
+  Toggles whether aggressive anti-spam checks are enabled in the supergroup. Can be called only if supergroupFullInfo.can_toggle_aggressive_anti_spam == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | The identifier of the supergroup, which isn't a broadcast group. |
+  | has_aggressive_anti_spam_enabled | bool | The new value of has_aggressive_anti_spam_enabled. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_has_aggressive_anti_spam_enabled.html).
+  """
+
+  defstruct "@type": "toggleSupergroupHasAggressiveAntiSpamEnabled", "@extra": nil, supergroup_id: nil, has_aggressive_anti_spam_enabled: nil
 end
 defmodule ReadAllChatMentions do
   @moduledoc  """
@@ -3156,7 +4881,7 @@ defmodule ResendRecoveryEmailAddressCode do
 end
 defmodule SetAuthenticationPhoneNumber do
   @moduledoc  """
-  Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword.
+  Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitEmailAddress, authorizationStateWaitEmailCode, authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -3171,16 +4896,16 @@ defmodule SetAuthenticationPhoneNumber do
 end
 defmodule GetPollVoters do
   @moduledoc  """
-  Returns users voted for the specified option in a non-anonymous polls. For optimal performance, the number of returned users is chosen by TDLib.
-  Returns object_ptr<Users>.
+  Returns message senders voted for the specified option in a non-anonymous polls. For optimal performance, the number of returned users is chosen by TDLib.
+  Returns object_ptr<MessageSenders>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat to which the poll belongs. |
   | message_id | int53 | Identifier of the message containing the poll. |
   | option_id | int32 | 0-based identifier of the answer option. |
-  | offset | int32 | Number of users to skip in the result; must be non-negative. |
-  | limit | int32 | The maximum number of users to be returned; must be positive and can't be greater than 50. For optimal performance, the number of returned users is chosen by TDLib and can be smaller than the specified limit, even if the end of the voter list has not been reached. |
+  | offset | int32 | Number of voters to skip in the result; must be non-negative. |
+  | limit | int32 | The maximum number of voters to be returned; must be positive and can't be greater than 50. For optimal performance, the number of returned voters is chosen by TDLib and can be smaller than the specified limit, even if the end of the voter list has not been reached. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_poll_voters.html).
   """
@@ -3218,6 +4943,34 @@ defmodule DeleteChatMessagesByDate do
 
   defstruct "@type": "deleteChatMessagesByDate", "@extra": nil, chat_id: nil, min_date: nil, max_date: nil, revoke: nil
 end
+defmodule GetChatBoostStatus do
+  @moduledoc  """
+  Returns the current boost status for a supergroup or a channel chat.
+  Returns object_ptr<ChatBoostStatus>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_boost_status.html).
+  """
+
+  defstruct "@type": "getChatBoostStatus", "@extra": nil, chat_id: nil
+end
+defmodule GetChatFolder do
+  @moduledoc  """
+  Returns information about a chat folder by its identifier.
+  Returns object_ptr<ChatFolder>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_folder.html).
+  """
+
+  defstruct "@type": "getChatFolder", "@extra": nil, chat_folder_id: nil
+end
 defmodule GetThemeParametersJsonString do
   @moduledoc  """
   Converts a themeParameters object to corresponding JSON-serialized string. Can be called synchronously.
@@ -3248,23 +5001,9 @@ defmodule DeleteChatHistory do
 
   defstruct "@type": "deleteChatHistory", "@extra": nil, chat_id: nil, remove_from_chat_list: nil, revoke: nil
 end
-defmodule CheckChangePhoneNumberCode do
-  @moduledoc  """
-  Checks the authentication code sent to confirm a new phone number of the user.
-  Returns object_ptr<Ok>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | code | string | Authentication code to check. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_change_phone_number_code.html).
-  """
-
-  defstruct "@type": "checkChangePhoneNumberCode", "@extra": nil, code: nil
-end
 defmodule ResetAllNotificationSettings do
   @moduledoc  """
-  Resets all notification settings to their default values. By default, all chats are unmuted and message previews are shown.
+  Resets all chat and scope notification settings to their default values. By default, all chats are unmuted and message previews are shown.
   Returns object_ptr<Ok>.
 
 
@@ -3282,7 +5021,7 @@ defmodule GetChatHistory do
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
   | from_message_id | int53 | Identifier of the message starting from which history must be fetched; use 0 to get results from the last message. |
-  | offset | int32 | Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages. |
+  | offset | int32 | Specify 0 to get results from exactly the message from_message_id or a negative offset up to 99 to get additionally some newer messages. |
   | limit | int32 | The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
   | only_local | bool | Pass true to get only messages that are available without sending network requests. |
 
@@ -3291,9 +5030,38 @@ defmodule GetChatHistory do
 
   defstruct "@type": "getChatHistory", "@extra": nil, chat_id: nil, from_message_id: nil, offset: nil, limit: nil, only_local: nil
 end
+defmodule GetChatsForChatFolderInviteLink do
+  @moduledoc  """
+  Returns identifiers of chats from a chat folder, suitable for adding to a chat folder invite link.
+  Returns object_ptr<Chats>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chats_for_chat_folder_invite_link.html).
+  """
+
+  defstruct "@type": "getChatsForChatFolderInviteLink", "@extra": nil, chat_folder_id: nil
+end
+defmodule SetStickerKeywords do
+  @moduledoc  """
+  Changes the list of keywords of a sticker. The sticker must belong to a regular or custom emoji sticker set that is owned by the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | sticker | InputFile | Sticker. |
+  | keywords | string | List of up to 20 keywords with total length up to 64 characters, which can be used to find the sticker. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_sticker_keywords.html).
+  """
+
+  defstruct "@type": "setStickerKeywords", "@extra": nil, sticker: nil, keywords: nil
+end
 defmodule GetPaymentForm do
   @moduledoc  """
-  Returns an invoice payment form. This method must be called when the user presses inlineKeyboardButtonBuy.
+  Returns an invoice payment form. This method must be called when the user presses inline button of the type inlineKeyboardButtonTypeBuy.
   Returns object_ptr<PaymentForm>.
 
   | Name | Type | Description |
@@ -3306,24 +5074,59 @@ defmodule GetPaymentForm do
 
   defstruct "@type": "getPaymentForm", "@extra": nil, input_invoice: nil, theme: nil
 end
-defmodule SetChatMessageTtl do
+defmodule SearchPublicStoriesByTag do
   @moduledoc  """
-  Changes the message TTL in a chat. Requires can_delete_messages administrator right in basic groups, supergroups and channels Message TTL can't be changed in a chat with the current user (Saved Messages) and the chat 777000 (Telegram).
+  Searches for public stories containing the given hashtag or cashtag. For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit.
+  Returns object_ptr<FoundStories>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | tag | string | Hashtag or cashtag to search for. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of stories to be returned; up to 100. For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_public_stories_by_tag.html).
+  """
+
+  defstruct "@type": "searchPublicStoriesByTag", "@extra": nil, tag: nil, offset: nil, limit: nil
+end
+defmodule SetCustomEmojiStickerSetThumbnail do
+  @moduledoc  """
+  Sets a custom emoji sticker set thumbnail.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Chat identifier. |
-  | ttl | int32 | New TTL value, in seconds; unless the chat is secret, it must be from 0 up to 365 * 86400 and be divisible by 86400. |
+  | name | string | Sticker set name. The sticker set must be owned by the current user. |
+  | custom_emoji_id | int64 | Identifier of the custom emoji from the sticker set, which will be set as sticker set thumbnail; pass 0 to remove the sticker set thumbnail. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_message_ttl.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_custom_emoji_sticker_set_thumbnail.html).
   """
 
-  defstruct "@type": "setChatMessageTtl", "@extra": nil, chat_id: nil, ttl: nil
+  defstruct "@type": "setCustomEmojiStickerSetThumbnail", "@extra": nil, name: nil, custom_emoji_id: nil
+end
+defmodule EditBusinessMessageCaption do
+  @moduledoc  """
+  Edits the caption of a message sent on behalf of a business account; for bots only.
+  Returns object_ptr<BusinessMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | business_connection_id | string | Unique identifier of business connection on behalf of which the message was sent. |
+  | chat_id | int53 | The chat the message belongs to. |
+  | message_id | int53 | Identifier of the message. |
+  | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
+  | caption | formattedText | New message content caption; pass null to remove caption; 0-<a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("message_caption_length_max") characters. |
+  | show_caption_above_media | bool | Pass true to show the caption above the media; otherwise, caption will be shown below the media. Can be true only for animation, photo, and video messages. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_business_message_caption.html).
+  """
+
+  defstruct "@type": "editBusinessMessageCaption", "@extra": nil, business_connection_id: nil, chat_id: nil, message_id: nil, reply_markup: nil, caption: nil, show_caption_above_media: nil
 end
 defmodule GetRemoteFile do
   @moduledoc  """
-  Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If the file database is disabled, then the corresponding object with the file must be preloaded by the application.
+  Returns information about a file by its remote identifier; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message. Even the request succeeds, the file can be used only if it is still accessible to the user. For example, if the file is from a message, then the message must be not deleted and accessible to the user. If the file database is disabled, then the corresponding object with the file must be preloaded by the application.
   Returns object_ptr<File>.
 
   | Name | Type | Description |
@@ -3335,6 +5138,21 @@ defmodule GetRemoteFile do
   """
 
   defstruct "@type": "getRemoteFile", "@extra": nil, remote_file_id: nil, file_type: nil
+end
+defmodule GetChatBoostLevelFeatures do
+  @moduledoc  """
+  Returns the list of features available on the specific chat boost level; this is an offline request.
+  Returns object_ptr<ChatBoostLevelFeatures>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | is_channel | bool | Pass true to get the list of features for channels; pass false to get the list of features for supergroups. |
+  | level | int32 | Chat boost level. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_boost_level_features.html).
+  """
+
+  defstruct "@type": "getChatBoostLevelFeatures", "@extra": nil, is_channel: nil, level: nil
 end
 defmodule ToggleGroupCallIsMyVideoEnabled do
   @moduledoc  """
@@ -3353,7 +5171,7 @@ defmodule ToggleGroupCallIsMyVideoEnabled do
 end
 defmodule ToggleSupergroupIsAllHistoryAvailable do
   @moduledoc  """
-  Toggles whether the message history of a supergroup is available to new members; requires can_change_info administrator right.
+  Toggles whether the message history of a supergroup is available to new members; requires can_change_info member right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -3384,6 +5202,20 @@ defmodule SearchSecretMessages do
 
   defstruct "@type": "searchSecretMessages", "@extra": nil, chat_id: nil, query: nil, offset: nil, limit: nil, filter: nil
 end
+defmodule SetPersonalChat do
+  @moduledoc  """
+  Changes the personal chat of the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the new personal chat; pass 0 to remove the chat. Use <a class="el" href="classtd_1_1td__api_1_1get_suitable_personal_chats.html">getSuitablePersonalChats</a> to get suitable chats. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_personal_chat.html).
+  """
+
+  defstruct "@type": "setPersonalChat", "@extra": nil, chat_id: nil
+end
 defmodule SetPassportElement do
   @moduledoc  """
   Adds an element to the user's Telegram Passport. May return an error with a message "PHONE_VERIFICATION_NEEDED" or "EMAIL_VERIFICATION_NEEDED" if the chosen phone number or the chosen email address must be verified first.
@@ -3392,27 +5224,16 @@ defmodule SetPassportElement do
   | Name | Type | Description |
   |------|------| ------------|
   | element | InputPassportElement | Input Telegram Passport element. |
-  | password | string | Password of the current user. |
+  | password | string | The 2-step verification password of the current user. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_passport_element.html).
   """
 
   defstruct "@type": "setPassportElement", "@extra": nil, element: nil, password: nil
 end
-defmodule ResendPhoneNumberVerificationCode do
-  @moduledoc  """
-  Re-sends the code to verify a phone number to be added to a user's Telegram Passport.
-  Returns object_ptr<AuthenticationCodeInfo>.
-
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_phone_number_verification_code.html).
-  """
-
-  defstruct "@type": "resendPhoneNumberVerificationCode", "@extra": nil
-end
 defmodule SearchChatMembers do
   @moduledoc  """
-  Searches for a specified query in the first name, last name and username of the members of a specified chat. Requires administrator rights in channels.
+  Searches for a specified query in the first name, last name and usernames of the members of a specified chat. Requires administrator rights if the chat is a channel.
   Returns object_ptr<ChatMembers>.
 
   | Name | Type | Description |
@@ -3441,6 +5262,21 @@ defmodule RemoveProxy do
 
   defstruct "@type": "removeProxy", "@extra": nil, proxy_id: nil
 end
+defmodule SetBotProfilePhoto do
+  @moduledoc  """
+  Changes a profile photo for a bot.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | photo | InputChatPhoto | Profile photo to set; pass null to delete the chat photo. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_bot_profile_photo.html).
+  """
+
+  defstruct "@type": "setBotProfilePhoto", "@extra": nil, bot_user_id: nil, photo: nil
+end
 defmodule AcceptTermsOfService do
   @moduledoc  """
   Accepts Telegram terms of services.
@@ -3457,7 +5293,7 @@ defmodule AcceptTermsOfService do
 end
 defmodule GetChatNotificationSettingsExceptions do
   @moduledoc  """
-  Returns list of chats with non-default notification settings.
+  Returns the list of chats with non-default notification settings for new messages.
   Returns object_ptr<Chats>.
 
   | Name | Type | Description |
@@ -3469,6 +5305,48 @@ defmodule GetChatNotificationSettingsExceptions do
   """
 
   defstruct "@type": "getChatNotificationSettingsExceptions", "@extra": nil, scope: nil, compare_sound: nil
+end
+defmodule GetCountryFlagEmoji do
+  @moduledoc  """
+  Returns an emoji for the given country. Returns an empty string on failure. Can be called synchronously.
+  Returns object_ptr<Text>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | country_code | string | A two-letter ISO 3166-1 alpha-2 country code as received from <a class="el" href="classtd_1_1td__api_1_1get_countries.html">getCountries</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_country_flag_emoji.html).
+  """
+
+  defstruct "@type": "getCountryFlagEmoji", "@extra": nil, country_code: nil
+end
+defmodule SearchUserByToken do
+  @moduledoc  """
+  Searches a user by a token from the user's link.
+  Returns object_ptr<User>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | token | string | Token to search for. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_user_by_token.html).
+  """
+
+  defstruct "@type": "searchUserByToken", "@extra": nil, token: nil
+end
+defmodule SetNewChatPrivacySettings do
+  @moduledoc  """
+  Changes privacy settings for new chat creation; can be used only if getOption("can_set_new_chat_privacy_settings").
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | settings | newChatPrivacySettings | New settings. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_new_chat_privacy_settings.html).
+  """
+
+  defstruct "@type": "setNewChatPrivacySettings", "@extra": nil, settings: nil
 end
 defmodule SendCallSignalingData do
   @moduledoc  """
@@ -3488,7 +5366,7 @@ end
 defmodule GetMessageViewers do
   @moduledoc  """
   Returns viewers of a recent outgoing message in a basic group or a supergroup chat. For video notes and voice notes only users, opened content of the message, are returned. The method can be called if message.can_get_viewers == true.
-  Returns object_ptr<Users>.
+  Returns object_ptr<MessageViewers>.
 
   | Name | Type | Description |
   |------|------| ------------|
@@ -3502,7 +5380,7 @@ defmodule GetMessageViewers do
 end
 defmodule GetTopChats do
   @moduledoc  """
-  Returns a list of frequently used chats. Supported only if the chat info database is enabled.
+  Returns a list of frequently used chats.
   Returns object_ptr<Chats>.
 
   | Name | Type | Description |
@@ -3584,6 +5462,20 @@ defmodule GetAccountTtl do
 
   defstruct "@type": "getAccountTtl", "@extra": nil
 end
+defmodule GetBusinessConnection do
+  @moduledoc  """
+  Returns information about a business connection by its identifier; for bots only.
+  Returns object_ptr<BusinessConnection>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | connection_id | string | Identifier of the business connection to return. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_business_connection.html).
+  """
+
+  defstruct "@type": "getBusinessConnection", "@extra": nil, connection_id: nil
+end
 defmodule DeleteFile do
   @moduledoc  """
   Deletes a file from the TDLib file cache.
@@ -3597,6 +5489,32 @@ defmodule DeleteFile do
   """
 
   defstruct "@type": "deleteFile", "@extra": nil, file_id: nil
+end
+defmodule ClearAutosaveSettingsExceptions do
+  @moduledoc  """
+  Clears the list of all autosave settings exceptions. The method is guaranteed to work only after at least one call to getAutosaveSettings.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1clear_autosave_settings_exceptions.html).
+  """
+
+  defstruct "@type": "clearAutosaveSettingsExceptions", "@extra": nil
+end
+defmodule SetPinnedForumTopics do
+  @moduledoc  """
+  Changes the order of pinned forum topics; requires can_manage_topics right in the supergroup.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | message_thread_ids | int53 | The new list of pinned forum topics. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_pinned_forum_topics.html).
+  """
+
+  defstruct "@type": "setPinnedForumTopics", "@extra": nil, chat_id: nil, message_thread_ids: nil
 end
 defmodule ReplacePrimaryChatInviteLink do
   @moduledoc  """
@@ -3628,6 +5546,20 @@ defmodule GetCallbackQueryAnswer do
 
   defstruct "@type": "getCallbackQueryAnswer", "@extra": nil, chat_id: nil, message_id: nil, payload: nil
 end
+defmodule GetCollectibleItemInfo do
+  @moduledoc  """
+  Returns information about a given collectible item that was purchased at https://fragment.com.
+  Returns object_ptr<CollectibleItemInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | type | CollectibleItemType | Type of the collectible item. The item must be used by a user and must be visible to the current user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_collectible_item_info.html).
+  """
+
+  defstruct "@type": "getCollectibleItemInfo", "@extra": nil, type: nil
+end
 defmodule SetProfilePhoto do
   @moduledoc  """
   Changes a profile photo for the current user.
@@ -3636,11 +5568,29 @@ defmodule SetProfilePhoto do
   | Name | Type | Description |
   |------|------| ------------|
   | photo | InputChatPhoto | Profile photo to set. |
+  | is_public | bool | Pass true to set a public photo, which will be visible even the main photo is hidden by privacy settings. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_profile_photo.html).
   """
 
-  defstruct "@type": "setProfilePhoto", "@extra": nil, photo: nil
+  defstruct "@type": "setProfilePhoto", "@extra": nil, photo: nil, is_public: nil
+end
+defmodule SetMessageReactions do
+  @moduledoc  """
+  Sets reactions on a message; for bots only.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat to which the message belongs. |
+  | message_id | int53 | Identifier of the message. |
+  | reaction_types | ReactionType | Types of the reaction to set. |
+  | is_big | bool | Pass true if the reactions are added with a big animation. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_message_reactions.html).
+  """
+
+  defstruct "@type": "setMessageReactions", "@extra": nil, chat_id: nil, message_id: nil, reaction_types: nil, is_big: nil
 end
 defmodule SendChatAction do
   @moduledoc  """
@@ -3650,13 +5600,14 @@ defmodule SendChatAction do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
-  | message_thread_id | int53 | If not 0, a message thread identifier in which the action was performed. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the action was performed. |
+  | business_connection_id | string | Unique identifier of business connection on behalf of which to send the request; for bots only. |
   | action | ChatAction | The action description; pass null to cancel the currently active action. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_chat_action.html).
   """
 
-  defstruct "@type": "sendChatAction", "@extra": nil, chat_id: nil, message_thread_id: nil, action: nil
+  defstruct "@type": "sendChatAction", "@extra": nil, chat_id: nil, message_thread_id: nil, business_connection_id: nil, action: nil
 end
 defmodule SendCallLog do
   @moduledoc  """
@@ -3673,6 +5624,20 @@ defmodule SendCallLog do
 
   defstruct "@type": "sendCallLog", "@extra": nil, call_id: nil, log_file: nil
 end
+defmodule DeleteBusinessChatLink do
+  @moduledoc  """
+  Deletes a business chat link of the current account.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | link | string | The link to delete. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_business_chat_link.html).
+  """
+
+  defstruct "@type": "deleteBusinessChatLink", "@extra": nil, link: nil
+end
 defmodule EditInlineMessageCaption do
   @moduledoc  """
   Edits the caption of an inline message sent via a bot; for bots only.
@@ -3682,12 +5647,13 @@ defmodule EditInlineMessageCaption do
   |------|------| ------------|
   | inline_message_id | string | Inline message identifier. |
   | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
-  | caption | formattedText | New message content caption; pass null to remove caption; 0-GetOption("message_caption_length_max") characters. |
+  | caption | formattedText | New message content caption; pass null to remove caption; 0-<a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("message_caption_length_max") characters. |
+  | show_caption_above_media | bool | Pass true to show the caption above the media; otherwise, caption will be shown below the media. Can be true only for animation, photo, and video messages. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_inline_message_caption.html).
   """
 
-  defstruct "@type": "editInlineMessageCaption", "@extra": nil, inline_message_id: nil, reply_markup: nil, caption: nil
+  defstruct "@type": "editInlineMessageCaption", "@extra": nil, inline_message_id: nil, reply_markup: nil, caption: nil, show_caption_above_media: nil
 end
 defmodule GetUser do
   @moduledoc  """
@@ -3703,16 +5669,36 @@ defmodule GetUser do
 
   defstruct "@type": "getUser", "@extra": nil, user_id: nil
 end
-defmodule ResetBackgrounds do
+defmodule SetChatPinnedStories do
   @moduledoc  """
-  Resets list of installed backgrounds to its default value.
+  Changes the list of pinned stories on a chat page; requires can_edit_stories right in the chat.
   Returns object_ptr<Ok>.
 
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat that posted the stories. |
+  | story_ids | int32 | New list of pinned stories. All stories must be posted to the chat page first. There can be up to <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("pinned_story_count_max") pinned stories on a chat page. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reset_backgrounds.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_pinned_stories.html).
   """
 
-  defstruct "@type": "resetBackgrounds", "@extra": nil
+  defstruct "@type": "setChatPinnedStories", "@extra": nil, chat_id: nil, story_ids: nil
+end
+defmodule SendWebAppCustomRequest do
+  @moduledoc  """
+  Sends a custom request from a Web App.
+  Returns object_ptr<CustomRequestResult>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the bot. |
+  | method | string | The method name. |
+  | parameters | string | JSON-serialized method parameters. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_web_app_custom_request.html).
+  """
+
+  defstruct "@type": "sendWebAppCustomRequest", "@extra": nil, bot_user_id: nil, method: nil, parameters: nil
 end
 defmodule ViewPremiumFeature do
   @moduledoc  """
@@ -3728,20 +5714,64 @@ defmodule ViewPremiumFeature do
 
   defstruct "@type": "viewPremiumFeature", "@extra": nil, feature: nil
 end
-defmodule SendPhoneNumberVerificationCode do
+defmodule SetMessageFactCheck do
   @moduledoc  """
-  Sends a code to verify a phone number to be added to a user's Telegram Passport.
-  Returns object_ptr<AuthenticationCodeInfo>.
+  Changes the fact-check of a message. Can be only used if getOption("can_edit_fact_check") == true.
+  Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | phone_number | string | The phone number of the user, in international format. |
-  | settings | phoneNumberAuthenticationSettings | Settings for the authentication of the user's phone number; pass null to use default settings. |
+  | chat_id | int53 | The channel chat the message belongs to. |
+  | message_id | int53 | Identifier of the message. The message must be one of the following types: <a class="el" href="classtd_1_1td__api_1_1message_animation.html">messageAnimation</a>, <a class="el" href="classtd_1_1td__api_1_1message_audio.html">messageAudio</a>, <a class="el" href="classtd_1_1td__api_1_1message_document.html">messageDocument</a>, <a class="el" href="classtd_1_1td__api_1_1message_photo.html">messagePhoto</a>, <a class="el" href="classtd_1_1td__api_1_1message_text.html">messageText</a>, <a class="el" href="classtd_1_1td__api_1_1message_video.html">messageVideo</a>. |
+  | text | formattedText | New text of the fact-check; 0-<a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("fact_check_length_max") characters; pass null to remove it. Only Bold, Italic, and TextUrl entities with <a href="https://t.me/">https://t.me/</a> links are supported. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_phone_number_verification_code.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_message_fact_check.html).
   """
 
-  defstruct "@type": "sendPhoneNumberVerificationCode", "@extra": nil, phone_number: nil, settings: nil
+  defstruct "@type": "setMessageFactCheck", "@extra": nil, chat_id: nil, message_id: nil, text: nil
+end
+defmodule AddQuickReplyShortcutMessage do
+  @moduledoc  """
+  Adds a message to a quick reply shortcut. If shortcut doesn't exist and there are less than getOption("quick_reply_shortcut_count_max") shortcuts, then a new shortcut is created. The shortcut must not contain more than getOption("quick_reply_shortcut_message_count_max") messages after adding the new message. Returns the added message.
+  Returns object_ptr<QuickReplyMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_name | string | Name of the target shortcut. |
+  | reply_to_message_id | int53 | Identifier of a quick reply message in the same shortcut to be replied; pass 0 if none. |
+  | input_message_content | InputMessageContent | The content of the message to be added; <a class="el" href="classtd_1_1td__api_1_1input_message_poll.html">inputMessagePoll</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_forwarded.html">inputMessageForwarded</a> and <a class="el" href="classtd_1_1td__api_1_1input_message_location.html">inputMessageLocation</a> with live_period aren't supported. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_quick_reply_shortcut_message.html).
+  """
+
+  defstruct "@type": "addQuickReplyShortcutMessage", "@extra": nil, shortcut_name: nil, reply_to_message_id: nil, input_message_content: nil
+end
+defmodule CreateForumTopic do
+  @moduledoc  """
+  Creates a topic in a forum supergroup chat; requires can_manage_topics administrator or can_create_topics member right in the supergroup.
+  Returns object_ptr<ForumTopicInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | name | string | Name of the topic; 1-128 characters. |
+  | icon | forumTopicIcon | Icon of the topic. Icon color must be one of 0x6FB9F0, 0xFFD67E, 0xCB86DB, 0x8EEE98, 0xFF93B2, or 0xFB6F5F. Telegram Premium users can use any custom emoji as topic icon, other users can use only a custom emoji returned by <a class="el" href="classtd_1_1td__api_1_1get_forum_topic_default_icons.html">getForumTopicDefaultIcons</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_forum_topic.html).
+  """
+
+  defstruct "@type": "createForumTopic", "@extra": nil, chat_id: nil, name: nil, icon: nil
+end
+defmodule GetRecommendedChatFolders do
+  @moduledoc  """
+  Returns recommended chat folders for the current user.
+  Returns object_ptr<RecommendedChatFolders>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_recommended_chat_folders.html).
+  """
+
+  defstruct "@type": "getRecommendedChatFolders", "@extra": nil
 end
 defmodule SetChatMessageSender do
   @moduledoc  """
@@ -3758,17 +5788,31 @@ defmodule SetChatMessageSender do
 
   defstruct "@type": "setChatMessageSender", "@extra": nil, chat_id: nil, message_sender_id: nil
 end
+defmodule GetEmojiCategories do
+  @moduledoc  """
+  Returns available emoji categories.
+  Returns object_ptr<EmojiCategories>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | type | EmojiCategoryType | Type of emoji categories to return; pass null to get default emoji categories. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_emoji_categories.html).
+  """
+
+  defstruct "@type": "getEmojiCategories", "@extra": nil, type: nil
+end
 defmodule GetMessagePublicForwards do
   @moduledoc  """
-  Returns forwarded copies of a channel message to different public channels. For optimal performance, the number of returned messages is chosen by TDLib.
-  Returns object_ptr<FoundMessages>.
+  Returns forwarded copies of a channel message to different public channels and public reposts as a story. Can be used only if message.can_get_statistics == true. For optimal performance, the number of returned messages and stories is chosen by TDLib.
+  Returns object_ptr<PublicForwards>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Chat identifier of the message. |
   | message_id | int53 | Message identifier. |
   | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
-  | limit | int32 | The maximum number of messages to be returned; must be positive and can't be greater than 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
+  | limit | int32 | The maximum number of messages and stories to be returned; must be positive and can't be greater than 100. For optimal performance, the number of returned objects is chosen by TDLib and can be smaller than the specified limit. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_public_forwards.html).
   """
@@ -3789,6 +5833,22 @@ defmodule ParseMarkdown do
 
   defstruct "@type": "parseMarkdown", "@extra": nil, text: nil
 end
+defmodule SearchQuote do
+  @moduledoc  """
+  Searches for a given quote in a text. Returns found quote start position in UTF-16 code units. Returns a 404 error if the quote is not found. Can be called synchronously.
+  Returns object_ptr<FoundPosition>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | text | formattedText | Text in which to search for the quote. |
+  | quote | formattedText | Quote to search for. |
+  | quote_position | int32 | Approximate quote position in UTF-16 code units. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_quote.html).
+  """
+
+  defstruct "@type": "searchQuote", "@extra": nil, text: nil, quote: nil, quote_position: nil
+end
 defmodule EditProxy do
   @moduledoc  """
   Edits an existing proxy server for network requests. Can be called before authorization.
@@ -3797,7 +5857,7 @@ defmodule EditProxy do
   | Name | Type | Description |
   |------|------| ------------|
   | proxy_id | int32 | Proxy identifier. |
-  | server | string | Proxy server IP address. |
+  | server | string | Proxy server domain or IP address. |
   | port | int32 | Proxy server port. |
   | enable | bool | Pass true to immediately enable the proxy. |
   | type | ProxyType | Proxy type. |
@@ -3814,7 +5874,7 @@ defmodule SetChatDiscussionGroup do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Identifier of the channel chat. Pass 0 to remove a link from the supergroup passed in the second argument to a linked channel chat (requires can_pin_messages rights in the supergroup). |
+  | chat_id | int53 | Identifier of the channel chat. Pass 0 to remove a link from the supergroup passed in the second argument to a linked channel chat (requires can_pin_messages member right in the supergroup). |
   | discussion_chat_id | int53 | Identifier of a new channel's discussion group. Use 0 to remove the discussion group. Use the method <a class="el" href="classtd_1_1td__api_1_1get_suitable_discussion_chats.html">getSuitableDiscussionChats</a> to find all suitable groups. Basic group chats must be first upgraded to supergroup chats. If new chat members don't have access to old messages in the supergroup, then <a class="el" href="classtd_1_1td__api_1_1toggle_supergroup_is_all_history_available.html">toggleSupergroupIsAllHistoryAvailable</a> must be used first to change that. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_discussion_group.html).
@@ -3840,38 +5900,40 @@ defmodule EditInlineMessageText do
 end
 defmodule SetSupergroupUsername do
   @moduledoc  """
-  Changes the username of a supergroup or channel, requires owner privileges in the supergroup or channel.
+  Changes the editable username of a supergroup or channel, requires owner privileges in the supergroup or channel.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | supergroup_id | int53 | Identifier of the supergroup or channel. |
-  | username | string | New value of the username. Use an empty string to remove the username. |
+  | username | string | New value of the username. Use an empty string to remove the username. The username can't be completely removed if there is another active or disabled username. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_supergroup_username.html).
   """
 
   defstruct "@type": "setSupergroupUsername", "@extra": nil, supergroup_id: nil, username: nil
 end
-defmodule EditChatFilter do
+defmodule StopBusinessPoll do
   @moduledoc  """
-  Edits existing chat filter. Returns information about the edited chat filter.
-  Returns object_ptr<ChatFilterInfo>.
+  Stops a poll sent on behalf of a business account; for bots only.
+  Returns object_ptr<BusinessMessage>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_filter_id | int32 | Chat filter identifier. |
-  | filter | chatFilter | The edited chat filter. |
+  | business_connection_id | string | Unique identifier of business connection on behalf of which the message with the poll was sent. |
+  | chat_id | int53 | The chat the message belongs to. |
+  | message_id | int53 | Identifier of the message containing the poll. |
+  | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_chat_filter.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1stop_business_poll.html).
   """
 
-  defstruct "@type": "editChatFilter", "@extra": nil, chat_filter_id: nil, filter: nil
+  defstruct "@type": "stopBusinessPoll", "@extra": nil, business_connection_id: nil, chat_id: nil, message_id: nil, reply_markup: nil
 end
 defmodule GetChatAvailableMessageSenders do
   @moduledoc  """
-  Returns list of message sender identifiers, which can be used to send messages in a chat.
-  Returns object_ptr<MessageSenders>.
+  Returns the list of message sender identifiers, which can be used to send messages in a chat.
+  Returns object_ptr<ChatMessageSenders>.
 
   | Name | Type | Description |
   |------|------| ------------|
@@ -3907,6 +5969,20 @@ defmodule EndGroupCall do
 
   defstruct "@type": "endGroupCall", "@extra": nil, group_call_id: nil
 end
+defmodule GetChatFolderDefaultIconName do
+  @moduledoc  """
+  Returns default icon name for a folder. Can be called synchronously.
+  Returns object_ptr<ChatFolderIcon>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | folder | chatFolder | Chat folder. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_folder_default_icon_name.html).
+  """
+
+  defstruct "@type": "getChatFolderDefaultIconName", "@extra": nil, folder: nil
+end
 defmodule GetSuggestedFileName do
   @moduledoc  """
   Returns suggested name for saving a file in a given directory.
@@ -3922,9 +5998,25 @@ defmodule GetSuggestedFileName do
 
   defstruct "@type": "getSuggestedFileName", "@extra": nil, file_id: nil, directory: nil
 end
+defmodule SetBotName do
+  @moduledoc  """
+  Sets the name of a bot. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | language_code | string | A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose languages there is no dedicated name. |
+  | name | string | New bot's name on the specified language; 0-64 characters; must be non-empty if language code is empty. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_bot_name.html).
+  """
+
+  defstruct "@type": "setBotName", "@extra": nil, bot_user_id: nil, language_code: nil, name: nil
+end
 defmodule GetVideoChatRtmpUrl do
   @moduledoc  """
-  Returns RTMP URL for streaming to the chat; requires creator privileges.
+  Returns RTMP URL for streaming to the chat; requires owner privileges.
   Returns object_ptr<RtmpUrl>.
 
   | Name | Type | Description |
@@ -3935,6 +6027,64 @@ defmodule GetVideoChatRtmpUrl do
   """
 
   defstruct "@type": "getVideoChatRtmpUrl", "@extra": nil, chat_id: nil
+end
+defmodule GetInstalledBackgrounds do
+  @moduledoc  """
+  Returns backgrounds installed by the user.
+  Returns object_ptr<Backgrounds>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | for_dark_theme | bool | Pass true to order returned backgrounds for a dark theme. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_installed_backgrounds.html).
+  """
+
+  defstruct "@type": "getInstalledBackgrounds", "@extra": nil, for_dark_theme: nil
+end
+defmodule SetReactionNotificationSettings do
+  @moduledoc  """
+  Changes notification settings for reactions.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | notification_settings | reactionNotificationSettings | The new notification settings for reactions. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_reaction_notification_settings.html).
+  """
+
+  defstruct "@type": "setReactionNotificationSettings", "@extra": nil, notification_settings: nil
+end
+defmodule SendQuickReplyShortcutMessages do
+  @moduledoc  """
+  Sends messages from a quick reply shortcut. Requires Telegram Business subscription.
+  Returns object_ptr<Messages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat to which to send messages. The chat must be a private chat with a regular user. |
+  | shortcut_id | int32 | Unique identifier of the quick reply shortcut. |
+  | sending_id | int32 | Non-persistent identifier, which will be returned back in <a class="el" href="classtd_1_1td__api_1_1message_sending_state_pending.html">messageSendingStatePending</a> object and can be used to match sent messages and corresponding <a class="el" href="classtd_1_1td__api_1_1update_new_message.html">updateNewMessage</a> updates. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_quick_reply_shortcut_messages.html).
+  """
+
+  defstruct "@type": "sendQuickReplyShortcutMessages", "@extra": nil, chat_id: nil, shortcut_id: nil, sending_id: nil
+end
+defmodule RemoveSearchedForTag do
+  @moduledoc  """
+  Removes a hashtag or a cashtag from the list of recently searched for hashtags or cashtags.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | tag | string | Hashtag or cashtag to delete. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1remove_searched_for_tag.html).
+  """
+
+  defstruct "@type": "removeSearchedForTag", "@extra": nil, tag: nil
 end
 defmodule SetPinnedChats do
   @moduledoc  """
@@ -3951,6 +6101,25 @@ defmodule SetPinnedChats do
 
   defstruct "@type": "setPinnedChats", "@extra": nil, chat_list: nil, chat_ids: nil
 end
+defmodule GetChatStoryInteractions do
+  @moduledoc  """
+  Returns interactions with a story posted in a chat. Can be used only if story is posted on behalf of a chat and the user is an administrator in the chat.
+  Returns object_ptr<StoryInteractions>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | The identifier of the sender of the story. |
+  | story_id | int32 | Story identifier. |
+  | reaction_type | ReactionType | Pass the default heart reaction or a suggested reaction type to receive only interactions with the specified reaction type; pass null to receive all interactions. |
+  | prefer_forwards | bool | Pass true to get forwards and reposts first, then reactions, then other views; pass false to get interactions sorted just by interaction date. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of story interactions to return. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_story_interactions.html).
+  """
+
+  defstruct "@type": "getChatStoryInteractions", "@extra": nil, story_sender_chat_id: nil, story_id: nil, reaction_type: nil, prefer_forwards: nil, offset: nil, limit: nil
+end
 defmodule GetApplicationDownloadLink do
   @moduledoc  """
   Returns the link for downloading official Telegram application to be used when the current user invites friends to Telegram.
@@ -3964,35 +6133,34 @@ defmodule GetApplicationDownloadLink do
 end
 defmodule SearchCallMessages do
   @moduledoc  """
-  Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib.
-  Returns object_ptr<Messages>.
+  Searches for call messages. Returns the results in reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib.
+  Returns object_ptr<FoundMessages>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | from_message_id | int53 | Identifier of the message from which to search; use 0 to get results from the last message. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
   | limit | int32 | The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
   | only_missed | bool | Pass true to search only for messages with missed/declined calls. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_call_messages.html).
   """
 
-  defstruct "@type": "searchCallMessages", "@extra": nil, from_message_id: nil, limit: nil, only_missed: nil
+  defstruct "@type": "searchCallMessages", "@extra": nil, offset: nil, limit: nil, only_missed: nil
 end
 defmodule SearchEmojis do
   @moduledoc  """
-  Searches for emojis by keywords. Supported only if the file database is enabled.
-  Returns object_ptr<Emojis>.
+  Searches for emojis by keywords. Supported only if the file database is enabled. Order of results is unspecified.
+  Returns object_ptr<EmojiKeywords>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | text | string | Text to search for. |
-  | exact_match | bool | Pass true if only emojis, which exactly match the text, needs to be returned. |
   | input_language_codes | string | List of possible IETF language tags of the user's input language; may be empty if unknown. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_emojis.html).
   """
 
-  defstruct "@type": "searchEmojis", "@extra": nil, text: nil, exact_match: nil, input_language_codes: nil
+  defstruct "@type": "searchEmojis", "@extra": nil, text: nil, input_language_codes: nil
 end
 defmodule GetMarkdownText do
   @moduledoc  """
@@ -4008,9 +6176,20 @@ defmodule GetMarkdownText do
 
   defstruct "@type": "getMarkdownText", "@extra": nil, text: nil
 end
+defmodule ResetInstalledBackgrounds do
+  @moduledoc  """
+  Resets list of installed backgrounds to its default value.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reset_installed_backgrounds.html).
+  """
+
+  defstruct "@type": "resetInstalledBackgrounds", "@extra": nil
+end
 defmodule GetChatEventLog do
   @moduledoc  """
-  Returns a list of service actions taken by chat members and administrators in the last 48 hours. Available only for supergroups and channels. Requires administrator rights. Returns results in reverse chronological order (i. e., in order of decreasing event_id).
+  Returns a list of service actions taken by chat members and administrators in the last 48 hours. Available only for supergroups and channels. Requires administrator rights. Returns results in reverse chronological order (i.e., in order of decreasing event_id).
   Returns object_ptr<ChatEvents>.
 
   | Name | Type | Description |
@@ -4064,24 +6243,9 @@ defmodule AnswerWebAppQuery do
 
   defstruct "@type": "answerWebAppQuery", "@extra": nil, web_app_query_id: nil, result: nil
 end
-defmodule ChangePhoneNumber do
-  @moduledoc  """
-  Changes the phone number of the user and sends an authentication code to the user's new phone number. On success, returns information about the sent code.
-  Returns object_ptr<AuthenticationCodeInfo>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | phone_number | string | The new phone number of the user in international format. |
-  | settings | phoneNumberAuthenticationSettings | Settings for the authentication of the user's phone number; pass null to use default settings. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1change_phone_number.html).
-  """
-
-  defstruct "@type": "changePhoneNumber", "@extra": nil, phone_number: nil, settings: nil
-end
 defmodule SendBotStartMessage do
   @moduledoc  """
-  Invites a bot to a chat (if it is not yet a member) and sends it the /start command. Bots can't be invited to a private chat other than the chat with the bot. Bots can't be invited to channels (although they can be added as admins) and secret chats. Returns the sent message.
+  Invites a bot to a chat (if it is not yet a member) and sends it the /start command; requires can_invite_users member right. Bots can't be invited to a private chat other than the chat with the bot. Bots can't be invited to channels (although they can be added as admins) and secret chats. Returns the sent message.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
@@ -4105,6 +6269,17 @@ defmodule ClearImportedContacts do
   """
 
   defstruct "@type": "clearImportedContacts", "@extra": nil
+end
+defmodule GetDefaultChatPhotoCustomEmojiStickers do
+  @moduledoc  """
+  Returns default list of custom emoji stickers for placing on a chat photo.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_default_chat_photo_custom_emoji_stickers.html).
+  """
+
+  defstruct "@type": "getDefaultChatPhotoCustomEmojiStickers", "@extra": nil
 end
 defmodule RemoveContacts do
   @moduledoc  """
@@ -4136,19 +6311,48 @@ defmodule ValidateOrderInfo do
 
   defstruct "@type": "validateOrderInfo", "@extra": nil, input_invoice: nil, order_info: nil, allow_save: nil
 end
-defmodule AssignGooglePlayTransaction do
+defmodule GetCloseFriends do
   @moduledoc  """
-  Informs server about a Telegram Premium purchase through Google Play. For official applications only.
+  Returns all close friends of the current user.
+  Returns object_ptr<Users>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_close_friends.html).
+  """
+
+  defstruct "@type": "getCloseFriends", "@extra": nil
+end
+defmodule SetStickerEmojis do
+  @moduledoc  """
+  Changes the list of emojis corresponding to a sticker. The sticker must belong to a regular or custom emoji sticker set that is owned by the current user.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
+  | sticker | InputFile | Sticker. |
+  | emojis | string | New string with 1-20 emoji corresponding to the sticker. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_sticker_emojis.html).
+  """
+
+  defstruct "@type": "setStickerEmojis", "@extra": nil, sticker: nil, emojis: nil
+end
+defmodule AssignGooglePlayTransaction do
+  @moduledoc  """
+  Informs server about a purchase through Google Play. For official applications only.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | package_name | string | Application package name. |
+  | store_product_id | string | Identifier of the purchased store product. |
   | purchase_token | string | Google Play purchase token. |
+  | purpose | StorePaymentPurpose | Transaction purpose. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1assign_google_play_transaction.html).
   """
 
-  defstruct "@type": "assignGooglePlayTransaction", "@extra": nil, purchase_token: nil
+  defstruct "@type": "assignGooglePlayTransaction", "@extra": nil, package_name: nil, store_product_id: nil, purchase_token: nil, purpose: nil
 end
 defmodule CreateSupergroupChat do
   @moduledoc  """
@@ -4165,6 +6369,36 @@ defmodule CreateSupergroupChat do
 
   defstruct "@type": "createSupergroupChat", "@extra": nil, supergroup_id: nil, force: nil
 end
+defmodule ToggleSupergroupIsForum do
+  @moduledoc  """
+  Toggles whether the supergroup is a forum; requires owner privileges in the supergroup. Discussion supergroups can't be converted to forums.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup. |
+  | is_forum | bool | New value of is_forum. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_is_forum.html).
+  """
+
+  defstruct "@type": "toggleSupergroupIsForum", "@extra": nil, supergroup_id: nil, is_forum: nil
+end
+defmodule OpenStory do
+  @moduledoc  """
+  Informs TDLib that a story is opened and is being viewed by the user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | The identifier of the sender of the opened story. |
+  | story_id | int32 | The identifier of the story. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1open_story.html).
+  """
+
+  defstruct "@type": "openStory", "@extra": nil, story_sender_chat_id: nil, story_id: nil
+end
 defmodule GetChatMessageCalendar do
   @moduledoc  """
   Returns information about the next messages of the specified type in the chat split by days. Returns the results in reverse chronological order. Can return partial result for the last returned day. Behavior of this method depends on the value of the option "utc_time_offset".
@@ -4175,11 +6409,12 @@ defmodule GetChatMessageCalendar do
   | chat_id | int53 | Identifier of the chat in which to return information about messages. |
   | filter | SearchMessagesFilter | Filter for message content. Filters <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_empty.html">searchMessagesFilterEmpty</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_mention.html">searchMessagesFilterMention</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_mention.html">searchMessagesFilterUnreadMention</a>, and <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_reaction.html">searchMessagesFilterUnreadReaction</a> are unsupported in this function. |
   | from_message_id | int53 | The message identifier from which to return information about messages; use 0 to get results from the last message. |
+  | saved_messages_topic_id | int53 | If not0, only messages in the specified Saved Messages topic will be considered; pass 0 to consider all messages, or for chats other than Saved Messages. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_message_calendar.html).
   """
 
-  defstruct "@type": "getChatMessageCalendar", "@extra": nil, chat_id: nil, filter: nil, from_message_id: nil
+  defstruct "@type": "getChatMessageCalendar", "@extra": nil, chat_id: nil, filter: nil, from_message_id: nil, saved_messages_topic_id: nil
 end
 defmodule SetDefaultChannelAdministratorRights do
   @moduledoc  """
@@ -4188,7 +6423,7 @@ defmodule SetDefaultChannelAdministratorRights do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | default_channel_administrator_rights | chatAdministratorRights | Default administrator rights for adding the bot to channels; may be null. |
+  | default_channel_administrator_rights | chatAdministratorRights | Default administrator rights for adding the bot to channels; pass null to remove default rights. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_default_channel_administrator_rights.html).
   """
@@ -4248,7 +6483,7 @@ defmodule GetFavoriteStickers do
 end
 defmodule RecognizeSpeech do
   @moduledoc  """
-  Recognizes speech in a voice note message. The message must be successfully sent and must not be scheduled. May return an error with a message "MSG_VOICE_TOO_LONG" if the voice note is too long to be recognized.
+  Recognizes speech in a video note or a voice note message. The message must be successfully sent, must not be scheduled, and must be from a non-secret chat.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4327,18 +6562,19 @@ defmodule CanTransferOwnership do
 end
 defmodule SearchStickers do
   @moduledoc  """
-  Searches for stickers from public sticker sets that correspond to a given emoji.
+  Searches for stickers from public sticker sets that correspond to any of the given emoji.
   Returns object_ptr<Stickers>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | emoji | string | String representation of emoji; must be non-empty. |
-  | limit | int32 | The maximum number of stickers to be returned. |
+  | sticker_type | StickerType | Type of the stickers to return. |
+  | emojis | string | Space-separated list of emojis to search for; must be non-empty. |
+  | limit | int32 | The maximum number of stickers to be returned; 0-100. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_stickers.html).
   """
 
-  defstruct "@type": "searchStickers", "@extra": nil, emoji: nil, limit: nil
+  defstruct "@type": "searchStickers", "@extra": nil, sticker_type: nil, emojis: nil, limit: nil
 end
 defmodule GetGroupCallStreams do
   @moduledoc  """
@@ -4354,21 +6590,33 @@ defmodule GetGroupCallStreams do
 
   defstruct "@type": "getGroupCallStreams", "@extra": nil, group_call_id: nil
 end
-defmodule UploadFile do
+defmodule GetStoryAvailableReactions do
   @moduledoc  """
-  Asynchronously uploads a file to the cloud without sending it in a message. updateFile will be used to notify about upload progress and successful completion of the upload. The file will not have a persistent remote identifier until it will be sent in a message.
-  Returns object_ptr<File>.
+  Returns reactions, which can be chosen for a story.
+  Returns object_ptr<AvailableReactions>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | file | InputFile | File to upload. |
-  | file_type | FileType | File type; pass null if unknown. |
-  | priority | int32 | Priority of the upload (1-32). The higher the priority, the earlier the file will be uploaded. If the priorities of two files are equal, then the first one for which <a class="el" href="classtd_1_1td__api_1_1upload_file.html">uploadFile</a> was called will be uploaded first. |
+  | row_size | int32 | Number of reaction per row, 5-25. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1upload_file.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_story_available_reactions.html).
   """
 
-  defstruct "@type": "uploadFile", "@extra": nil, file: nil, file_type: nil, priority: nil
+  defstruct "@type": "getStoryAvailableReactions", "@extra": nil, row_size: nil
+end
+defmodule CheckAuthenticationEmailCode do
+  @moduledoc  """
+  Checks the authentication of an email address. Works only when the current authorization state is authorizationStateWaitEmailCode.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | code | EmailAddressAuthentication | Email address authentication to check. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_authentication_email_code.html).
+  """
+
+  defstruct "@type": "checkAuthenticationEmailCode", "@extra": nil, code: nil
 end
 defmodule GetBlockedMessageSenders do
   @moduledoc  """
@@ -4377,17 +6625,18 @@ defmodule GetBlockedMessageSenders do
 
   | Name | Type | Description |
   |------|------| ------------|
+  | block_list | BlockList | Block list from which to return users. |
   | offset | int32 | Number of users and chats to skip in the result; must be non-negative. |
   | limit | int32 | The maximum number of users and chats to return; up to 100. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_blocked_message_senders.html).
   """
 
-  defstruct "@type": "getBlockedMessageSenders", "@extra": nil, offset: nil, limit: nil
+  defstruct "@type": "getBlockedMessageSenders", "@extra": nil, block_list: nil, offset: nil, limit: nil
 end
 defmodule SetLocation do
   @moduledoc  """
-  Changes the location of the current user. Needs to be called if GetOption("is_location_visible") is true and location changes for more than 1 kilometer.
+  Changes the location of the current user. Needs to be called if getOption("is_location_visible") is true and location changes for more than 1 kilometer. Must not be called if the user has a business location.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4398,6 +6647,20 @@ defmodule SetLocation do
   """
 
   defstruct "@type": "setLocation", "@extra": nil, location: nil
+end
+defmodule DeleteBusinessConnectedBot do
+  @moduledoc  """
+  Deletes the business bot that is connected to the current user account.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Unique user identifier for the bot. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_business_connected_bot.html).
+  """
+
+  defstruct "@type": "deleteBusinessConnectedBot", "@extra": nil, bot_user_id: nil
 end
 defmodule SetVideoChatDefaultParticipant do
   @moduledoc  """
@@ -4432,7 +6695,7 @@ defmodule SetGroupCallParticipantIsSpeaking do
 end
 defmodule CheckAuthenticationPasswordRecoveryCode do
   @moduledoc  """
-  Checks whether a password recovery code sent to an email address is valid. Works only when the current authorization state is authorizationStateWaitPassword.
+  Checks whether a 2-step verification password recovery code sent to an email address is valid. Works only when the current authorization state is authorizationStateWaitPassword.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4443,6 +6706,21 @@ defmodule CheckAuthenticationPasswordRecoveryCode do
   """
 
   defstruct "@type": "checkAuthenticationPasswordRecoveryCode", "@extra": nil, recovery_code: nil
+end
+defmodule GetChatRevenueStatistics do
+  @moduledoc  """
+  Returns detailed revenue statistics about a chat. Currently, this method can be used only for channels if supergroupFullInfo.can_get_revenue_statistics == true.
+  Returns object_ptr<ChatRevenueStatistics>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | is_dark | bool | Pass true if a dark theme is used by the application. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_revenue_statistics.html).
+  """
+
+  defstruct "@type": "getChatRevenueStatistics", "@extra": nil, chat_id: nil, is_dark: nil
 end
 defmodule CreateCall do
   @moduledoc  """
@@ -4504,6 +6782,20 @@ defmodule GetAnimatedEmoji do
 
   defstruct "@type": "getAnimatedEmoji", "@extra": nil, emoji: nil
 end
+defmodule ReportAuthenticationCodeMissing do
+  @moduledoc  """
+  Reports that authentication code wasn't delivered via SMS; for official mobile applications only. Works only when the current authorization state is authorizationStateWaitCode.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | mobile_network_code | string | Current mobile network code. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_authentication_code_missing.html).
+  """
+
+  defstruct "@type": "reportAuthenticationCodeMissing", "@extra": nil, mobile_network_code: nil
+end
 defmodule TestSquareInt do
   @moduledoc  """
   Returns the squared received number; for testing only. This is an offline method. Can be called before authorization.
@@ -4518,6 +6810,21 @@ defmodule TestSquareInt do
 
   defstruct "@type": "testSquareInt", "@extra": nil, x: nil
 end
+defmodule ToggleSupergroupHasHiddenMembers do
+  @moduledoc  """
+  Toggles whether non-administrators can receive only administrators and bots using getSupergroupMembers or searchChatMembers. Can be called only if supergroupFullInfo.can_hide_members == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup. |
+  | has_hidden_members | bool | New value of has_hidden_members. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_has_hidden_members.html).
+  """
+
+  defstruct "@type": "toggleSupergroupHasHiddenMembers", "@extra": nil, supergroup_id: nil, has_hidden_members: nil
+end
 defmodule GetPassportAuthorizationFormAvailableElements do
   @moduledoc  """
   Returns already available Telegram Passport elements suitable for completing a Telegram Passport authorization form. Result can be received only once for each authorization form.
@@ -4525,17 +6832,17 @@ defmodule GetPassportAuthorizationFormAvailableElements do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | autorization_form_id | int32 | Authorization form identifier. |
-  | password | string | Password of the current user. |
+  | authorization_form_id | int32 | Authorization form identifier. |
+  | password | string | The 2-step verification password of the current user. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_passport_authorization_form_available_elements.html).
   """
 
-  defstruct "@type": "getPassportAuthorizationFormAvailableElements", "@extra": nil, autorization_form_id: nil, password: nil
+  defstruct "@type": "getPassportAuthorizationFormAvailableElements", "@extra": nil, authorization_form_id: nil, password: nil
 end
 defmodule ToggleSupergroupSignMessages do
   @moduledoc  """
-  Toggles whether sender signature is added to sent messages in a channel; requires can_change_info administrator right.
+  Toggles whether sender signature is added to sent messages in a channel; requires can_change_info member right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4555,7 +6862,7 @@ defmodule ToggleSupergroupJoinToSendMessages do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | supergroup_id | int53 | Identifier of the supergroup. |
+  | supergroup_id | int53 | Identifier of the supergroup that isn't a broadcast group. |
   | join_to_send_messages | bool | New value of join_to_send_messages. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_join_to_send_messages.html).
@@ -4565,7 +6872,7 @@ defmodule ToggleSupergroupJoinToSendMessages do
 end
 defmodule ToggleGroupCallEnabledStartNotification do
   @moduledoc  """
-  Toggles whether the current user will receive a notification when the group call will start; scheduled group calls only.
+  Toggles whether the current user will receive a notification when the group call starts; scheduled group calls only.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4577,6 +6884,22 @@ defmodule ToggleGroupCallEnabledStartNotification do
   """
 
   defstruct "@type": "toggleGroupCallEnabledStartNotification", "@extra": nil, group_call_id: nil, enabled_start_notification: nil
+end
+defmodule SetForumTopicNotificationSettings do
+  @moduledoc  """
+  Changes the notification settings of a forum topic.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+  | notification_settings | chatNotificationSettings | New notification settings for the forum topic. If the topic is muted for more than 366 days, it is considered to be muted forever. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_forum_topic_notification_settings.html).
+  """
+
+  defstruct "@type": "setForumTopicNotificationSettings", "@extra": nil, chat_id: nil, message_thread_id: nil, notification_settings: nil
 end
 defmodule ToggleDownloadIsPaused do
   @moduledoc  """
@@ -4592,6 +6915,47 @@ defmodule ToggleDownloadIsPaused do
   """
 
   defstruct "@type": "toggleDownloadIsPaused", "@extra": nil, file_id: nil, is_paused: nil
+end
+defmodule GetUserChatBoosts do
+  @moduledoc  """
+  Returns the list of boosts applied to a chat by a given user; requires administrator rights in the chat; for bots only.
+  Returns object_ptr<FoundChatBoosts>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | user_id | int53 | Identifier of the user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_user_chat_boosts.html).
+  """
+
+  defstruct "@type": "getUserChatBoosts", "@extra": nil, chat_id: nil, user_id: nil
+end
+defmodule GetAvailableChatBoostSlots do
+  @moduledoc  """
+  Returns the list of available chat boost slots for the current user.
+  Returns object_ptr<ChatBoostSlots>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_available_chat_boost_slots.html).
+  """
+
+  defstruct "@type": "getAvailableChatBoostSlots", "@extra": nil
+end
+defmodule SetChatActiveStoriesList do
+  @moduledoc  """
+  Changes story list in which stories from the chat are shown.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat that posted stories. |
+  | story_list | StoryList | New list for active stories posted by the chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_active_stories_list.html).
+  """
+
+  defstruct "@type": "setChatActiveStoriesList", "@extra": nil, chat_id: nil, story_list: nil
 end
 defmodule CreateChatInviteLink do
   @moduledoc  """
@@ -4656,7 +7020,7 @@ defmodule GetMessageLinkInfo do
 end
 defmodule DeleteChatReplyMarkup do
   @moduledoc  """
-  Deletes the default reply markup from a chat. Must be called after a one-time keyboard or a ForceReply reply markup has been used. UpdateChatReplyMarkup will be sent if the reply markup is changed.
+  Deletes the default reply markup from a chat. Must be called after a one-time keyboard or a replyMarkupForceReply reply markup has been used. An updateChatReplyMarkup update will be sent if the reply markup is changed.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4668,6 +7032,21 @@ defmodule DeleteChatReplyMarkup do
   """
 
   defstruct "@type": "deleteChatReplyMarkup", "@extra": nil, chat_id: nil, message_id: nil
+end
+defmodule ReorderSupergroupActiveUsernames do
+  @moduledoc  """
+  Changes order of active usernames of a supergroup or channel, requires owner privileges in the supergroup or channel.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup or channel. |
+  | usernames | string | The new order of active usernames. All currently active usernames must be specified. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_supergroup_active_usernames.html).
+  """
+
+  defstruct "@type": "reorderSupergroupActiveUsernames", "@extra": nil, supergroup_id: nil, usernames: nil
 end
 defmodule ReportSupergroupSpam do
   @moduledoc  """
@@ -4695,9 +7074,47 @@ defmodule Close do
 
   defstruct "@type": "close", "@extra": nil
 end
+defmodule SearchStringsByPrefix do
+  @moduledoc  """
+  Searches specified query by word prefixes in the provided strings. Returns 0-based positions of strings that matched. Can be called synchronously.
+  Returns object_ptr<FoundPositions>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | strings | string | The strings to search in for the query. |
+  | query | string | Query to search for. |
+  | limit | int32 | The maximum number of objects to return. |
+  | return_none_for_empty_query | bool | Pass true to receive no results for an empty query. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_strings_by_prefix.html).
+  """
+
+  defstruct "@type": "searchStringsByPrefix", "@extra": nil, strings: nil, query: nil, limit: nil, return_none_for_empty_query: nil
+end
+defmodule EditBusinessMessageLiveLocation do
+  @moduledoc  """
+  Edits the content of a live location in a message sent on behalf of a business account; for bots only.
+  Returns object_ptr<BusinessMessage>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | business_connection_id | string | Unique identifier of business connection on behalf of which the message was sent. |
+  | chat_id | int53 | The chat the message belongs to. |
+  | message_id | int53 | Identifier of the message. |
+  | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
+  | location | location | New location content of the message; pass null to stop sharing the live location. |
+  | live_period | int32 | New time relative to the message send date, for which the location can be updated, in seconds. If 0x7FFFFFFF specified, then the location can be updated forever. Otherwise, must not exceed the current live_period by more than a day, and the live location expiration date must remain in the next 90 days. Pass 0 to keep the current live_period. |
+  | heading | int32 | The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown. |
+  | proximity_alert_radius | int32 | The new maximum distance for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_business_message_live_location.html).
+  """
+
+  defstruct "@type": "editBusinessMessageLiveLocation", "@extra": nil, business_connection_id: nil, chat_id: nil, message_id: nil, reply_markup: nil, location: nil, live_period: nil, heading: nil, proximity_alert_radius: nil
+end
 defmodule GetAttachedStickerSets do
   @moduledoc  """
-  Returns a list of sticker sets attached to a file. Currently, only photos and videos can have attached sticker sets.
+  Returns a list of sticker sets attached to a file, including regular, mask, and emoji sticker sets. Currently, only animations, photos, and videos can have attached sticker sets.
   Returns object_ptr<StickerSets>.
 
   | Name | Type | Description |
@@ -4770,6 +7187,17 @@ defmodule GetChatPinnedMessage do
 
   defstruct "@type": "getChatPinnedMessage", "@extra": nil, chat_id: nil
 end
+defmodule GetArchiveChatListSettings do
+  @moduledoc  """
+  Returns settings for automatic moving of chats to and from the Archive chat lists.
+  Returns object_ptr<ArchiveChatListSettings>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_archive_chat_list_settings.html).
+  """
+
+  defstruct "@type": "getArchiveChatListSettings", "@extra": nil
+end
 defmodule TestCallEmpty do
   @moduledoc  """
   Does nothing; for testing only. This is an offline method. Can be called before authorization.
@@ -4781,19 +7209,36 @@ defmodule TestCallEmpty do
 
   defstruct "@type": "testCallEmpty", "@extra": nil
 end
-defmodule CancelUploadFile do
+defmodule GetBusinessFeatures do
   @moduledoc  """
-  Stops the uploading of a file. Supported only for files uploaded by using uploadFile. For other files the behavior is undefined.
-  Returns object_ptr<Ok>.
+  Returns information about features, available to Business users.
+  Returns object_ptr<BusinessFeatures>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | file_id | int32 | Identifier of the file to stop uploading. |
+  | source | BusinessFeature | Source of the request; pass null if the method is called from settings or some non-standard source. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1cancel_upload_file.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_business_features.html).
   """
 
-  defstruct "@type": "cancelUploadFile", "@extra": nil, file_id: nil
+  defstruct "@type": "getBusinessFeatures", "@extra": nil, source: nil
+end
+defmodule EditChatFolderInviteLink do
+  @moduledoc  """
+  Edits an invite link for a chat folder.
+  Returns object_ptr<ChatFolderInviteLink>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+  | invite_link | string | Invite link to be edited. |
+  | name | string | New name of the link; 0-32 characters. |
+  | chat_ids | int53 | New identifiers of chats to be accessible by the invite link. Use <a class="el" href="classtd_1_1td__api_1_1get_chats_for_chat_folder_invite_link.html">getChatsForChatFolderInviteLink</a> to get suitable chats. Basic groups will be automatically converted to supergroups before link editing. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_chat_folder_invite_link.html).
+  """
+
+  defstruct "@type": "editChatFolderInviteLink", "@extra": nil, chat_folder_id: nil, invite_link: nil, name: nil, chat_ids: nil
 end
 defmodule SetAlarm do
   @moduledoc  """
@@ -4831,13 +7276,29 @@ defmodule SendPassportAuthorizationForm do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | autorization_form_id | int32 | Authorization form identifier. |
+  | authorization_form_id | int32 | Authorization form identifier. |
   | types | PassportElementType | Types of Telegram Passport elements chosen by user to complete the authorization form. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_passport_authorization_form.html).
   """
 
-  defstruct "@type": "sendPassportAuthorizationForm", "@extra": nil, autorization_form_id: nil, types: nil
+  defstruct "@type": "sendPassportAuthorizationForm", "@extra": nil, authorization_form_id: nil, types: nil
+end
+defmodule ToggleForumTopicIsClosed do
+  @moduledoc  """
+  Toggles whether a topic is closed in a forum supergroup chat; requires can_manage_topics right in the supergroup unless the user is creator of the topic.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+  | is_closed | bool | Pass true to close the topic; pass false to reopen it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_forum_topic_is_closed.html).
+  """
+
+  defstruct "@type": "toggleForumTopicIsClosed", "@extra": nil, chat_id: nil, message_thread_id: nil, is_closed: nil
 end
 defmodule GetAutoDownloadSettingsPresets do
   @moduledoc  """
@@ -4849,6 +7310,39 @@ defmodule GetAutoDownloadSettingsPresets do
   """
 
   defstruct "@type": "getAutoDownloadSettingsPresets", "@extra": nil
+end
+defmodule SetChatAccentColor do
+  @moduledoc  """
+  Changes accent color and background custom emoji of a channel chat. Requires can_change_info administrator right.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | accent_color_id | int32 | Identifier of the accent color to use. The chat must have at least accentColor.min_channel_chat_boost_level boost level to pass the corresponding color. |
+  | background_custom_emoji_id | int64 | Identifier of a custom emoji to be shown on the reply header and link preview background; 0 if none. Use chatBoostLevelFeatures.can_set_background_custom_emoji to check whether a custom emoji can be set. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_accent_color.html).
+  """
+
+  defstruct "@type": "setChatAccentColor", "@extra": nil, chat_id: nil, accent_color_id: nil, background_custom_emoji_id: nil
+end
+defmodule SearchPublicStoriesByVenue do
+  @moduledoc  """
+  Searches for public stories from the given venue. For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit.
+  Returns object_ptr<FoundStories>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | venue_provider | string | Provider of the venue. |
+  | venue_id | string | Identifier of the venue in the provider database. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of stories to be returned; up to 100. For optimal performance, the number of returned stories is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_public_stories_by_venue.html).
+  """
+
+  defstruct "@type": "searchPublicStoriesByVenue", "@extra": nil, venue_provider: nil, venue_id: nil, offset: nil, limit: nil
 end
 defmodule SetBotUpdatesStatus do
   @moduledoc  """
@@ -4895,7 +7389,7 @@ defmodule GetPremiumLimit do
 end
 defmodule PinChatMessage do
   @moduledoc  """
-  Pins a message in a chat; requires can_pin_messages rights or can_edit_messages rights in the channel.
+  Pins a message in a chat; requires can_pin_messages member right if the chat is a basic group or supergroup, or can_edit_messages administrator right if the chat is a channel.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -4923,20 +7417,6 @@ defmodule TestCallVectorIntObject do
   """
 
   defstruct "@type": "testCallVectorIntObject", "@extra": nil, x: nil
-end
-defmodule RemoveBackground do
-  @moduledoc  """
-  Removes background from the list of installed backgrounds.
-  Returns object_ptr<Ok>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | background_id | int64 | The background identifier. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1remove_background.html).
-  """
-
-  defstruct "@type": "removeBackground", "@extra": nil, background_id: nil
 end
 defmodule ToggleGroupCallIsMyVideoPaused do
   @moduledoc  """
@@ -4984,14 +7464,17 @@ defmodule AnswerPreCheckoutQuery do
 end
 defmodule ResendAuthenticationCode do
   @moduledoc  """
-  Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode, the next_code_type of the result is not null and the server-specified timeout has passed.
+  Resends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode, the next_code_type of the result is not null and the server-specified timeout has passed, or when the current authorization state is authorizationStateWaitEmailCode.
   Returns object_ptr<Ok>.
 
+  | Name | Type | Description |
+  |------|------| ------------|
+  | reason | ResendCodeReason | Reason of code resending; pass null if unknown. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_authentication_code.html).
   """
 
-  defstruct "@type": "resendAuthenticationCode", "@extra": nil
+  defstruct "@type": "resendAuthenticationCode", "@extra": nil, reason: nil
 end
 defmodule GetCallbackQueryMessage do
   @moduledoc  """
@@ -5011,7 +7494,7 @@ defmodule GetCallbackQueryMessage do
 end
 defmodule GetContacts do
   @moduledoc  """
-  Returns all user contacts.
+  Returns all contacts of the user.
   Returns object_ptr<Users>.
 
 
@@ -5019,6 +7502,21 @@ defmodule GetContacts do
   """
 
   defstruct "@type": "getContacts", "@extra": nil
+end
+defmodule SetMessageSenderBlockList do
+  @moduledoc  """
+  Changes the block list of a message sender. Currently, only users and supergroup chats can be blocked.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | sender_id | MessageSender | Identifier of a message sender to block/unblock. |
+  | block_list | BlockList | New block list for the message sender; pass null to unblock the message sender. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_message_sender_block_list.html).
+  """
+
+  defstruct "@type": "setMessageSenderBlockList", "@extra": nil, sender_id: nil, block_list: nil
 end
 defmodule SetInactiveSessionTtl do
   @moduledoc  """
@@ -5049,44 +7547,74 @@ defmodule GetChatInviteLink do
 
   defstruct "@type": "getChatInviteLink", "@extra": nil, chat_id: nil, invite_link: nil
 end
-defmodule CheckAuthenticationPassword do
+defmodule ReportMessageReactions do
   @moduledoc  """
-  Checks the authentication password for correctness. Works only when the current authorization state is authorizationStateWaitPassword.
+  Reports reactions set on a message to the Telegram moderators. Reactions on a message can be reported only if message.can_report_reactions.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | password | string | The password to check. |
+  | chat_id | int53 | Chat identifier. |
+  | message_id | int53 | Message identifier. |
+  | sender_id | MessageSender | Identifier of the sender, which added the reaction. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_message_reactions.html).
+  """
+
+  defstruct "@type": "reportMessageReactions", "@extra": nil, chat_id: nil, message_id: nil, sender_id: nil
+end
+defmodule CanPurchaseFromStore do
+  @moduledoc  """
+  Checks whether an in-store purchase is possible. Must be called before any in-store purchase.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | purpose | StorePaymentPurpose | Transaction purpose. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1can_purchase_from_store.html).
+  """
+
+  defstruct "@type": "canPurchaseFromStore", "@extra": nil, purpose: nil
+end
+defmodule CheckAuthenticationPassword do
+  @moduledoc  """
+  Checks the 2-step verification password for correctness. Works only when the current authorization state is authorizationStateWaitPassword.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | password | string | The 2-step verification password to check. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_authentication_password.html).
   """
 
   defstruct "@type": "checkAuthenticationPassword", "@extra": nil, password: nil
 end
-defmodule GetBackgrounds do
+defmodule GetDefaultMessageAutoDeleteTime do
   @moduledoc  """
-  Returns backgrounds installed by the user.
-  Returns object_ptr<Backgrounds>.
+  Returns default message auto-delete time setting for new chats.
+  Returns object_ptr<MessageAutoDeleteTime>.
 
-  | Name | Type | Description |
-  |------|------| ------------|
-  | for_dark_theme | bool | Pass true to order returned backgrounds for a dark theme. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_backgrounds.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_default_message_auto_delete_time.html).
   """
 
-  defstruct "@type": "getBackgrounds", "@extra": nil, for_dark_theme: nil
+  defstruct "@type": "getDefaultMessageAutoDeleteTime", "@extra": nil
 end
 defmodule GetPremiumStickers do
   @moduledoc  """
-  Returns examples of premium stickers for demonstration purposes.
+  Returns premium stickers from regular sticker sets.
   Returns object_ptr<Stickers>.
 
+  | Name | Type | Description |
+  |------|------| ------------|
+  | limit | int32 | The maximum number of stickers to be returned; 0-100. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_premium_stickers.html).
   """
 
-  defstruct "@type": "getPremiumStickers", "@extra": nil
+  defstruct "@type": "getPremiumStickers", "@extra": nil, limit: nil
 end
 defmodule ToggleAllDownloadsArePaused do
   @moduledoc  """
@@ -5102,6 +7630,21 @@ defmodule ToggleAllDownloadsArePaused do
 
   defstruct "@type": "toggleAllDownloadsArePaused", "@extra": nil, are_paused: nil
 end
+defmodule SearchRecentlyFoundChats do
+  @moduledoc  """
+  Searches for the specified query in the title and username of up to 50 recently found chats; this is an offline request.
+  Returns object_ptr<Chats>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | query | string | Query to search for. |
+  | limit | int32 | The maximum number of chats to be returned. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_recently_found_chats.html).
+  """
+
+  defstruct "@type": "searchRecentlyFoundChats", "@extra": nil, query: nil, limit: nil
+end
 defmodule GetChatScheduledMessages do
   @moduledoc  """
   Returns all scheduled messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id).
@@ -5115,6 +7658,20 @@ defmodule GetChatScheduledMessages do
   """
 
   defstruct "@type": "getChatScheduledMessages", "@extra": nil, chat_id: nil
+end
+defmodule SetBusinessConnectedBot do
+  @moduledoc  """
+  Adds or changes business bot that is connected to the current user account.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot | businessConnectedBot | Connection settings for the bot. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_business_connected_bot.html).
+  """
+
+  defstruct "@type": "setBusinessConnectedBot", "@extra": nil, bot: nil
 end
 defmodule GetMessages do
   @moduledoc  """
@@ -5141,16 +7698,41 @@ defmodule GetSupergroupMembers do
   | supergroup_id | int53 | Identifier of the supergroup or channel. |
   | filter | SupergroupMembersFilter | The type of users to return; pass null to use <a class="el" href="classtd_1_1td__api_1_1supergroup_members_filter_recent.html">supergroupMembersFilterRecent</a>. |
   | offset | int32 | Number of users to skip. |
-  | limit | int32 | The maximum number of users be returned; up to 200. |
+  | limit | int32 | The maximum number of users to be returned; up to 200. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_supergroup_members.html).
   """
 
   defstruct "@type": "getSupergroupMembers", "@extra": nil, supergroup_id: nil, filter: nil, offset: nil, limit: nil
 end
+defmodule GetCustomEmojiReactionAnimations do
+  @moduledoc  """
+  Returns TGS stickers with generic animations for custom emoji reactions.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_custom_emoji_reaction_animations.html).
+  """
+
+  defstruct "@type": "getCustomEmojiReactionAnimations", "@extra": nil
+end
+defmodule DeleteQuickReplyShortcut do
+  @moduledoc  """
+  Deletes a quick reply shortcut.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_id | int32 | Unique identifier of the quick reply shortcut. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_quick_reply_shortcut.html).
+  """
+
+  defstruct "@type": "deleteQuickReplyShortcut", "@extra": nil, shortcut_id: nil
+end
 defmodule GetInternalLinkType do
   @moduledoc  """
-  Returns information about the type of an internal link. Returns a 404 error if the link is not internal. Can be called before authorization.
+  Returns information about the type of internal link. Returns a 404 error if the link is not internal. Can be called before authorization.
   Returns object_ptr<InternalLinkType>.
 
   | Name | Type | Description |
@@ -5190,6 +7772,64 @@ defmodule GetFileExtension do
 
   defstruct "@type": "getFileExtension", "@extra": nil, mime_type: nil
 end
+defmodule GetReadDatePrivacySettings do
+  @moduledoc  """
+  Returns privacy settings for message read date.
+  Returns object_ptr<ReadDatePrivacySettings>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_read_date_privacy_settings.html).
+  """
+
+  defstruct "@type": "getReadDatePrivacySettings", "@extra": nil
+end
+defmodule GetChatRevenueWithdrawalUrl do
+  @moduledoc  """
+  Returns URL for chat revenue withdrawal; requires owner privileges in the chat. Currently, this method can be used only for channels if supergroupFullInfo.can_get_revenue_statistics == true and getOption("can_withdraw_chat_revenue").
+  Returns object_ptr<HttpUrl>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | password | string | The 2-step verification password of the current user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_revenue_withdrawal_url.html).
+  """
+
+  defstruct "@type": "getChatRevenueWithdrawalUrl", "@extra": nil, chat_id: nil, password: nil
+end
+defmodule GetStarWithdrawalUrl do
+  @moduledoc  """
+  Returns URL for Telegram star withdrawal.
+  Returns object_ptr<HttpUrl>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | owner_id | MessageSender | Identifier of the owner of the Telegram stars; can be identifier of an owned bot, or identifier of a channel chat with supergroupFullInfo.can_get_revenue_statistics == true. |
+  | star_count | int53 | The number of Telegram stars to withdraw. Must be at least <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("star_withdrawal_count_min"). |
+  | password | string | The 2-step verification password of the current user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_star_withdrawal_url.html).
+  """
+
+  defstruct "@type": "getStarWithdrawalUrl", "@extra": nil, owner_id: nil, star_count: nil, password: nil
+end
+defmodule ReportChatSponsoredMessage do
+  @moduledoc  """
+  Reports a sponsored message to Telegram moderators.
+  Returns object_ptr<ReportChatSponsoredMessageResult>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier of the sponsored message. |
+  | message_id | int53 | Identifier of the sponsored message. |
+  | option_id | bytes | Option identifier chosen by the user; leave empty for the initial request. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_chat_sponsored_message.html).
+  """
+
+  defstruct "@type": "reportChatSponsoredMessage", "@extra": nil, chat_id: nil, message_id: nil, option_id: nil
+end
 defmodule SetNetworkType do
   @moduledoc  """
   Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it must be called whenever the network is changed, even if the network type remains the same. Network type is used to check whether the library can use the network at all and also for collecting detailed network data usage statistics.
@@ -5204,16 +7844,19 @@ defmodule SetNetworkType do
 
   defstruct "@type": "setNetworkType", "@extra": nil, type: nil
 end
-defmodule GetAllAnimatedEmojis do
+defmodule ToggleChatFolderTags do
   @moduledoc  """
-  Returns all emojis, which has a corresponding animated emoji.
-  Returns object_ptr<Emojis>.
+  Toggles whether chat folder tags are enabled.
+  Returns object_ptr<Ok>.
 
+  | Name | Type | Description |
+  |------|------| ------------|
+  | are_tags_enabled | bool | Pass true to enable folder tags; pass false to disable them. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_all_animated_emojis.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_chat_folder_tags.html).
   """
 
-  defstruct "@type": "getAllAnimatedEmojis", "@extra": nil
+  defstruct "@type": "toggleChatFolderTags", "@extra": nil, are_tags_enabled: nil
 end
 defmodule GetChatInviteLinks do
   @moduledoc  """
@@ -5248,6 +7891,20 @@ defmodule GetMenuButton do
 
   defstruct "@type": "getMenuButton", "@extra": nil, user_id: nil
 end
+defmodule SetBusinessGreetingMessageSettings do
+  @moduledoc  """
+  Changes the business greeting message settings of the current user. Requires Telegram Business subscription.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | greeting_message_settings | businessGreetingMessageSettings | The new settings for the greeting message of the business; pass null to disable the greeting message. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_business_greeting_message_settings.html).
+  """
+
+  defstruct "@type": "setBusinessGreetingMessageSettings", "@extra": nil, greeting_message_settings: nil
+end
 defmodule GetPushReceiverId do
   @moduledoc  """
   Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. Can be called synchronously.
@@ -5270,12 +7927,13 @@ defmodule UploadStickerFile do
   | Name | Type | Description |
   |------|------| ------------|
   | user_id | int53 | Sticker file owner; ignored for regular users. |
-  | sticker | inputSticker | Sticker file to upload. |
+  | sticker_format | StickerFormat | Sticker format. |
+  | sticker | InputFile | File file to upload; must fit in a 512x512 square. For WEBP stickers the file must be in WEBP or PNG format, which will be converted to WEBP server-side. See <a href="https://core.telegram.org/animated_stickers">https://core.telegram.org/animated_stickers</a>#technical-requirements for technical requirements. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1upload_sticker_file.html).
   """
 
-  defstruct "@type": "uploadStickerFile", "@extra": nil, user_id: nil, sticker: nil
+  defstruct "@type": "uploadStickerFile", "@extra": nil, user_id: nil, sticker_format: nil, sticker: nil
 end
 defmodule ReorderInstalledStickerSets do
   @moduledoc  """
@@ -5284,13 +7942,13 @@ defmodule ReorderInstalledStickerSets do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | is_masks | bool | Pass true to change the order of mask sticker sets; pass false to change the order of ordinary sticker sets. |
+  | sticker_type | StickerType | Type of the sticker sets to reorder. |
   | sticker_set_ids | int64 | Identifiers of installed sticker sets in the new correct order. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_installed_sticker_sets.html).
   """
 
-  defstruct "@type": "reorderInstalledStickerSets", "@extra": nil, is_masks: nil, sticker_set_ids: nil
+  defstruct "@type": "reorderInstalledStickerSets", "@extra": nil, sticker_type: nil, sticker_set_ids: nil
 end
 defmodule RemoveFavoriteSticker do
   @moduledoc  """
@@ -5305,6 +7963,21 @@ defmodule RemoveFavoriteSticker do
   """
 
   defstruct "@type": "removeFavoriteSticker", "@extra": nil, sticker: nil
+end
+defmodule ReadAllMessageThreadReactions do
+  @moduledoc  """
+  Marks all reactions in a forum topic as read.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | message_thread_id | int53 | Message thread identifier in which reactions are marked as read. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1read_all_message_thread_reactions.html).
+  """
+
+  defstruct "@type": "readAllMessageThreadReactions", "@extra": nil, chat_id: nil, message_thread_id: nil
 end
 defmodule SetPollAnswer do
   @moduledoc  """
@@ -5331,16 +8004,15 @@ defmodule AnswerInlineQuery do
   |------|------| ------------|
   | inline_query_id | int64 | Identifier of the inline query. |
   | is_personal | bool | Pass true if results may be cached and returned only for the user that sent the query. By default, results may be returned to any user who sends the same query. |
+  | button | inlineQueryResultsButton | Button to be shown above inline query results; pass null if none. |
   | results | InputInlineQueryResult | The results of the query. |
   | cache_time | int32 | Allowed time to cache the results of the query, in seconds. |
   | next_offset | string | Offset for the next inline query; pass an empty string if there are no more results. |
-  | switch_pm_text | string | If non-empty, this text must be shown on the button that opens a private chat with the bot and sends a start message to the bot with the parameter switch_pm_parameter. |
-  | switch_pm_parameter | string | The parameter for the bot start message. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1answer_inline_query.html).
   """
 
-  defstruct "@type": "answerInlineQuery", "@extra": nil, inline_query_id: nil, is_personal: nil, results: nil, cache_time: nil, next_offset: nil, switch_pm_text: nil, switch_pm_parameter: nil
+  defstruct "@type": "answerInlineQuery", "@extra": nil, inline_query_id: nil, is_personal: nil, button: nil, results: nil, cache_time: nil, next_offset: nil
 end
 defmodule DeleteAllCallMessages do
   @moduledoc  """
@@ -5375,18 +8047,20 @@ defmodule GetLanguagePackString do
 end
 defmodule GetStickers do
   @moduledoc  """
-  Returns stickers from the installed sticker sets that correspond to a given emoji. If the emoji is non-empty, favorite and recently used stickers may also be returned.
+  Returns stickers from the installed sticker sets that correspond to any of the given emoji or can be found by sticker-specific keywords. If the query is non-empty, then favorite, recently used or trending stickers may also be returned.
   Returns object_ptr<Stickers>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | emoji | string | String representation of emoji. If empty, returns all known installed stickers. |
+  | sticker_type | StickerType | Type of the stickers to return. |
+  | query | string | Search query; a space-separated list of emojis or a keyword prefix. If empty, returns all known installed stickers. |
   | limit | int32 | The maximum number of stickers to be returned. |
+  | chat_id | int53 | Chat identifier for which to return stickers. Available custom emoji stickers may be different for different chats. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_stickers.html).
   """
 
-  defstruct "@type": "getStickers", "@extra": nil, emoji: nil, limit: nil
+  defstruct "@type": "getStickers", "@extra": nil, sticker_type: nil, query: nil, limit: nil, chat_id: nil
 end
 defmodule CheckChatUsername do
   @moduledoc  """
@@ -5395,7 +8069,7 @@ defmodule CheckChatUsername do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Chat identifier; must be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if the chat is being created. |
+  | chat_id | int53 | Chat identifier; must be identifier of a supergroup chat, or a channel chat, or a private chat with self, or 0 if the chat is being created. |
   | username | string | Username to be checked. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_chat_username.html).
@@ -5417,6 +8091,33 @@ defmodule SearchPublicChats do
 
   defstruct "@type": "searchPublicChats", "@extra": nil, query: nil
 end
+defmodule GetDisallowedChatEmojiStatuses do
+  @moduledoc  """
+  Returns the list of emoji statuses, which can't be used as chat emoji status, even they are from a sticker set with is_allowed_as_chat_emoji_status == true.
+  Returns object_ptr<EmojiStatuses>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_disallowed_chat_emoji_statuses.html).
+  """
+
+  defstruct "@type": "getDisallowedChatEmojiStatuses", "@extra": nil
+end
+defmodule SearchPublicMessagesByTag do
+  @moduledoc  """
+  Searches for public channel posts containing the given hashtag or cashtag. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit.
+  Returns object_ptr<FoundMessages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | tag | string | Hashtag or cashtag to search for. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_public_messages_by_tag.html).
+  """
+
+  defstruct "@type": "searchPublicMessagesByTag", "@extra": nil, tag: nil, offset: nil, limit: nil
+end
 defmodule SetName do
   @moduledoc  """
   Changes the first and last name of the current user.
@@ -5431,6 +8132,17 @@ defmodule SetName do
   """
 
   defstruct "@type": "setName", "@extra": nil, first_name: nil, last_name: nil
+end
+defmodule GetRecommendedChats do
+  @moduledoc  """
+  Returns a list of channel chats recommended to the current user.
+  Returns object_ptr<Chats>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_recommended_chats.html).
+  """
+
+  defstruct "@type": "getRecommendedChats", "@extra": nil
 end
 defmodule LeaveChat do
   @moduledoc  """
@@ -5462,6 +8174,20 @@ defmodule GetGroupsInCommon do
 
   defstruct "@type": "getGroupsInCommon", "@extra": nil, user_id: nil, offset_chat_id: nil, limit: nil
 end
+defmodule SendPhoneNumberFirebaseSms do
+  @moduledoc  """
+  Sends Firebase Authentication SMS to the specified phone number. Works only when received a code of the type authenticationCodeTypeFirebaseAndroid or authenticationCodeTypeFirebaseIos.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | token | string | Play Integrity API or SafetyNet Attestation API token for the Android application, or secret from push notification for the iOS application. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_phone_number_firebase_sms.html).
+  """
+
+  defstruct "@type": "sendPhoneNumberFirebaseSms", "@extra": nil, token: nil
+end
 defmodule ImportContacts do
   @moduledoc  """
   Adds new contacts or edits existing contacts by their phone numbers; contacts' user identifiers are ignored.
@@ -5486,7 +8212,7 @@ defmodule GetMessageThreadHistory do
   | chat_id | int53 | Chat identifier. |
   | message_id | int53 | Message identifier, which thread history needs to be returned. |
   | from_message_id | int53 | Identifier of the message starting from which history must be fetched; use 0 to get results from the last message. |
-  | offset | int32 | Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages. |
+  | offset | int32 | Specify 0 to get results from exactly the message from_message_id or a negative offset up to 99 to get additionally some newer messages. |
   | limit | int32 | The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_thread_history.html).
@@ -5530,11 +8256,23 @@ defmodule DeleteAccount do
   | Name | Type | Description |
   |------|------| ------------|
   | reason | string | The reason why the account was deleted; optional. |
+  | password | string | The 2-step verification password of the current user. If the current user isn't authorized, then an empty string can be passed and account deletion can be canceled within one week. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_account.html).
   """
 
-  defstruct "@type": "deleteAccount", "@extra": nil, reason: nil
+  defstruct "@type": "deleteAccount", "@extra": nil, reason: nil, password: nil
+end
+defmodule LoadQuickReplyShortcuts do
+  @moduledoc  """
+  Loads quick reply shortcuts created by the current user. The loaded topics will be sent through updateQuickReplyShortcuts.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1load_quick_reply_shortcuts.html).
+  """
+
+  defstruct "@type": "loadQuickReplyShortcuts", "@extra": nil
 end
 defmodule DiscardCall do
   @moduledoc  """
@@ -5553,6 +8291,21 @@ defmodule DiscardCall do
   """
 
   defstruct "@type": "discardCall", "@extra": nil, call_id: nil, is_disconnected: nil, duration: nil, is_video: nil, connection_id: nil
+end
+defmodule RefundStarPayment do
+  @moduledoc  """
+  Refunds a previously done payment in Telegram Stars.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | Identifier of the user that did the payment. |
+  | telegram_payment_charge_id | string | Telegram payment identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1refund_star_payment.html).
+  """
+
+  defstruct "@type": "refundStarPayment", "@extra": nil, user_id: nil, telegram_payment_charge_id: nil
 end
 defmodule CheckChatInviteLink do
   @moduledoc  """
@@ -5597,9 +8350,23 @@ defmodule ProcessPushNotification do
 
   defstruct "@type": "processPushNotification", "@extra": nil, payload: nil
 end
+defmodule SetBusinessOpeningHours do
+  @moduledoc  """
+  Changes the business opening hours of the current user. Requires Telegram Business subscription.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | opening_hours | businessOpeningHours | The new opening hours of the business; pass null to remove the opening hours; up to 28 time intervals can be specified. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_business_opening_hours.html).
+  """
+
+  defstruct "@type": "setBusinessOpeningHours", "@extra": nil, opening_hours: nil
+end
 defmodule BanChatMember do
   @moduledoc  """
-  Bans a member in a chat. Members can't be banned in private or secret chats. In supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first.
+  Bans a member in a chat; requires can_restrict_members administrator right. Members can't be banned in private or secret chats. In supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -5623,7 +8390,7 @@ defmodule ReportChat do
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
   | message_ids | int53 | Identifiers of reported messages; may be empty to report the whole chat. |
-  | reason | ChatReportReason | The reason for reporting the chat. |
+  | reason | ReportReason | The reason for reporting the chat. |
   | text | string | Additional report details; 0-1024 characters. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_chat.html).
@@ -5644,7 +8411,7 @@ defmodule GetActiveLiveLocationMessages do
 end
 defmodule ParseTextEntities do
   @moduledoc  """
-  Parses Bold, Italic, Underline, Strikethrough, Spoiler, Code, Pre, PreCode, TextUrl and MentionName entities contained in the text. Can be called synchronously.
+  Parses Bold, Italic, Underline, Strikethrough, Spoiler, CustomEmoji, BlockQuote, ExpandableBlockQuote, Code, Pre, PreCode, TextUrl and MentionName entities from a marked-up text. Can be called synchronously.
   Returns object_ptr<FormattedText>.
 
   | Name | Type | Description |
@@ -5656,6 +8423,39 @@ defmodule ParseTextEntities do
   """
 
   defstruct "@type": "parseTextEntities", "@extra": nil, text: nil, parse_mode: nil
+end
+defmodule GetChatBoosts do
+  @moduledoc  """
+  Returns the list of boosts applied to a chat; requires administrator rights in the chat.
+  Returns object_ptr<FoundChatBoosts>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | only_gift_codes | bool | Pass true to receive only boosts received from gift codes and giveaways created by the chat. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of boosts to be returned; up to 100. For optimal performance, the number of returned boosts can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_boosts.html).
+  """
+
+  defstruct "@type": "getChatBoosts", "@extra": nil, chat_id: nil, only_gift_codes: nil, offset: nil, limit: nil
+end
+defmodule EditQuickReplyMessage do
+  @moduledoc  """
+  Asynchronously edits the text, media or caption of a quick reply message. Use quickReplyMessage.can_be_edited to check whether a message can be edited. Text message can be edited only to a text message. The type of message content in an album can't be changed with exception of replacing a photo with a video or vice versa.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_id | int32 | Unique identifier of the quick reply shortcut with the message. |
+  | message_id | int53 | Identifier of the message. |
+  | input_message_content | InputMessageContent | New content of the message. Must be one of the following types: <a class="el" href="classtd_1_1td__api_1_1input_message_text.html">inputMessageText</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_animation.html">inputMessageAnimation</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_audio.html">inputMessageAudio</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_document.html">inputMessageDocument</a>, <a class="el" href="classtd_1_1td__api_1_1input_message_photo.html">inputMessagePhoto</a> or <a class="el" href="classtd_1_1td__api_1_1input_message_video.html">inputMessageVideo</a>. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_quick_reply_message.html).
+  """
+
+  defstruct "@type": "editQuickReplyMessage", "@extra": nil, shortcut_id: nil, message_id: nil, input_message_content: nil
 end
 defmodule RemoveFileFromDownloads do
   @moduledoc  """
@@ -5674,19 +8474,32 @@ defmodule RemoveFileFromDownloads do
 end
 defmodule TranslateText do
   @moduledoc  """
-  Translates a text to the given language. Returns a 404 error if the translation can't be performed.
-  Returns object_ptr<Text>.
+  Translates a text to the given language. If the current user is a Telegram Premium user, then text formatting is preserved.
+  Returns object_ptr<FormattedText>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | text | string | Text to translate. |
-  | from_language_code | string | A two-letter ISO 639-1 language code of the language from which the message is translated. If empty, the language will be detected automatically. |
-  | to_language_code | string | A two-letter ISO 639-1 language code of the language to which the message is translated. |
+  | text | formattedText | Text to translate. |
+  | to_language_code | string | Language code of the language to which the message is translated. Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh", "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn", "kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mn", "my", "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr", "st", "sn", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh", "yi", "ji", "yo", "zu". |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1translate_text.html).
   """
 
-  defstruct "@type": "translateText", "@extra": nil, text: nil, from_language_code: nil, to_language_code: nil
+  defstruct "@type": "translateText", "@extra": nil, text: nil, to_language_code: nil
+end
+defmodule CancelPreliminaryUploadFile do
+  @moduledoc  """
+  Stops the preliminary uploading of a file. Supported only for files uploaded by using preliminaryUploadFile. For other files the behavior is undefined.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | file_id | int32 | Identifier of the file to stop uploading. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1cancel_preliminary_upload_file.html).
+  """
+
+  defstruct "@type": "cancelPreliminaryUploadFile", "@extra": nil, file_id: nil
 end
 defmodule GetMessageLocally do
   @moduledoc  """
@@ -5705,7 +8518,7 @@ defmodule GetMessageLocally do
 end
 defmodule InviteGroupCallParticipants do
   @moduledoc  """
-  Invites users to an active group call. Sends a service message of type messageInviteToGroupCall for video chats.
+  Invites users to an active group call. Sends a service message of type messageInviteVideoChatParticipants for video chats.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -5717,6 +8530,17 @@ defmodule InviteGroupCallParticipants do
   """
 
   defstruct "@type": "inviteGroupCallParticipants", "@extra": nil, group_call_id: nil, user_ids: nil
+end
+defmodule ClearRecentEmojiStatuses do
+  @moduledoc  """
+  Clears the list of recently used emoji statuses for self status.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1clear_recent_emoji_statuses.html).
+  """
+
+  defstruct "@type": "clearRecentEmojiStatuses", "@extra": nil
 end
 defmodule GetSupergroup do
   @moduledoc  """
@@ -5754,11 +8578,12 @@ defmodule SearchUserByPhoneNumber do
   | Name | Type | Description |
   |------|------| ------------|
   | phone_number | string | Phone number to search for. |
+  | only_local | bool | Pass true to get only locally available information without sending network requests. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1search_user_by_phone_number.html).
   """
 
-  defstruct "@type": "searchUserByPhoneNumber", "@extra": nil, phone_number: nil
+  defstruct "@type": "searchUserByPhoneNumber", "@extra": nil, phone_number: nil, only_local: nil
 end
 defmodule CreateNewSecretChat do
   @moduledoc  """
@@ -5776,21 +8601,36 @@ defmodule CreateNewSecretChat do
 end
 defmodule GetWebPagePreview do
   @moduledoc  """
-  Returns a web page preview by the text of the message. Do not call this function too often. Returns a 404 error if the web page has no preview.
+  Returns a link preview by the text of a message. Do not call this function too often. Returns a 404 error if the text has no link preview.
   Returns object_ptr<WebPage>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | text | formattedText | Message text with formatting. |
+  | link_preview_options | linkPreviewOptions | Options to be used for generation of the link preview; pass null to use default link preview options. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_web_page_preview.html).
   """
 
-  defstruct "@type": "getWebPagePreview", "@extra": nil, text: nil
+  defstruct "@type": "getWebPagePreview", "@extra": nil, text: nil, link_preview_options: nil
+end
+defmodule DeleteStickerSet do
+  @moduledoc  """
+  Completely deletes a sticker set.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | name | string | Sticker set name. The sticker set must be owned by the current user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_sticker_set.html).
+  """
+
+  defstruct "@type": "deleteStickerSet", "@extra": nil, name: nil
 end
 defmodule GetChat do
   @moduledoc  """
-  Returns information about a chat by its identifier, this is an offline request if the current user is not a bot.
+  Returns information about a chat by its identifier; this is an offline request if the current user is not a bot.
   Returns object_ptr<Chat>.
 
   | Name | Type | Description |
@@ -5815,6 +8655,64 @@ defmodule GetGroupCall do
   """
 
   defstruct "@type": "getGroupCall", "@extra": nil, group_call_id: nil
+end
+defmodule DeleteStory do
+  @moduledoc  """
+  Deletes a previously sent story. Can be called only if story.can_be_deleted == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | Identifier of the chat that posted the story. |
+  | story_id | int32 | Identifier of the story to delete. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_story.html).
+  """
+
+  defstruct "@type": "deleteStory", "@extra": nil, story_sender_chat_id: nil, story_id: nil
+end
+defmodule RemoveInstalledBackground do
+  @moduledoc  """
+  Removes background from the list of installed backgrounds.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | background_id | int64 | The background identifier. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1remove_installed_background.html).
+  """
+
+  defstruct "@type": "removeInstalledBackground", "@extra": nil, background_id: nil
+end
+defmodule GetForumTopic do
+  @moduledoc  """
+  Returns information about a forum topic.
+  Returns object_ptr<ForumTopic>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_forum_topic.html).
+  """
+
+  defstruct "@type": "getForumTopic", "@extra": nil, chat_id: nil, message_thread_id: nil
+end
+defmodule SetPinnedSavedMessagesTopics do
+  @moduledoc  """
+  Changes the order of pinned Saved Messages topics.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_ids | int53 | Identifiers of the new pinned Saved Messages topics. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_pinned_saved_messages_topics.html).
+  """
+
+  defstruct "@type": "setPinnedSavedMessagesTopics", "@extra": nil, saved_messages_topic_ids: nil
 end
 defmodule GetMessageThread do
   @moduledoc  """
@@ -5845,21 +8743,65 @@ defmodule ChangeImportedContacts do
 
   defstruct "@type": "changeImportedContacts", "@extra": nil, contacts: nil
 end
-defmodule AddStickerToSet do
+defmodule SetAutosaveSettings do
   @moduledoc  """
-  Adds a new sticker to a set; for bots only. Returns the sticker set.
-  Returns object_ptr<StickerSet>.
+  Sets autosave settings for the given scope. The method is guaranteed to work only after at least one call to getAutosaveSettings.
+  Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | user_id | int53 | Sticker set owner. |
-  | name | string | Sticker set name. |
+  | scope | AutosaveSettingsScope | Autosave settings scope. |
+  | settings | scopeAutosaveSettings | New autosave settings for the scope; pass null to set autosave settings to default. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_autosave_settings.html).
+  """
+
+  defstruct "@type": "setAutosaveSettings", "@extra": nil, scope: nil, settings: nil
+end
+defmodule AddStickerToSet do
+  @moduledoc  """
+  Adds a new sticker to a set.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | Sticker set owner; ignored for regular users. |
+  | name | string | Sticker set name. The sticker set must be owned by the current user, and contain less than 200 stickers for custom emoji sticker sets and less than 120 otherwise. |
   | sticker | inputSticker | Sticker to add to the set. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_sticker_to_set.html).
   """
 
   defstruct "@type": "addStickerToSet", "@extra": nil, user_id: nil, name: nil, sticker: nil
+end
+defmodule ReaddQuickReplyShortcutMessages do
+  @moduledoc  """
+  Readds quick reply messages which failed to add. Can be called only for messages for which messageSendingStateFailed.can_retry is true and after specified in messageSendingStateFailed.retry_after time passed. If a message is readded, the corresponding failed to send message is deleted. Returns the sent messages in the same order as the message identifiers passed in message_ids. If a message can't be readded, null will be returned instead of the message.
+  Returns object_ptr<QuickReplyMessages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_name | string | Name of the target shortcut. |
+  | message_ids | int53 | Identifiers of the quick reply messages to readd. Message identifiers must be in a strictly increasing order. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1readd_quick_reply_shortcut_messages.html).
+  """
+
+  defstruct "@type": "readdQuickReplyShortcutMessages", "@extra": nil, shortcut_name: nil, message_ids: nil
+end
+defmodule CreateBusinessChatLink do
+  @moduledoc  """
+  Creates a business chat link for the current account. Requires Telegram Business subscription. There can be up to getOption("business_chat_link_count_max") links created. Returns the created link.
+  Returns object_ptr<BusinessChatLink>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | link_info | inputBusinessChatLink | Information about the link to create. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_business_chat_link.html).
+  """
+
+  defstruct "@type": "createBusinessChatLink", "@extra": nil, link_info: nil
 end
 defmodule AnswerShippingQuery do
   @moduledoc  """
@@ -5879,17 +8821,33 @@ defmodule AnswerShippingQuery do
 end
 defmodule SetUsername do
   @moduledoc  """
-  Changes the username of the current user.
+  Changes the editable username of the current user.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | username | string | The new value of the username. Use an empty string to remove the username. |
+  | username | string | The new value of the username. Use an empty string to remove the username. The username can't be completely removed if there is another active or disabled username. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_username.html).
   """
 
   defstruct "@type": "setUsername", "@extra": nil, username: nil
+end
+defmodule SetBotInfoDescription do
+  @moduledoc  """
+  Sets the text shown in the chat with a bot if the chat is empty. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | language_code | string | A two-letter ISO 639-1 language code. If empty, the description will be shown to all users for whose languages there is no dedicated description. |
+  | description | string | New bot's description on the specified language. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_bot_info_description.html).
+  """
+
+  defstruct "@type": "setBotInfoDescription", "@extra": nil, bot_user_id: nil, language_code: nil, description: nil
 end
 defmodule CloseSecretChat do
   @moduledoc  """
@@ -5907,7 +8865,7 @@ defmodule CloseSecretChat do
 end
 defmodule GetProxies do
   @moduledoc  """
-  Returns list of proxies that are currently set up. Can be called before authorization.
+  Returns the list of proxies that are currently set up. Can be called before authorization.
   Returns object_ptr<Proxies>.
 
 
@@ -5918,7 +8876,7 @@ defmodule GetProxies do
 end
 defmodule RequestAuthenticationPasswordRecovery do
   @moduledoc  """
-  Requests to send a password recovery code to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword.
+  Requests to send a 2-step verification password recovery code to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword.
   Returns object_ptr<Ok>.
 
 
@@ -5938,34 +8896,9 @@ defmodule TestNetwork do
 
   defstruct "@type": "testNetwork", "@extra": nil
 end
-defmodule ResendPhoneNumberConfirmationCode do
-  @moduledoc  """
-  Resends phone number confirmation code.
-  Returns object_ptr<AuthenticationCodeInfo>.
-
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1resend_phone_number_confirmation_code.html).
-  """
-
-  defstruct "@type": "resendPhoneNumberConfirmationCode", "@extra": nil
-end
-defmodule CheckDatabaseEncryptionKey do
-  @moduledoc  """
-  Checks the database encryption key for correctness. Works only when the current authorization state is authorizationStateWaitEncryptionKey.
-  Returns object_ptr<Ok>.
-
-  | Name | Type | Description |
-  |------|------| ------------|
-  | encryption_key | bytes | Encryption key to check or set up. |
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_database_encryption_key.html).
-  """
-
-  defstruct "@type": "checkDatabaseEncryptionKey", "@extra": nil, encryption_key: nil
-end
 defmodule CreateVideoChat do
   @moduledoc  """
-  Creates a video chat (a group call bound to a chat). Available only for basic groups, supergroups and channels; requires can_manage_video_chats rights.
+  Creates a video chat (a group call bound to a chat). Available only for basic groups, supergroups and channels; requires can_manage_video_chats administrator right.
   Returns object_ptr<GroupCallId>.
 
   | Name | Type | Description |
@@ -5973,16 +8906,57 @@ defmodule CreateVideoChat do
   | chat_id | int53 | Identifier of a chat in which the video chat will be created. |
   | title | string | Group call title; if empty, chat title will be used. |
   | start_date | int32 | Point in time (Unix timestamp) when the group call is supposed to be started by an administrator; 0 to start the video chat immediately. The date must be at least 10 seconds and at most 8 days in the future. |
-  | is_rtmp_stream | bool | Pass true to create an RTMP stream instead of an ordinary video chat; requires creator privileges. |
+  | is_rtmp_stream | bool | Pass true to create an RTMP stream instead of an ordinary video chat; requires owner privileges. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_video_chat.html).
   """
 
   defstruct "@type": "createVideoChat", "@extra": nil, chat_id: nil, title: nil, start_date: nil, is_rtmp_stream: nil
 end
+defmodule ReorderQuickReplyShortcuts do
+  @moduledoc  """
+  Changes the order of quick reply shortcuts.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_ids | int32 | The new order of quick reply shortcuts. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1reorder_quick_reply_shortcuts.html).
+  """
+
+  defstruct "@type": "reorderQuickReplyShortcuts", "@extra": nil, shortcut_ids: nil
+end
+defmodule DeleteSavedMessagesTopicMessagesByDate do
+  @moduledoc  """
+  Deletes all messages between the specified dates in a Saved Messages topic. Messages sent in the last 30 seconds will not be deleted.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_id | int53 | Identifier of Saved Messages topic which messages will be deleted. |
+  | min_date | int32 | The minimum date of the messages to delete. |
+  | max_date | int32 | The maximum date of the messages to delete. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_saved_messages_topic_messages_by_date.html).
+  """
+
+  defstruct "@type": "deleteSavedMessagesTopicMessagesByDate", "@extra": nil, saved_messages_topic_id: nil, min_date: nil, max_date: nil
+end
+defmodule GetSuitablePersonalChats do
+  @moduledoc  """
+  Returns a list of channel chats, which can be used as a personal chat.
+  Returns object_ptr<Chats>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_suitable_personal_chats.html).
+  """
+
+  defstruct "@type": "getSuitablePersonalChats", "@extra": nil
+end
 defmodule SearchPublicChat do
   @moduledoc  """
-  Searches a public chat by its username. Currently, only private chats, supergroups and channels can be public. Returns the chat if found; otherwise an error is returned.
+  Searches a public chat by its username. Currently, only private chats, supergroups and channels can be public. Returns the chat if found; otherwise, an error is returned.
   Returns object_ptr<Chat>.
 
   | Name | Type | Description |
@@ -6041,21 +9015,49 @@ defmodule SearchOutgoingDocumentMessages do
 end
 defmodule OpenWebApp do
   @moduledoc  """
-  Informs TDLib that a Web App is being opened from attachment menu, a botMenuButton button, an internalLinkTypeAttachmentMenuBot link, or an inlineKeyboardButtonTypeWebApp button. For each bot, a confirmation alert about data sent to the bot must be shown once.
+  Informs TDLib that a Web App is being opened from the attachment menu, a botMenuButton button, an internalLinkTypeAttachmentMenuBot link, or an inlineKeyboardButtonTypeWebApp button. For each bot, a confirmation alert about data sent to the bot must be shown once.
   Returns object_ptr<WebAppInfo>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Identifier of the chat in which the Web App is opened. |
+  | chat_id | int53 | Identifier of the chat in which the Web App is opened. The Web App can't be opened in secret chats. |
   | bot_user_id | int53 | Identifier of the bot, providing the Web App. |
-  | url | string | The URL from an <a class="el" href="classtd_1_1td__api_1_1inline_keyboard_button_type_web_app.html">inlineKeyboardButtonTypeWebApp</a> button, a <a class="el" href="classtd_1_1td__api_1_1bot_menu_button.html">botMenuButton</a> button, or an <a class="el" href="classtd_1_1td__api_1_1internal_link_type_attachment_menu_bot.html">internalLinkTypeAttachmentMenuBot</a> link, or an empty string otherwise. |
+  | url | string | The URL from an <a class="el" href="classtd_1_1td__api_1_1inline_keyboard_button_type_web_app.html">inlineKeyboardButtonTypeWebApp</a> button, a <a class="el" href="classtd_1_1td__api_1_1bot_menu_button.html">botMenuButton</a> button, an <a class="el" href="classtd_1_1td__api_1_1internal_link_type_attachment_menu_bot.html">internalLinkTypeAttachmentMenuBot</a> link, or an empty string otherwise. |
   | theme | themeParameters | Preferred Web App theme; pass null to use the default theme. |
-  | reply_to_message_id | int53 | Identifier of the replied message for the message sent by the Web App; 0 if none. |
+  | application_name | string | Short name of the application; 0-64 English letters, digits, and underscores. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the message will be sent. |
+  | reply_to | InputMessageReplyTo | Information about the message or story to be replied in the message sent by the Web App; pass null if none. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1open_web_app.html).
   """
 
-  defstruct "@type": "openWebApp", "@extra": nil, chat_id: nil, bot_user_id: nil, url: nil, theme: nil, reply_to_message_id: nil
+  defstruct "@type": "openWebApp", "@extra": nil, chat_id: nil, bot_user_id: nil, url: nil, theme: nil, application_name: nil, message_thread_id: nil, reply_to: nil
+end
+defmodule GetBusinessConnectedBot do
+  @moduledoc  """
+  Returns the business bot that is connected to the current user account. Returns a 404 error if there is no connected bot.
+  Returns object_ptr<BusinessConnectedBot>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_business_connected_bot.html).
+  """
+
+  defstruct "@type": "getBusinessConnectedBot", "@extra": nil
+end
+defmodule LaunchPrepaidPremiumGiveaway do
+  @moduledoc  """
+  Launches a prepaid Telegram Premium giveaway.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | giveaway_id | int64 | Unique identifier of the prepaid giveaway. |
+  | parameters | premiumGiveawayParameters | Giveaway parameters. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1launch_prepaid_premium_giveaway.html).
+  """
+
+  defstruct "@type": "launchPrepaidPremiumGiveaway", "@extra": nil, giveaway_id: nil, parameters: nil
 end
 defmodule SetCommands do
   @moduledoc  """
@@ -6075,19 +9077,31 @@ defmodule SetCommands do
 end
 defmodule GetWebAppUrl do
   @moduledoc  """
-  Returns an HTTPS URL of a Web App to open after keyboardButtonTypeWebApp button is pressed.
+  Returns an HTTPS URL of a Web App to open from the side menu, a keyboardButtonTypeWebApp button, an inlineQueryResultsButtonTypeWebApp button, or an internalLinkTypeSideMenuBot link.
   Returns object_ptr<HttpUrl>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | bot_user_id | int53 | Identifier of the target bot. |
-  | url | string | The URL from the <a class="el" href="classtd_1_1td__api_1_1keyboard_button_type_web_app.html">keyboardButtonTypeWebApp</a> button. |
+  | url | string | The URL from a <a class="el" href="classtd_1_1td__api_1_1keyboard_button_type_web_app.html">keyboardButtonTypeWebApp</a> button, <a class="el" href="classtd_1_1td__api_1_1inline_query_results_button_type_web_app.html">inlineQueryResultsButtonTypeWebApp</a> button, an <a class="el" href="classtd_1_1td__api_1_1internal_link_type_side_menu_bot.html">internalLinkTypeSideMenuBot</a> link, or an empty when the bot is opened from the side menu. |
   | theme | themeParameters | Preferred Web App theme; pass null to use the default theme. |
+  | application_name | string | Short name of the application; 0-64 English letters, digits, and underscores. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_web_app_url.html).
   """
 
-  defstruct "@type": "getWebAppUrl", "@extra": nil, bot_user_id: nil, url: nil, theme: nil
+  defstruct "@type": "getWebAppUrl", "@extra": nil, bot_user_id: nil, url: nil, theme: nil, application_name: nil
+end
+defmodule GetGreetingStickers do
+  @moduledoc  """
+  Returns greeting stickers from regular sticker sets that can be used for the start page of other users.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_greeting_stickers.html).
+  """
+
+  defstruct "@type": "getGreetingStickers", "@extra": nil
 end
 defmodule GetMessageEmbeddingCode do
   @moduledoc  """
@@ -6121,18 +9135,19 @@ defmodule ToggleSupergroupIsBroadcastGroup do
 end
 defmodule GetMessageAvailableReactions do
   @moduledoc  """
-  Returns reactions, which can be added to a message. The list can change after updateReactions, updateChatAvailableReactions for the chat, or updateMessageInteractionInfo for the message. The method will return Premium reactions, even the current user has no Premium subscription.
+  Returns reactions, which can be added to a message. The list can change after updateActiveEmojiReactions, updateChatAvailableReactions for the chat, or updateMessageInteractionInfo for the message.
   Returns object_ptr<AvailableReactions>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat to which the message belongs. |
   | message_id | int53 | Identifier of the message. |
+  | row_size | int32 | Number of reaction per row, 5-25. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_available_reactions.html).
   """
 
-  defstruct "@type": "getMessageAvailableReactions", "@extra": nil, chat_id: nil, message_id: nil
+  defstruct "@type": "getMessageAvailableReactions", "@extra": nil, chat_id: nil, message_id: nil, row_size: nil
 end
 defmodule CloseChat do
   @moduledoc  """
@@ -6172,7 +9187,7 @@ defmodule DeleteSavedCredentials do
 end
 defmodule RateSpeechRecognition do
   @moduledoc  """
-  Rates recognized speech in a voice note message.
+  Rates recognized speech in a video note or a voice note message.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -6185,6 +9200,21 @@ defmodule RateSpeechRecognition do
   """
 
   defstruct "@type": "rateSpeechRecognition", "@extra": nil, chat_id: nil, message_id: nil, is_good: nil
+end
+defmodule BoostChat do
+  @moduledoc  """
+  Boosts a chat and returns the list of available chat boost slots for the current user after the boost.
+  Returns object_ptr<ChatBoostSlots>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | slot_ids | int32 | Identifiers of boost slots of the current user from which to apply boosts to the chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1boost_chat.html).
+  """
+
+  defstruct "@type": "boostChat", "@extra": nil, chat_id: nil, slot_ids: nil
 end
 defmodule GetChatListsToAddChat do
   @moduledoc  """
@@ -6279,6 +9309,20 @@ defmodule RemoveSavedNotificationSound do
 
   defstruct "@type": "removeSavedNotificationSound", "@extra": nil, notification_sound_id: nil
 end
+defmodule SetArchiveChatListSettings do
+  @moduledoc  """
+  Changes settings for automatic moving of chats to and from the Archive chat lists.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | settings | archiveChatListSettings | New settings. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_archive_chat_list_settings.html).
+  """
+
+  defstruct "@type": "setArchiveChatListSettings", "@extra": nil, settings: nil
+end
 defmodule GetJsonValue do
   @moduledoc  """
   Converts a JSON-serialized string to corresponding JsonValue object. Can be called synchronously.
@@ -6292,6 +9336,21 @@ defmodule GetJsonValue do
   """
 
   defstruct "@type": "getJsonValue", "@extra": nil, json: nil
+end
+defmodule SetStoryPrivacySettings do
+  @moduledoc  """
+  Changes privacy settings of a story. The method can be called only for stories posted on behalf of the current user and if story.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_id | int32 | Identifier of the story. |
+  | privacy_settings | StoryPrivacySettings | The new privacy settigs for the story. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_story_privacy_settings.html).
+  """
+
+  defstruct "@type": "setStoryPrivacySettings", "@extra": nil, story_id: nil, privacy_settings: nil
 end
 defmodule BlockMessageSenderFromReplies do
   @moduledoc  """
@@ -6317,7 +9376,7 @@ defmodule GetRecoveryEmailAddress do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | password | string | The password for the current user. |
+  | password | string | The 2-step verification password for the current user. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_recovery_email_address.html).
   """
@@ -6337,6 +9396,17 @@ defmodule DeletePassportElement do
   """
 
   defstruct "@type": "deletePassportElement", "@extra": nil, type: nil
+end
+defmodule GetThemedEmojiStatuses do
+  @moduledoc  """
+  Returns up to 8 emoji statuses, which must be shown right after the default Premium Badge in the emoji status list for self status.
+  Returns object_ptr<EmojiStatuses>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_themed_emoji_statuses.html).
+  """
+
+  defstruct "@type": "getThemedEmojiStatuses", "@extra": nil
 end
 defmodule GetNetworkStatistics do
   @moduledoc  """
@@ -6378,7 +9448,7 @@ defmodule SendPaymentForm do
   | payment_form_id | int64 | Payment form identifier returned by <a class="el" href="classtd_1_1td__api_1_1get_payment_form.html">getPaymentForm</a>. |
   | order_info_id | string | Identifier returned by <a class="el" href="classtd_1_1td__api_1_1validate_order_info.html">validateOrderInfo</a>, or an empty string. |
   | shipping_option_id | string | Identifier of a chosen shipping option, if applicable. |
-  | credentials | InputCredentials | The credentials chosen by user for payment. |
+  | credentials | InputCredentials | The credentials chosen by user for payment; pass null for a payment in Telegram stars. |
   | tip_amount | int53 | Chosen by the user amount of tip in the smallest units of the currency. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_payment_form.html).
@@ -6386,19 +9456,36 @@ defmodule SendPaymentForm do
 
   defstruct "@type": "sendPaymentForm", "@extra": nil, input_invoice: nil, payment_form_id: nil, order_info_id: nil, shipping_option_id: nil, credentials: nil, tip_amount: nil
 end
-defmodule SendChatScreenshotTakenNotification do
+defmodule SetSavedMessagesTagLabel do
   @moduledoc  """
-  Sends a notification about a screenshot taken in a chat. Supported only in private and secret chats.
+  Changes label of a Saved Messages tag; for Telegram Premium users only.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | chat_id | int53 | Chat identifier. |
+  | tag | ReactionType | The tag which label will be changed. |
+  | label | string | New label for the tag; 0-12 characters. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_chat_screenshot_taken_notification.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_saved_messages_tag_label.html).
   """
 
-  defstruct "@type": "sendChatScreenshotTakenNotification", "@extra": nil, chat_id: nil
+  defstruct "@type": "setSavedMessagesTagLabel", "@extra": nil, tag: nil, label: nil
+end
+defmodule GetStory do
+  @moduledoc  """
+  Returns a story.
+  Returns object_ptr<Story>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | Identifier of the chat that posted the story. |
+  | story_id | int32 | Story identifier. |
+  | only_local | bool | Pass true to get only locally available information without sending network requests. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_story.html).
+  """
+
+  defstruct "@type": "getStory", "@extra": nil, story_sender_chat_id: nil, story_id: nil, only_local: nil
 end
 defmodule GetChatMember do
   @moduledoc  """
@@ -6415,6 +9502,17 @@ defmodule GetChatMember do
 
   defstruct "@type": "getChatMember", "@extra": nil, chat_id: nil, member_id: nil
 end
+defmodule ClearRecentReactions do
+  @moduledoc  """
+  Clears the list of recently used reactions.
+  Returns object_ptr<Ok>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1clear_recent_reactions.html).
+  """
+
+  defstruct "@type": "clearRecentReactions", "@extra": nil
+end
 defmodule ForwardMessages do
   @moduledoc  """
   Forwards previously sent messages. Returns the forwarded messages in the same order as the message identifiers passed in message_ids. If a message can't be forwarded, null will be returned instead of the message.
@@ -6423,17 +9521,17 @@ defmodule ForwardMessages do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat to which to forward messages. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the message will be sent; for forum threads only. |
   | from_chat_id | int53 | Identifier of the chat from which to forward messages. |
-  | message_ids | int53 | Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order. At most 100 messages can be forwarded simultaneously. |
+  | message_ids | int53 | Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order. At most 100 messages can be forwarded simultaneously. A message can be forwarded only if message.can_be_forwarded. |
   | options | messageSendOptions | Options to be used to send the messages; pass null to use default options. |
   | send_copy | bool | Pass true to copy content of the messages without reference to the original sender. Always true if the messages are forwarded to a secret chat or are local. |
   | remove_caption | bool | Pass true to remove media captions of message copies. Ignored if send_copy is false. |
-  | only_preview | bool | Pass true to get fake messages instead of actually forwarding them. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1forward_messages.html).
   """
 
-  defstruct "@type": "forwardMessages", "@extra": nil, chat_id: nil, from_chat_id: nil, message_ids: nil, options: nil, send_copy: nil, remove_caption: nil, only_preview: nil
+  defstruct "@type": "forwardMessages", "@extra": nil, chat_id: nil, message_thread_id: nil, from_chat_id: nil, message_ids: nil, options: nil, send_copy: nil, remove_caption: nil
 end
 defmodule GetInlineGameHighScores do
   @moduledoc  """
@@ -6490,6 +9588,20 @@ defmodule GetChatJoinRequests do
 
   defstruct "@type": "getChatJoinRequests", "@extra": nil, chat_id: nil, invite_link: nil, query: nil, offset_request: nil, limit: nil
 end
+defmodule DeleteSavedMessagesTopicHistory do
+  @moduledoc  """
+  Deletes all messages in a Saved Messages topic.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_id | int53 | Identifier of Saved Messages topic which messages will be deleted. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_saved_messages_topic_history.html).
+  """
+
+  defstruct "@type": "deleteSavedMessagesTopicHistory", "@extra": nil, saved_messages_topic_id: nil
+end
 defmodule CheckRecoveryEmailAddressCode do
   @moduledoc  """
   Checks the 2-step verification recovery email address verification code.
@@ -6533,6 +9645,17 @@ defmodule CreateInvoiceLink do
 
   defstruct "@type": "createInvoiceLink", "@extra": nil, invoice: nil
 end
+defmodule GetDefaultProfilePhotoCustomEmojiStickers do
+  @moduledoc  """
+  Returns default list of custom emoji stickers for placing on a profile photo.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_default_profile_photo_custom_emoji_stickers.html).
+  """
+
+  defstruct "@type": "getDefaultProfilePhotoCustomEmojiStickers", "@extra": nil
+end
 defmodule SetChatTheme do
   @moduledoc  """
   Changes the chat theme. Supported only in private and secret chats.
@@ -6548,6 +9671,34 @@ defmodule SetChatTheme do
 
   defstruct "@type": "setChatTheme", "@extra": nil, chat_id: nil, theme_name: nil
 end
+defmodule GetStoryPublicForwards do
+  @moduledoc  """
+  Returns forwards of a story as a message to public chats and reposts by public channels. Can be used only if the story is posted on behalf of the current user or story.can_get_statistics == true. For optimal performance, the number of returned messages and stories is chosen by TDLib.
+  Returns object_ptr<PublicForwards>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | The identifier of the sender of the story. |
+  | story_id | int32 | The identifier of the story. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of messages and stories to be returned; must be positive and can't be greater than 100. For optimal performance, the number of returned objects is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_story_public_forwards.html).
+  """
+
+  defstruct "@type": "getStoryPublicForwards", "@extra": nil, story_sender_chat_id: nil, story_id: nil, offset: nil, limit: nil
+end
+defmodule GetThemedChatEmojiStatuses do
+  @moduledoc  """
+  Returns up to 8 emoji statuses, which must be shown in the emoji status list for chats.
+  Returns object_ptr<EmojiStatuses>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_themed_chat_emoji_statuses.html).
+  """
+
+  defstruct "@type": "getThemedChatEmojiStatuses", "@extra": nil
+end
 defmodule ToggleChatIsMarkedAsUnread do
   @moduledoc  """
   Changes the marked as unread state of a chat.
@@ -6562,6 +9713,24 @@ defmodule ToggleChatIsMarkedAsUnread do
   """
 
   defstruct "@type": "toggleChatIsMarkedAsUnread", "@extra": nil, chat_id: nil, is_marked_as_unread: nil
+end
+defmodule GetChatMessagePosition do
+  @moduledoc  """
+  Returns approximate 1-based position of a message among messages, which can be found by the specified filter in the chat. Cannot be used in secret chats.
+  Returns object_ptr<Count>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat in which to find message position. |
+  | message_id | int53 | Message identifier. |
+  | filter | SearchMessagesFilter | Filter for message content; <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_empty.html">searchMessagesFilterEmpty</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_mention.html">searchMessagesFilterUnreadMention</a>, <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_unread_reaction.html">searchMessagesFilterUnreadReaction</a>, and <a class="el" href="classtd_1_1td__api_1_1search_messages_filter_failed_to_send.html">searchMessagesFilterFailedToSend</a> are unsupported in this function. |
+  | message_thread_id | int53 | If not 0, only messages in the specified thread will be considered; supergroups only. |
+  | saved_messages_topic_id | int53 | If not 0, only messages in the specified Saved Messages topic will be considered; pass 0 to consider all relevant messages, or for chats other than Saved Messages. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_message_position.html).
+  """
+
+  defstruct "@type": "getChatMessagePosition", "@extra": nil, chat_id: nil, message_id: nil, filter: nil, message_thread_id: nil, saved_messages_topic_id: nil
 end
 defmodule SearchChatsOnServer do
   @moduledoc  """
@@ -6585,12 +9754,57 @@ defmodule AddCustomServerLanguagePack do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | language_pack_id | string | Identifier of a language pack to be added; may be different from a name that is used in an "<a href="https://t.me/setlanguage/">https://t.me/setlanguage/</a>" link. |
+  | language_pack_id | string | Identifier of a language pack to be added. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1add_custom_server_language_pack.html).
   """
 
   defstruct "@type": "addCustomServerLanguagePack", "@extra": nil, language_pack_id: nil
+end
+defmodule DeleteForumTopic do
+  @moduledoc  """
+  Deletes all messages in a forum topic; requires can_delete_messages administrator right in the supergroup unless the user is creator of the topic, the topic has no messages from other users and has at most 11 messages.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | message_thread_id | int53 | Message thread identifier of the forum topic. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_forum_topic.html).
+  """
+
+  defstruct "@type": "deleteForumTopic", "@extra": nil, chat_id: nil, message_thread_id: nil
+end
+defmodule SetBotInfoShortDescription do
+  @moduledoc  """
+  Sets the text shown on a bot's profile page and sent together with the link when users share the bot. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | language_code | string | A two-letter ISO 639-1 language code. If empty, the short description will be shown to all users for whose languages there is no dedicated description. |
+  | short_description | string | New bot's short description on the specified language. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_bot_info_short_description.html).
+  """
+
+  defstruct "@type": "setBotInfoShortDescription", "@extra": nil, bot_user_id: nil, language_code: nil, short_description: nil
+end
+defmodule CheckQuickReplyShortcutName do
+  @moduledoc  """
+  Checks validness of a name for a quick reply shortcut. Can be called synchronously.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | name | string | The name of the shortcut; 1-32 characters. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_quick_reply_shortcut_name.html).
+  """
+
+  defstruct "@type": "checkQuickReplyShortcutName", "@extra": nil, name: nil
 end
 defmodule GetMapThumbnailFile do
   @moduledoc  """
@@ -6642,19 +9856,36 @@ defmodule GetGroupCallInviteLink do
 
   defstruct "@type": "getGroupCallInviteLink", "@extra": nil, group_call_id: nil, can_self_unmute: nil
 end
-defmodule CreateChatFilter do
+defmodule GetMessageReadDate do
   @moduledoc  """
-  Creates new chat filter. Returns information about the created chat filter. There can be up to GetOption("chat_filter_count_max") chat filters, but the limit can be increased with Telegram Premium.
-  Returns object_ptr<ChatFilterInfo>.
+  Returns read date of a recent outgoing message in a private chat. The method can be called if message.can_get_read_date == true and the message is read.
+  Returns object_ptr<MessageReadDate>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | filter | chatFilter | Chat filter. |
+  | chat_id | int53 | Chat identifier. |
+  | message_id | int53 | Identifier of the message. |
 
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_chat_filter.html).
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_message_read_date.html).
   """
 
-  defstruct "@type": "createChatFilter", "@extra": nil, filter: nil
+  defstruct "@type": "getMessageReadDate", "@extra": nil, chat_id: nil, message_id: nil
+end
+defmodule ToggleSupergroupUsernameIsActive do
+  @moduledoc  """
+  Changes active state for a username of a supergroup or channel, requires owner privileges in the supergroup or channel. The editable username can't be disabled. May return an error with a message "USERNAMES_ACTIVE_TOO_MUCH" if the maximum number of active usernames has been reached.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup or channel. |
+  | username | string | The username to change. |
+  | is_active | bool | Pass true to activate the username; pass false to disable it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_supergroup_username_is_active.html).
+  """
+
+  defstruct "@type": "toggleSupergroupUsernameIsActive", "@extra": nil, supergroup_id: nil, username: nil, is_active: nil
 end
 defmodule TestCallVectorString do
   @moduledoc  """
@@ -6670,9 +9901,25 @@ defmodule TestCallVectorString do
 
   defstruct "@type": "testCallVectorString", "@extra": nil, x: nil
 end
+defmodule CreateChatFolderInviteLink do
+  @moduledoc  """
+  Creates a new invite link for a chat folder. A link can be created for a chat folder if it has only pinned and included chats.
+  Returns object_ptr<ChatFolderInviteLink>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_folder_id | int32 | Chat folder identifier. |
+  | name | string | Name of the link; 0-32 characters. |
+  | chat_ids | int53 | Identifiers of chats to be accessible by the invite link. Use <a class="el" href="classtd_1_1td__api_1_1get_chats_for_chat_folder_invite_link.html">getChatsForChatFolderInviteLink</a> to get suitable chats. Basic groups will be automatically converted to supergroups before link creation. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_chat_folder_invite_link.html).
+  """
+
+  defstruct "@type": "createChatFolderInviteLink", "@extra": nil, chat_folder_id: nil, name: nil, chat_ids: nil
+end
 defmodule SetChatTitle do
   @moduledoc  """
-  Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info administrator right.
+  Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info member right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -6693,17 +9940,17 @@ defmodule SendInlineQueryResultMessage do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Target chat. |
-  | message_thread_id | int53 | If not 0, a message thread identifier in which the message will be sent. |
-  | reply_to_message_id | int53 | Identifier of a replied message; 0 if none. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the message will be sent. |
+  | reply_to | InputMessageReplyTo | Information about the message or story to be replied; pass null if none. |
   | options | messageSendOptions | Options to be used to send the message; pass null to use default options. |
   | query_id | int64 | Identifier of the inline query. |
-  | result_id | string | Identifier of the inline result. |
-  | hide_via_bot | bool | Pass true to hide the bot, via which the message is sent. Can be used only for bots GetOption("animation_search_bot_username"), GetOption("photo_search_bot_username"), and GetOption("venue_search_bot_username"). |
+  | result_id | string | Identifier of the inline query result. |
+  | hide_via_bot | bool | Pass true to hide the bot, via which the message is sent. Can be used only for bots <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("animation_search_bot_username"), <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("photo_search_bot_username"), and <a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("venue_search_bot_username"). |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_inline_query_result_message.html).
   """
 
-  defstruct "@type": "sendInlineQueryResultMessage", "@extra": nil, chat_id: nil, message_thread_id: nil, reply_to_message_id: nil, options: nil, query_id: nil, result_id: nil, hide_via_bot: nil
+  defstruct "@type": "sendInlineQueryResultMessage", "@extra": nil, chat_id: nil, message_thread_id: nil, reply_to: nil, options: nil, query_id: nil, result_id: nil, hide_via_bot: nil
 end
 defmodule GetMessageStatistics do
   @moduledoc  """
@@ -6723,7 +9970,7 @@ defmodule GetMessageStatistics do
 end
 defmodule SetChatSlowModeDelay do
   @moduledoc  """
-  Changes the slow mode delay of a chat. Available only for supergroups; requires can_restrict_members rights.
+  Changes the slow mode delay of a chat. Available only for supergroups; requires can_restrict_members right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -6735,6 +9982,32 @@ defmodule SetChatSlowModeDelay do
   """
 
   defstruct "@type": "setChatSlowModeDelay", "@extra": nil, chat_id: nil, slow_mode_delay: nil
+end
+defmodule CanSendMessageToUser do
+  @moduledoc  """
+  Check whether the current user can message another user or try to create a chat with them.
+  Returns object_ptr<CanSendMessageToUserResult>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | Identifier of the other user. |
+  | only_local | bool | Pass true to get only locally available information without sending network requests. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1can_send_message_to_user.html).
+  """
+
+  defstruct "@type": "canSendMessageToUser", "@extra": nil, user_id: nil, only_local: nil
+end
+defmodule GetNewChatPrivacySettings do
+  @moduledoc  """
+  Returns privacy settings for new chat creation.
+  Returns object_ptr<NewChatPrivacySettings>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_new_chat_privacy_settings.html).
+  """
+
+  defstruct "@type": "getNewChatPrivacySettings", "@extra": nil
 end
 defmodule DisconnectWebsite do
   @moduledoc  """
@@ -6749,6 +10022,20 @@ defmodule DisconnectWebsite do
   """
 
   defstruct "@type": "disconnectWebsite", "@extra": nil, website_id: nil
+end
+defmodule LoadActiveStories do
+  @moduledoc  """
+  Loads more active stories from a story list. The loaded stories will be sent through updates. Active stories are sorted by the pair (active_stories.order, active_stories.story_sender_chat_id) in descending order. Returns a 404 error if all active stories have been loaded.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_list | StoryList | The story list in which to load active stories. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1load_active_stories.html).
+  """
+
+  defstruct "@type": "loadActiveStories", "@extra": nil, story_list: nil
 end
 defmodule SetCustomLanguagePackString do
   @moduledoc  """
@@ -6795,10 +10082,24 @@ defmodule EditMessageSchedulingState do
 
   defstruct "@type": "editMessageSchedulingState", "@extra": nil, chat_id: nil, message_id: nil, scheduling_state: nil
 end
+defmodule CheckPremiumGiftCode do
+  @moduledoc  """
+  Return information about a Telegram Premium gift code.
+  Returns object_ptr<PremiumGiftCodeInfo>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | code | string | The code to check. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_premium_gift_code.html).
+  """
+
+  defstruct "@type": "checkPremiumGiftCode", "@extra": nil, code: nil
+end
 defmodule AddChatMember do
   @moduledoc  """
-  Adds a new member to a chat. Members can't be added to private or secret chats.
-  Returns object_ptr<Ok>.
+  Adds a new member to a chat; requires can_invite_users member right. Members can't be added to private or secret chats. Returns information about members that weren't added.
+  Returns object_ptr<FailedToAddMembers>.
 
   | Name | Type | Description |
   |------|------| ------------|
@@ -6818,7 +10119,7 @@ defmodule SetBio do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | bio | string | The new value of the user bio; 0-GetOption("bio_length_max") characters without line feeds. |
+  | bio | string | The new value of the user bio; 0-<a class="el" href="classtd_1_1td__api_1_1get_option.html">getOption</a>("bio_length_max") characters without line feeds. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_bio.html).
   """
@@ -6827,7 +10128,7 @@ defmodule SetBio do
 end
 defmodule SetChatDescription do
   @moduledoc  """
-  Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info administrator right.
+  Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info member right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -6840,6 +10141,20 @@ defmodule SetChatDescription do
 
   defstruct "@type": "setChatDescription", "@extra": nil, chat_id: nil, description: nil
 end
+defmodule CheckPhoneNumberCode do
+  @moduledoc  """
+  Check the authentication code and completes the request for which the code was sent if appropriate.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | code | string | Authentication code to check. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1check_phone_number_code.html).
+  """
+
+  defstruct "@type": "checkPhoneNumberCode", "@extra": nil, code: nil
+end
 defmodule TestProxy do
   @moduledoc  """
   Sends a simple network request to the Telegram servers via proxy; for testing only. Can be called before authorization.
@@ -6847,7 +10162,7 @@ defmodule TestProxy do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | server | string | Proxy server IP address. |
+  | server | string | Proxy server domain or IP address. |
   | port | int32 | Proxy server port. |
   | type | ProxyType | Proxy type. |
   | dc_id | int32 | Identifier of a datacenter with which to test connection. |
@@ -6890,6 +10205,17 @@ defmodule DownloadFile do
 
   defstruct "@type": "downloadFile", "@extra": nil, file_id: nil, priority: nil, offset: nil, limit: nil, synchronous: nil
 end
+defmodule GetTimeZones do
+  @moduledoc  """
+  Returns the list of supported time zones.
+  Returns object_ptr<TimeZones>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_time_zones.html).
+  """
+
+  defstruct "@type": "getTimeZones", "@extra": nil
+end
 defmodule SetOption do
   @moduledoc  """
   Sets the value of an option. (Check the list of available options on https://core.telegram.org/tdlib/options.) Only writable options can be set. Can be called before authorization.
@@ -6905,6 +10231,88 @@ defmodule SetOption do
 
   defstruct "@type": "setOption", "@extra": nil, name: nil, value: nil
 end
+defmodule SetCloseFriends do
+  @moduledoc  """
+  Changes the list of close friends of the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_ids | int53 | User identifiers of close friends; the users must be contacts of the current user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_close_friends.html).
+  """
+
+  defstruct "@type": "setCloseFriends", "@extra": nil, user_ids: nil
+end
+defmodule SuggestUserProfilePhoto do
+  @moduledoc  """
+  Suggests a profile photo to another regular user with common messages.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | user_id | int53 | User identifier. |
+  | photo | InputChatPhoto | Profile photo to suggest; <a class="el" href="classtd_1_1td__api_1_1input_chat_photo_previous.html">inputChatPhotoPrevious</a> isn't supported in this function. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1suggest_user_profile_photo.html).
+  """
+
+  defstruct "@type": "suggestUserProfilePhoto", "@extra": nil, user_id: nil, photo: nil
+end
+defmodule GetStoryNotificationSettingsExceptions do
+  @moduledoc  """
+  Returns the list of chats with non-default notification settings for stories.
+  Returns object_ptr<Chats>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_story_notification_settings_exceptions.html).
+  """
+
+  defstruct "@type": "getStoryNotificationSettingsExceptions", "@extra": nil
+end
+defmodule ToggleStoryIsPostedToChatPage do
+  @moduledoc  """
+  Toggles whether a story is accessible after expiration. Can be called only if story.can_toggle_is_posted_to_chat_page == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | Identifier of the chat that posted the story. |
+  | story_id | int32 | Identifier of the story. |
+  | is_posted_to_chat_page | bool | Pass true to make the story accessible after expiration; pass false to make it private. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_story_is_posted_to_chat_page.html).
+  """
+
+  defstruct "@type": "toggleStoryIsPostedToChatPage", "@extra": nil, story_sender_chat_id: nil, story_id: nil, is_posted_to_chat_page: nil
+end
+defmodule GetStarRevenueStatistics do
+  @moduledoc  """
+  Returns detailed Telegram star revenue statistics.
+  Returns object_ptr<StarRevenueStatistics>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | owner_id | MessageSender | Identifier of the owner of the Telegram stars; can be identifier of an owned bot, or identifier of a channel chat with supergroupFullInfo.can_get_revenue_statistics == true. |
+  | is_dark | bool | Pass true if a dark theme is used by the application. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_star_revenue_statistics.html).
+  """
+
+  defstruct "@type": "getStarRevenueStatistics", "@extra": nil, owner_id: nil, is_dark: nil
+end
+defmodule CancelRecoveryEmailAddressVerification do
+  @moduledoc  """
+  Cancels verification of the 2-step verification recovery email address.
+  Returns object_ptr<PasswordState>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1cancel_recovery_email_address_verification.html).
+  """
+
+  defstruct "@type": "cancelRecoveryEmailAddressVerification", "@extra": nil
+end
 defmodule AddProxy do
   @moduledoc  """
   Adds a proxy server for network requests. Can be called before authorization.
@@ -6912,7 +10320,7 @@ defmodule AddProxy do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | server | string | Proxy server IP address. |
+  | server | string | Proxy server domain or IP address. |
   | port | int32 | Proxy server port. |
   | enable | bool | Pass true to immediately enable the proxy. |
   | type | ProxyType | Proxy type. |
@@ -6924,14 +10332,14 @@ defmodule AddProxy do
 end
 defmodule TransferChatOwnership do
   @moduledoc  """
-  Changes the owner of a chat. The current user must be a current owner of the chat. Use the method canTransferOwnership to check whether the ownership can be transferred from the current session. Available only for supergroups and channel chats.
+  Changes the owner of a chat; requires owner privileges in the chat. Use the method canTransferOwnership to check whether the ownership can be transferred from the current session. Available only for supergroups and channel chats.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
   | user_id | int53 | Identifier of the user to which transfer the ownership. The ownership can't be transferred to a bot or to a deleted user. |
-  | password | string | The password of the current user. |
+  | password | string | The 2-step verification password of the current user. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1transfer_chat_ownership.html).
   """
@@ -7002,7 +10410,7 @@ defmodule SetCustomLanguagePack do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | info | languagePackInfo | Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization. |
+  | info | languagePackInfo | Information about the language pack. Language pack identifier must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization. |
   | strings | languagePackString | Strings of the new language pack. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_custom_language_pack.html).
@@ -7012,13 +10420,13 @@ defmodule SetCustomLanguagePack do
 end
 defmodule SetPassword do
   @moduledoc  """
-  Changes the password for the current user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed.
+  Changes the 2-step verification password for the current user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed.
   Returns object_ptr<PasswordState>.
 
   | Name | Type | Description |
   |------|------| ------------|
-  | old_password | string | Previous password of the user. |
-  | new_password | string | New password of the user; may be empty to remove the password. |
+  | old_password | string | Previous 2-step verification password of the user. |
+  | new_password | string | New 2-step verification password of the user; may be empty to remove the password. |
   | new_hint | string | New password hint; may be empty. |
   | set_recovery_email_address | bool | Pass true to change also the recovery email address. |
   | new_recovery_email_address | string | New recovery email address; may be empty. |
@@ -7030,7 +10438,7 @@ defmodule SetPassword do
 end
 defmodule GetVideoChatAvailableParticipants do
   @moduledoc  """
-  Returns list of participant identifiers, on whose behalf a video chat in the chat can be joined.
+  Returns the list of participant identifiers, on whose behalf a video chat in the chat can be joined.
   Returns object_ptr<MessageSenders>.
 
   | Name | Type | Description |
@@ -7056,6 +10464,38 @@ defmodule LeaveGroupCall do
 
   defstruct "@type": "leaveGroupCall", "@extra": nil, group_call_id: nil
 end
+defmodule SetStoryReaction do
+  @moduledoc  """
+  Changes chosen reaction on a story that has already been sent.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_sender_chat_id | int53 | The identifier of the sender of the story. |
+  | story_id | int32 | The identifier of the story. |
+  | reaction_type | ReactionType | Type of the reaction to set; pass null to remove the reaction. <code><a class="el" href="classtd_1_1td__api_1_1reaction_type_custom_emoji.html">reactionTypeCustomEmoji</a></code> reactions can be used only by Telegram Premium users. |
+  | update_recent_reactions | bool | Pass true if the reaction needs to be added to recent reactions. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_story_reaction.html).
+  """
+
+  defstruct "@type": "setStoryReaction", "@extra": nil, story_sender_chat_id: nil, story_id: nil, reaction_type: nil, update_recent_reactions: nil
+end
+defmodule GetOwnedStickerSets do
+  @moduledoc  """
+  Returns sticker sets owned by the current user.
+  Returns object_ptr<StickerSets>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | offset_sticker_set_id | int64 | Identifier of the sticker set from which to return owned sticker sets; use 0 to get results from the beginning. |
+  | limit | int32 | The maximum number of sticker sets to be returned; must be positive and can't be greater than 100. For optimal performance, the number of returned objects is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_owned_sticker_sets.html).
+  """
+
+  defstruct "@type": "getOwnedStickerSets", "@extra": nil, offset_sticker_set_id: nil, limit: nil
+end
 defmodule SetDefaultGroupAdministratorRights do
   @moduledoc  """
   Sets default administrator rights for adding the bot to basic group and supergroup chats; for bots only.
@@ -7063,7 +10503,7 @@ defmodule SetDefaultGroupAdministratorRights do
 
   | Name | Type | Description |
   |------|------| ------------|
-  | default_group_administrator_rights | chatAdministratorRights | Default administrator rights for adding the bot to basic group and supergroup chats; may be null. |
+  | default_group_administrator_rights | chatAdministratorRights | Default administrator rights for adding the bot to basic group and supergroup chats; pass null to remove default rights. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_default_group_administrator_rights.html).
   """
@@ -7092,8 +10532,8 @@ defmodule SetChatDraftMessage do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Chat identifier. |
-  | message_thread_id | int53 | If not 0, a message thread identifier in which the draft was changed. |
-  | draft_message | draftMessage | New draft message; pass null to remove the draft. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the draft was changed. |
+  | draft_message | draftMessage | New draft message; pass null to remove the draft. All files in draft message content must be of the type <a class="el" href="classtd_1_1td__api_1_1input_file_local.html">inputFileLocal</a>. Media thumbnails and captions are ignored. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_draft_message.html).
   """
@@ -7109,18 +10549,55 @@ defmodule CreateNewStickerSet do
   |------|------| ------------|
   | user_id | int53 | Sticker set owner; ignored for regular users. |
   | title | string | Sticker set title; 1-64 characters. |
-  | name | string | Sticker set name. Can contain only English letters, digits and underscores. Must end with <em>"<em>by</em><bot username>"</em> (<em><bot_username></em> is case insensitive) for bots; 1-64 characters. |
-  | stickers | inputSticker | List of stickers to be added to the set; must be non-empty. All stickers must have the same format. For TGS stickers, <a class="el" href="classtd_1_1td__api_1_1upload_sticker_file.html">uploadStickerFile</a> must be used before the sticker is shown. |
+  | name | string | Sticker set name. Can contain only English letters, digits and underscores. Must end with <em>"<em>by</em><bot username>"</em> (<em><bot_username></em> is case insensitive) for bots; 0-64 characters. If empty, then the name returned by <a class="el" href="classtd_1_1td__api_1_1get_suggested_sticker_set_name.html">getSuggestedStickerSetName</a> will be used automatically. |
+  | sticker_type | StickerType | Type of the stickers in the set. |
+  | needs_repainting | bool | Pass true if stickers in the sticker set must be repainted; for custom emoji sticker sets only. |
+  | stickers | inputSticker | List of stickers to be added to the set; 1-200 stickers for custom emoji sticker sets, and 1-120 stickers otherwise. For TGS stickers, <a class="el" href="classtd_1_1td__api_1_1upload_sticker_file.html">uploadStickerFile</a> must be used before the sticker is shown. |
   | source | string | Source of the sticker set; may be empty if unknown. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1create_new_sticker_set.html).
   """
 
-  defstruct "@type": "createNewStickerSet", "@extra": nil, user_id: nil, title: nil, name: nil, stickers: nil, source: nil
+  defstruct "@type": "createNewStickerSet", "@extra": nil, user_id: nil, title: nil, name: nil, sticker_type: nil, needs_repainting: nil, stickers: nil, source: nil
+end
+defmodule GetBotInfoShortDescription do
+  @moduledoc  """
+  Returns the text shown on a bot's profile page and sent together with the link when users share the bot in the given language. Can be called only if userTypeBot.can_be_edited == true.
+  Returns object_ptr<Text>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+  | language_code | string | A two-letter ISO 639-1 language code or an empty string. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_bot_info_short_description.html).
+  """
+
+  defstruct "@type": "getBotInfoShortDescription", "@extra": nil, bot_user_id: nil, language_code: nil
+end
+defmodule GetStoryInteractions do
+  @moduledoc  """
+  Returns interactions with a story. The method can be called only for stories posted on behalf of the current user.
+  Returns object_ptr<StoryInteractions>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | story_id | int32 | Story identifier. |
+  | query | string | Query to search for in names, usernames and titles; may be empty to get all relevant interactions. |
+  | only_contacts | bool | Pass true to get only interactions by contacts; pass false to get all relevant interactions. |
+  | prefer_forwards | bool | Pass true to get forwards and reposts first, then reactions, then other views; pass false to get interactions sorted just by interaction date. |
+  | prefer_with_reaction | bool | Pass true to get interactions with reaction first; pass false to get interactions sorted just by interaction date. Ignored if prefer_forwards == true. |
+  | offset | string | Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results. |
+  | limit | int32 | The maximum number of story interactions to return. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_story_interactions.html).
+  """
+
+  defstruct "@type": "getStoryInteractions", "@extra": nil, story_id: nil, query: nil, only_contacts: nil, prefer_forwards: nil, prefer_with_reaction: nil, offset: nil, limit: nil
 end
 defmodule ReadAllChatReactions do
   @moduledoc  """
-  Marks all reactions in a chat as read.
+  Marks all reactions in a chat or a forum topic as read.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -7132,6 +10609,20 @@ defmodule ReadAllChatReactions do
 
   defstruct "@type": "readAllChatReactions", "@extra": nil, chat_id: nil
 end
+defmodule AllowBotToSendMessages do
+  @moduledoc  """
+  Allows the specified bot to send messages to the user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | bot_user_id | int53 | Identifier of the target bot. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1allow_bot_to_send_messages.html).
+  """
+
+  defstruct "@type": "allowBotToSendMessages", "@extra": nil, bot_user_id: nil
+end
 defmodule RegisterUser do
   @moduledoc  """
   Finishes user registration. Works only when the current authorization state is authorizationStateWaitRegistration.
@@ -7141,11 +10632,12 @@ defmodule RegisterUser do
   |------|------| ------------|
   | first_name | string | The first name of the user; 1-64 characters. |
   | last_name | string | The last name of the user; 0-64 characters. |
+  | disable_notification | bool | Pass true to disable notification about the current user joining Telegram for other users that added them to contact list. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1register_user.html).
   """
 
-  defstruct "@type": "registerUser", "@extra": nil, first_name: nil, last_name: nil
+  defstruct "@type": "registerUser", "@extra": nil, first_name: nil, last_name: nil, disable_notification: nil
 end
 defmodule ReadFilePart do
   @moduledoc  """
@@ -7163,9 +10655,20 @@ defmodule ReadFilePart do
 
   defstruct "@type": "readFilePart", "@extra": nil, file_id: nil, offset: nil, count: nil
 end
+defmodule GetForumTopicDefaultIcons do
+  @moduledoc  """
+  Returns the list of custom emoji, which can be used as forum topic icon by all users.
+  Returns object_ptr<Stickers>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_forum_topic_default_icons.html).
+  """
+
+  defstruct "@type": "getForumTopicDefaultIcons", "@extra": nil
+end
 defmodule ToggleChatIsPinned do
   @moduledoc  """
-  Changes the pinned state of a chat. There can be up to GetOption("pinned_chat_count_max")/GetOption("pinned_archived_chat_count_max") pinned non-secret chats and the same number of secret chats in the main/archive chat list. The limit can be increased with Telegram Premium.
+  Changes the pinned state of a chat. There can be up to getOption("pinned_chat_count_max")/getOption("pinned_archived_chat_count_max") pinned non-secret chats and the same number of secret chats in the main/archive chat list. The limit can be increased with Telegram Premium.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
@@ -7178,17 +10681,6 @@ defmodule ToggleChatIsPinned do
   """
 
   defstruct "@type": "toggleChatIsPinned", "@extra": nil, chat_list: nil, chat_id: nil, is_pinned: nil
-end
-defmodule GetRecommendedChatFilters do
-  @moduledoc  """
-  Returns recommended chat filters for the current user.
-  Returns object_ptr<RecommendedChatFilters>.
-
-
-  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_recommended_chat_filters.html).
-  """
-
-  defstruct "@type": "getRecommendedChatFilters", "@extra": nil
 end
 defmodule CheckCreatedPublicChatsLimit do
   @moduledoc  """
@@ -7204,9 +10696,24 @@ defmodule CheckCreatedPublicChatsLimit do
 
   defstruct "@type": "checkCreatedPublicChatsLimit", "@extra": nil, type: nil
 end
+defmodule SetStickerMaskPosition do
+  @moduledoc  """
+  Changes the mask position of a mask sticker. The sticker must belong to a mask sticker set that is owned by the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | sticker | InputFile | Sticker. |
+  | mask_position | maskPosition | Position where the mask is placed; pass null to remove mask position. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_sticker_mask_position.html).
+  """
+
+  defstruct "@type": "setStickerMaskPosition", "@extra": nil, sticker: nil, mask_position: nil
+end
 defmodule GetChatInviteLinkCounts do
   @moduledoc  """
-  Returns list of chat administrators with number of their invite links. Requires owner privileges in the chat.
+  Returns the list of chat administrators with number of their invite links. Requires owner privileges in the chat.
   Returns object_ptr<ChatInviteLinkCounts>.
 
   | Name | Type | Description |
@@ -7246,6 +10753,21 @@ defmodule GetUserFullInfo do
 
   defstruct "@type": "getUserFullInfo", "@extra": nil, user_id: nil
 end
+defmodule DeleteChatBackground do
+  @moduledoc  """
+  Deletes background in a specific chat.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | restore_previous | bool | Pass true to restore previously set background. Can be used only in private and secret chats with non-deleted users if userFullInfo.set_chat_background == true. Supposed to be used from <a class="el" href="classtd_1_1td__api_1_1message_chat_set_background.html">messageChatSetBackground</a> messages with the currently set background that was set for both sides by the other user. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_chat_background.html).
+  """
+
+  defstruct "@type": "deleteChatBackground", "@extra": nil, chat_id: nil, restore_previous: nil
+end
 defmodule EndGroupCallRecording do
   @moduledoc  """
   Ends recording of an active group call. Requires groupCall.can_be_managed group call flag.
@@ -7259,6 +10781,35 @@ defmodule EndGroupCallRecording do
   """
 
   defstruct "@type": "endGroupCallRecording", "@extra": nil, group_call_id: nil
+end
+defmodule ToggleGeneralForumTopicIsHidden do
+  @moduledoc  """
+  Toggles whether a General topic is hidden in a forum supergroup chat; requires can_manage_topics right in the supergroup.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+  | is_hidden | bool | Pass true to hide and close the General topic; pass false to unhide it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_general_forum_topic_is_hidden.html).
+  """
+
+  defstruct "@type": "toggleGeneralForumTopicIsHidden", "@extra": nil, chat_id: nil, is_hidden: nil
+end
+defmodule GetChatSponsoredMessages do
+  @moduledoc  """
+  Returns sponsored messages to be shown in a chat; for channel chats only.
+  Returns object_ptr<SponsoredMessages>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_chat_sponsored_messages.html).
+  """
+
+  defstruct "@type": "getChatSponsoredMessages", "@extra": nil, chat_id: nil
 end
 defmodule SetGroupCallTitle do
   @moduledoc  """
@@ -7274,6 +10825,20 @@ defmodule SetGroupCallTitle do
   """
 
   defstruct "@type": "setGroupCallTitle", "@extra": nil, group_call_id: nil, title: nil
+end
+defmodule SetReadDatePrivacySettings do
+  @moduledoc  """
+  Changes privacy settings for message read date.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | settings | readDatePrivacySettings | New settings. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_read_date_privacy_settings.html).
+  """
+
+  defstruct "@type": "setReadDatePrivacySettings", "@extra": nil, settings: nil
 end
 defmodule CheckPasswordRecoveryCode do
   @moduledoc  """
@@ -7311,16 +10876,15 @@ defmodule SendMessageAlbum do
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Target chat. |
-  | message_thread_id | int53 | If not 0, a message thread identifier in which the messages will be sent. |
-  | reply_to_message_id | int53 | Identifier of a replied message; 0 if none. |
+  | message_thread_id | int53 | If not 0, the message thread identifier in which the messages will be sent. |
+  | reply_to | InputMessageReplyTo | Information about the message or story to be replied; pass null if none. |
   | options | messageSendOptions | Options to be used to send the messages; pass null to use default options. |
-  | input_message_contents | InputMessageContent | Contents of messages to be sent. At most 10 messages can be added to an album. |
-  | only_preview | bool | Pass true to get fake messages instead of actually sending them. |
+  | input_message_contents | InputMessageContent | Contents of messages to be sent. At most 10 messages can be added to an album. All messages must have the same value of show_caption_above_media. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1send_message_album.html).
   """
 
-  defstruct "@type": "sendMessageAlbum", "@extra": nil, chat_id: nil, message_thread_id: nil, reply_to_message_id: nil, options: nil, input_message_contents: nil, only_preview: nil
+  defstruct "@type": "sendMessageAlbum", "@extra": nil, chat_id: nil, message_thread_id: nil, reply_to: nil, options: nil, input_message_contents: nil
 end
 defmodule TestCallString do
   @moduledoc  """
@@ -7376,6 +10940,36 @@ defmodule GetSavedAnimations do
 
   defstruct "@type": "getSavedAnimations", "@extra": nil
 end
+defmodule ToggleSavedMessagesTopicIsPinned do
+  @moduledoc  """
+  Changes the pinned state of a Saved Messages topic. There can be up to getOption("pinned_saved_messages_topic_count_max") pinned topics. The limit can be increased with Telegram Premium.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | saved_messages_topic_id | int53 | Identifier of Saved Messages topic to pin or unpin. |
+  | is_pinned | bool | Pass true to pin the topic; pass false to unpin it. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_saved_messages_topic_is_pinned.html).
+  """
+
+  defstruct "@type": "toggleSavedMessagesTopicIsPinned", "@extra": nil, saved_messages_topic_id: nil, is_pinned: nil
+end
+defmodule SetApplicationVerificationToken do
+  @moduledoc  """
+  Application verification has been completed. Can be called before authorization.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | verification_id | int53 | Unique identifier for the verification process as received from <a class="el" href="classtd_1_1td__api_1_1update_application_verification_required.html">updateApplicationVerificationRequired</a>. |
+  | token | string | Play Integrity API token for the Android application, or secret from push notification for the iOS application; pass an empty string to abort verification and receive error VERIFICATION_FAILED for the request. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_application_verification_token.html).
+  """
+
+  defstruct "@type": "setApplicationVerificationToken", "@extra": nil, verification_id: nil, token: nil
+end
 defmodule GetBankCardInfo do
   @moduledoc  """
   Returns information about a bank card.
@@ -7390,6 +10984,67 @@ defmodule GetBankCardInfo do
 
   defstruct "@type": "getBankCardInfo", "@extra": nil, bank_card_number: nil
 end
+defmodule SetSupergroupUnrestrictBoostCount do
+  @moduledoc  """
+  Changes the number of times the supergroup must be boosted by a user to ignore slow mode and chat permission restrictions; requires can_restrict_members administrator right.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Identifier of the supergroup. |
+  | unrestrict_boost_count | int32 | New value of the unrestrict_boost_count supergroup setting; 0-8. Use 0 to remove the setting. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_supergroup_unrestrict_boost_count.html).
+  """
+
+  defstruct "@type": "setSupergroupUnrestrictBoostCount", "@extra": nil, supergroup_id: nil, unrestrict_boost_count: nil
+end
+defmodule ReportSupergroupAntiSpamFalsePositive do
+  @moduledoc  """
+  Reports a false deletion of a message by aggressive anti-spam checks; requires administrator rights in the supergroup. Can be called only for messages from chatEventMessageDeleted with can_report_anti_spam_false_positive == true.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | supergroup_id | int53 | Supergroup identifier. |
+  | message_id | int53 | Identifier of the erroneously deleted message. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1report_supergroup_anti_spam_false_positive.html).
+  """
+
+  defstruct "@type": "reportSupergroupAntiSpamFalsePositive", "@extra": nil, supergroup_id: nil, message_id: nil
+end
+defmodule DeleteQuickReplyShortcutMessages do
+  @moduledoc  """
+  Deletes specified quick reply messages.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | shortcut_id | int32 | Unique identifier of the quick reply shortcut to which the messages belong. |
+  | message_ids | int53 | Unique identifiers of the messages. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1delete_quick_reply_shortcut_messages.html).
+  """
+
+  defstruct "@type": "deleteQuickReplyShortcutMessages", "@extra": nil, shortcut_id: nil, message_ids: nil
+end
+defmodule RemoveMessageReaction do
+  @moduledoc  """
+  Removes a reaction from a message. A chosen reaction can always be removed.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the chat to which the message belongs. |
+  | message_id | int53 | Identifier of the message. |
+  | reaction_type | ReactionType | Type of the reaction to remove. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1remove_message_reaction.html).
+  """
+
+  defstruct "@type": "removeMessageReaction", "@extra": nil, chat_id: nil, message_id: nil, reaction_type: nil
+end
 defmodule EditInlineMessageLiveLocation do
   @moduledoc  """
   Edits the content of a live location in an inline message sent via a bot; for bots only.
@@ -7400,13 +11055,14 @@ defmodule EditInlineMessageLiveLocation do
   | inline_message_id | string | Inline message identifier. |
   | reply_markup | ReplyMarkup | The new message reply markup; pass null if none. |
   | location | location | New location content of the message; pass null to stop sharing the live location. |
+  | live_period | int32 | New time relative to the message send date, for which the location can be updated, in seconds. If 0x7FFFFFFF specified, then the location can be updated forever. Otherwise, must not exceed the current live_period by more than a day, and the live location expiration date must remain in the next 90 days. Pass 0 to keep the current live_period. |
   | heading | int32 | The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown. |
   | proximity_alert_radius | int32 | The new maximum distance for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1edit_inline_message_live_location.html).
   """
 
-  defstruct "@type": "editInlineMessageLiveLocation", "@extra": nil, inline_message_id: nil, reply_markup: nil, location: nil, heading: nil, proximity_alert_radius: nil
+  defstruct "@type": "editInlineMessageLiveLocation", "@extra": nil, inline_message_id: nil, reply_markup: nil, location: nil, live_period: nil, heading: nil, proximity_alert_radius: nil
 end
 defmodule SetInlineGameScore do
   @moduledoc  """
@@ -7426,6 +11082,25 @@ defmodule SetInlineGameScore do
 
   defstruct "@type": "setInlineGameScore", "@extra": nil, inline_message_id: nil, edit_message: nil, user_id: nil, score: nil, force: nil
 end
+defmodule GetForumTopics do
+  @moduledoc  """
+  Returns found forum topics in a forum chat. This is a temporary method for getting information about topic list from the server.
+  Returns object_ptr<ForumTopics>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Identifier of the forum chat. |
+  | query | string | Query to search for in the forum topic's name. |
+  | offset_date | int32 | The date starting from which the results need to be fetched. Use 0 or any date in the future to get results from the last topic. |
+  | offset_message_id | int53 | The message identifier of the last message in the last found topic, or 0 for the first request. |
+  | offset_message_thread_id | int53 | The message thread identifier of the last found topic, or 0 for the first request. |
+  | limit | int32 | The maximum number of forum topics to be returned; up to 100. For optimal performance, the number of returned forum topics is chosen by TDLib and can be smaller than the specified limit. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_forum_topics.html).
+  """
+
+  defstruct "@type": "getForumTopics", "@extra": nil, chat_id: nil, query: nil, offset_date: nil, offset_message_id: nil, offset_message_thread_id: nil, limit: nil
+end
 defmodule GetPremiumState do
   @moduledoc  """
   Returns state of Telegram Premium subscription and promotion videos for Premium features.
@@ -7436,6 +11111,32 @@ defmodule GetPremiumState do
   """
 
   defstruct "@type": "getPremiumState", "@extra": nil
+end
+defmodule ToggleBusinessConnectedBotChatIsPaused do
+  @moduledoc  """
+  Pauses or resumes the connected business bot in a specific chat.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | chat_id | int53 | Chat identifier. |
+  | is_paused | bool | Pass true to pause the connected bot in the chat; pass false to resume the bot. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1toggle_business_connected_bot_chat_is_paused.html).
+  """
+
+  defstruct "@type": "toggleBusinessConnectedBotChatIsPaused", "@extra": nil, chat_id: nil, is_paused: nil
+end
+defmodule GetDefaultChatEmojiStatuses do
+  @moduledoc  """
+  Returns default emoji statuses for chats.
+  Returns object_ptr<EmojiStatuses>.
+
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1get_default_chat_emoji_statuses.html).
+  """
+
+  defstruct "@type": "getDefaultChatEmojiStatuses", "@extra": nil
 end
 defmodule TestReturnError do
   @moduledoc  """
@@ -7451,15 +11152,29 @@ defmodule TestReturnError do
 
   defstruct "@type": "testReturnError", "@extra": nil, error: nil
 end
+defmodule SetDefaultReactionType do
+  @moduledoc  """
+  Changes type of default reaction for the current user.
+  Returns object_ptr<Ok>.
+
+  | Name | Type | Description |
+  |------|------| ------------|
+  | reaction_type | ReactionType | New type of the default reaction. |
+
+  More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_default_reaction_type.html).
+  """
+
+  defstruct "@type": "setDefaultReactionType", "@extra": nil, reaction_type: nil
+end
 defmodule SetChatAvailableReactions do
   @moduledoc  """
-  Changes reactions, available in a chat. Available for basic groups, supergroups, and channels. Requires can_change_info administrator right.
+  Changes reactions, available in a chat. Available for basic groups, supergroups, and channels. Requires can_change_info member right.
   Returns object_ptr<Ok>.
 
   | Name | Type | Description |
   |------|------| ------------|
   | chat_id | int53 | Identifier of the chat. |
-  | available_reactions | string | New list of reactions, available in the chat. All reactions must be active. |
+  | available_reactions | ChatAvailableReactions | Reactions available in the chat. All explicitly specified emoji reactions must be active. In channel chats up to the chat's boost level custom emoji reactions can be explicitly specified. |
 
   More details on [telegram's documentation](https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1set_chat_available_reactions.html).
   """
@@ -7498,7 +11213,7 @@ defmodule GetMessage do
 end
 defmodule GetRepliedMessage do
   @moduledoc  """
-  Returns information about a message that is replied by a given message. Also returns the pinned message, the game message, and the invoice message for messages of the types messagePinMessage, messageGameScore, and messagePaymentSuccessful respectively.
+  Returns information about a non-bundled message that is replied by a given message. Also, returns the pinned message, the game message, the invoice message, the message with a previously set same background, the giveaway message, and the topic creation message for messages of the types messagePinMessage, messageGameScore, messagePaymentSuccessful, messageChatSetBackground, messagePremiumGiveawayCompleted and topic messages without non-bundled replied message respectively.
   Returns object_ptr<Message>.
 
   | Name | Type | Description |
